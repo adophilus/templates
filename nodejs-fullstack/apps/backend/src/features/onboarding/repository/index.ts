@@ -1,4 +1,4 @@
 import { OnboardingRepository } from './interface'
-import OnboardingKyselyRepository from './kysely'
+import KyselyOnboardingRepository from './kysely'
 
-export { OnboardingRepository, OnboardingKyselyRepository }
+export { OnboardingRepository, KyselyOnboardingRepository }

@@ -13,7 +13,10 @@ import { KyselyClient } from '@/features/database/kysely'
 import { createKyselyPgClient } from '@/features/database/kysely/pg'
 import { Logger } from '@/features/logger'
 import { Mailer, NodemailerMailer } from '@/features/mailer'
-import { OnboardingRepository, KyselyOnboardingRepository } from '@/features/onboarding/repository'
+import {
+  OnboardingRepository,
+  KyselyOnboardingRepository
+} from '@/features/onboarding/repository'
 import { SetUserPreferencesUseCase } from '@/features/onboarding/use-case'
 import { OpenTelemetryLogger } from '@/features/otel/logger'
 import {
@@ -24,8 +27,6 @@ import {
   CloudinaryStorageService,
   StorageService
 } from '@/features/storage/service'
-import { SIGN_UP_VERIFICATION_TOKEN_PURPOSE_KEY } from '@/types'
-
 
 export const bootstrap = async () => {
   // OpenTelemetry DI
@@ -55,8 +56,13 @@ export const bootstrap = async () => {
   )
 
   // Onboarding DI
-  const onboardingRepository = new KyselyOnboardingRepository(kyselyClient, logger)
-  const setUserPreferencesUseCase = new SetUserPreferencesUseCase(onboardingRepository)
+  const onboardingRepository = new KyselyOnboardingRepository(
+    kyselyClient,
+    logger
+  )
+  const setUserPreferencesUseCase = new SetUserPreferencesUseCase(
+    onboardingRepository
+  )
 
   const app = new HonoApp(logger)
 
