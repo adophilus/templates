@@ -2,7 +2,7 @@ import "@typespec/http";
 
 using Http;
 
-@service(#{ title: "Grovine API Documentation" })
+@service(#{ title: "API Documentation" })
 namespace ApiDocs;
 
 @doc("API")
@@ -193,3 +193,4 @@ namespace Api {
     }
   }
 }
+

@@ -5,7 +5,7 @@ layout: false
 <script setup>
 import { ApiReference } from '@scalar/api-reference'
 import '@scalar/api-reference/style.css'
-import openapiYamlDocs from "@grovine/docs-openapi/openapi.yaml?raw";
+import openapiYamlDocs from "@nodejs-fullstack-template/docs-openapi/openapi.yaml?raw";
 import { env } from "../src/env.ts"
 
 const capitalize = (val) => String(val).charAt(0).toUpperCase() + String(val).slice(1)

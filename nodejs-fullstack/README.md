@@ -1,4 +1,6 @@
-# Grovine
+# Node.js Fullstack Template
+
+This is a comprehensive Node.js fullstack template designed to kickstart your web development projects. It provides a solid foundation with a monorepo setup, backend API, and documentation.
 
 ## Development
 
@@ -9,16 +11,16 @@ pnpm install
 ```
 
 ### Environment Variables
-This project uses direnv to manage environment variables. With the current setup, you just need to
+This project uses direnv to manage environment variables. To get started:
 - Copy `.env.example` to `.env`.
 ```bash
 cp .env.example .env
 ```
-- And then copy `.env.development.example` to `.env.development`.
+- Copy `.env.${environment}.example` to `.env.${environment}`.
 ```bash
-cp .env.development.example .env.development
+cp .env.development.example .env
 ```
-- Then make sure direnv is allowed in this project folder
+- Make sure direnv is allowed in this project folder.
 ```bash
 direnv allow
 ```
@@ -30,7 +32,3 @@ And you should be good to go.
 ```bash
 pnpm dev
 ```
-
-## Important Links
-
-- [Figma](https://www.figma.com/design/hjWaYA2OhfOILMoFOYYuFh/Grovine-App-Design?node-id=3-3347&p=f&t=EPbmzfSurCoVhUik-0)

@@ -1,4 +1,4 @@
-import { schema, type types } from '@grovine/api'
+import { schema, type types } from '@nodejs-fullstack-template/api'
 import type { z } from 'zod'
 
 export namespace Request {

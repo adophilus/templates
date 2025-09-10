@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@grovine/api",
+  "name": "@nodejs-fullstack-template/api",
   "packageManager": "pnpm@10.10.0",
   "exports": {
     ".": "./src/index.ts"

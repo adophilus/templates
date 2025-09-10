@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@grovine/backend",
+  "name": "@nodejs-fullstack-template/backend",
   "type": "module",
   "scripts": {
     "start": "tsx ./scripts/dev.ts",
@@ -14,8 +14,8 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@grovine/api": "workspace:^",
-    "@grovine/backend": "workspace:^",
+    "@nodejs-fullstack-template/api": "workspace:^",
+    "@nodejs-fullstack-template/backend": "workspace:^",
     "@nodejs-template/media-server": "workspace:^",
     "@hono/otel": "^0.4.0",
     "@n8n/di": "^0.2.0",

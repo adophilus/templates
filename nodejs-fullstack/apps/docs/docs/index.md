@@ -3,14 +3,12 @@
 layout: home
 
 hero:
-  name: "Grovine"
-  text: "Documentation for Grovine"
-  tagline: |
-    Your Food Journey,
-    Reimagined.
+  name: "App"
+  text: "Documentation for App"
+  tagline: The best app ever
   image:
     src: /images/logo.svg
-    alt: Grovine
+    alt: Logo
   actions:
     - theme: brand
       text: API Docs

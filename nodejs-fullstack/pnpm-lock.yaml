@@ -73,13 +73,13 @@ importers:
       '@electric-sql/pglite':
         specifier: ^0.3.5
         version: 0.3.7
-      '@grovine/api':
+      '@nodejs-fullstack-template/api':
         specifier: workspace:^
         version: link:../../packages/api
-      '@grovine/backend':
+      '@nodejs-fullstack-template/backend':
         specifier: workspace:^
         version: 'link:'
-      '@grovine/media-server':
+      '@nodejs-fullstack-template/media-server':
         specifier: workspace:^
         version: link:../media-server
       '@hono/otel':
@@ -234,7 +234,7 @@ importers:
         specifier: ^1.25.21
         version: 1.34.6(axios@1.9.0)(change-case@5.4.4)(tailwindcss@4.1.4)(typescript@5.9.2)
     devDependencies:
-      '@grovine/docs-openapi':
+      '@nodejs-fullstack-template/docs-openapi':
         specifier: workspace:^
         version: link:../../packages/docs-openapi
       '@t3-oss/env-core':
@@ -265,7 +265,7 @@ importers:
 
   packages/api:
     dependencies:
-      '@grovine/docs-openapi':
+      '@nodejs-fullstack-template/docs-openapi':
         specifier: workspace:^
         version: link:../docs-openapi
       '@zodios/core':

@@ -1,4 +1,4 @@
-import { parseUrl, type UrlScheme } from '@grovine/media-server'
+import { parseUrl, type UrlScheme } from '@nodejs-fullstack-template/media-server'
 import { Result, type Unit } from 'true-myth'
 import z from 'zod'
 import { StatusCodes } from '@/features/http'

@@ -1,4 +1,4 @@
-import { createClient, type Middleware } from '@grovine/api'
+import { createClient, type Middleware } from '@nodejs-fullstack-template/api'
 import { config } from '@/features/config'
 import { app } from './bootstrap'
 

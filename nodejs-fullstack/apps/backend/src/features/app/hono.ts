@@ -11,8 +11,7 @@ class HonoApp implements App {
   constructor(private logger: Logger) {}
 
   create() {
-    const ApiRouter = new Hono()
-      .route('/onboarding', OnboardingRouter)
+    const ApiRouter = new Hono().route('/onboarding', OnboardingRouter)
 
     return (
       new Hono()
@@ -21,7 +20,7 @@ class HonoApp implements App {
         .use(cors())
         .use(honoLogger())
         .route('/', ApiRouter)
-        .get('/', (c) => c.json({ message: 'Welcome to Grovine API' }))
+        .get('/', (c) => c.json({ message: 'Welcome to the API' }))
         .notFound((c) => c.json({ error: 'NOT_FOUND' }, StatusCodes.NOT_FOUND))
         .onError((err, c) => {
           this.logger.error('An unexpected error occurred:', err)
@@ -35,3 +34,4 @@ class HonoApp implements App {
 }
 
 export default HonoApp
+

@@ -1,4 +1,4 @@
-import { bootstrap } from '@grovine/backend'
+import { bootstrap } from '@nodejs-fullstack-template/backend'
 import { serve } from '@hono/node-server'
 
 const { app, logger, config, openTelemetryService } = await bootstrap()
