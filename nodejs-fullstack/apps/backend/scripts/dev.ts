@@ -1,8 +1,7 @@
 import { bootstrap } from '@nodejs-fullstack-template/backend'
 import { serve } from '@hono/node-server'
 
-const { app, logger, config, openTelemetryService } = await bootstrap()
-openTelemetryService.initialize()
+const { app, logger, config } = await bootstrap()
 
 serve(
   {

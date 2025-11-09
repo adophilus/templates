@@ -14,7 +14,7 @@
     "typegen": "bun ./scripts/typegen.ts"
   },
   "dependencies": {
-    "@nodejs-template/docs-openapi": "workspace:^",
+    "@nodejs-fullstack-template/docs-openapi": "workspace:^",
     "@zodios/core": "^10.9.6",
     "openapi-fetch": "^0.13.4",
     "openapi-react-query": "^0.2.9"

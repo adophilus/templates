@@ -42,10 +42,6 @@ namespace Api {
   @example("12345")
   scalar Otp extends string;
 
-  model VideoFile extends File {
-    contentType: "video/mp4" | "video/webm" | "video/ogg";
-  }
-
   model ImageFile extends File {
     contentType: "image/jpeg" | "image/png" | "image/webp";
   }
@@ -454,36 +450,34 @@ namespace Api {
       ): Response.Response;
     }
 
-    namespace GetFile {
-      namespace Request {
-        model Path {
-          @path
-          fileId: Id;
-        }
-      }
-
-      namespace Response {
-        namespace Success {
-          model FileDescription {
-            @statusCode _code: 200;
-            code: "FILE_DESCRIPTION";
-            data: MediaDescription;
+    @route("/{fileId}")
+    namespace ById {
+      namespace Get {
+        namespace Request {
+          model Path {
+            @path
+            fileId: Id;
           }
-          alias Success = FileDescription;
         }
 
-        namespace Error {
-          alias Error = NotFoundError<"FILE"> | UnauthorizedError | UnexpectedError;
+        namespace Response {
+          namespace Success {
+            model ImageFileResponse extends ImageFile {}
+            alias Success = ImageFileResponse;
+          }
+
+          namespace Error {
+            alias Error = NotFoundError<"FILE"> | UnauthorizedError | UnexpectedError;
+          }
+
+          alias Response = Success.Success | Error.Error;
         }
 
-        alias Response = Success.Success | Error.Error;
+        @get
+        @doc("Get a single media file by ID")
+        op getFile(...Request.Path): Response.Response;
       }
-
-      @get
-      @route("/{fileId}")
-      @useAuth(BearerAuth)
-      @doc("Get a single media file by ID")
-      op getFile(...Request.Path): Response.Response;
     }
   }
 }
+

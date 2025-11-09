@@ -1,19 +1,14 @@
 import type { ColumnType } from 'kysely'
+import type { types } from '@nodejs-fullstack-template/api'
+
+export type MediaDescription =
+  types.components['schemas']['Api.MediaDescription']
 
 type Id = ColumnType<string, string, never>
 
 type TimestampModel = {
   created_at: ColumnType<string, never, never>
   updated_at: ColumnType<string, never, string>
-}
-
-type TimestampWithDeletedAtModel = TimestampModel & {
-  deleted_at: ColumnType<string | null, string | undefined, string | null>
-}
-
-export type Media = {
-  public_id: string
-  url: string
 }
 
 type AuthUsersTable = TimestampModel & {
@@ -23,7 +18,6 @@ type AuthUsersTable = TimestampModel & {
   phone_number: string
   referral_code: string | null
   verified_at: string | null
-  role: 'USER' | 'ADMIN' | 'CHEF'
 }
 
 type AuthTokensTable = TimestampModel & {

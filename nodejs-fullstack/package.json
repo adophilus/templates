@@ -13,7 +13,8 @@
     "@nx/vite": "20.8.0",
     "@nx/web": "20.8.0",
     "nx": "20.8.0",
-    "sort-package-json": "^3.4.0"
+    "sort-package-json": "^3.4.0",
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "zod": "^4.1.12"

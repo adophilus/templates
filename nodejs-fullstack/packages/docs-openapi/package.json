@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@nodejs-template/docs-openapi",
+  "name": "@nodejs-fullstack-template/docs-openapi",
   "version": "0.0.0",
   "private": true,
   "type": "module",
