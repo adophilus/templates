@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@nodejs-template/docs-openapi",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "exports": {
     "./openapi.yaml": "./build/openapi.yaml"
@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@typespec/compiler": "^1.4.0",
-    "@typespec/openapi3": "^1.4.0",
-    "@typespec/http": "^1.4.0"
+    "@typespec/http": "^1.4.0",
+    "@typespec/openapi3": "^1.4.0"
   }
 }

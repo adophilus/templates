@@ -10,19 +10,8 @@ import {
 } from '@/features/auth/repository'
 import { config } from '@/features/config'
 import { KyselyClient } from '@/features/database/kysely'
-import { createKyselyPgClient } from '@/features/database/kysely/pg'
 import { Logger } from '@/features/logger'
 import { Mailer, NodemailerMailer } from '@/features/mailer'
-import {
-  OnboardingRepository,
-  KyselyOnboardingRepository
-} from '@/features/onboarding/repository'
-import { SetUserPreferencesUseCase } from '@/features/onboarding/use-case'
-import { OpenTelemetryLogger } from '@/features/otel/logger'
-import {
-  OpenTelemetryService,
-  OpenTelemetryServiceImplementation
-} from '@/features/otel/service'
 import {
   StorageService,
   SqliteStorageService
@@ -31,18 +20,13 @@ import {
   StorageRepository,
   KyselyStorageRepository
 } from '@/features/storage/repository'
+import { createKyselySqliteClient } from './features/database/kysely/sqlite'
 
 export const bootstrap = async () => {
-  // OpenTelemetry DI
-  const openTelemetryService = new OpenTelemetryServiceImplementation()
-  const openTelemetryLogger = new OpenTelemetryLogger(openTelemetryService, {
-    name: 'App'
-  })
-
-  const logger = openTelemetryLogger
+  const logger = new Logger()
 
   // Database
-  const kyselyClient = await createKyselyPgClient()
+  const kyselyClient = await createKyselySqliteClient()
 
   // Storage DI
   const storageRepository = new KyselyStorageRepository(kyselyClient, logger)
@@ -58,15 +42,6 @@ export const bootstrap = async () => {
     logger
   )
 
-  // Onboarding DI
-  const onboardingRepository = new KyselyOnboardingRepository(
-    kyselyClient,
-    logger
-  )
-  const setUserPreferencesUseCase = new SetUserPreferencesUseCase(
-    onboardingRepository
-  )
-
   const app = new HonoApp(logger)
 
   // App
@@ -79,10 +54,6 @@ export const bootstrap = async () => {
   Container.set(StorageRepository, storageRepository)
   Container.set(StorageService, storageService)
 
-  // OpenTelemetry DI
-  Container.set(OpenTelemetryService, openTelemetryService)
-  Container.set(Logger, openTelemetryLogger)
-
   // Mailer DI
   Container.set(Mailer, mailer)
 
@@ -90,9 +61,5 @@ export const bootstrap = async () => {
   Container.set(AuthUserRepository, authUserRepository)
   Container.set(AuthTokenRepository, authTokenRepository)
 
-  // Onboarding DI
-  Container.set(OnboardingRepository, onboardingRepository)
-  Container.set(SetUserPreferencesUseCase, setUserPreferencesUseCase)
-
-  return { app, logger, config, openTelemetryService }
+  return { app, logger, config }
 }

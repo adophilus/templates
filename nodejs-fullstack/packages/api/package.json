@@ -1,18 +1,17 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@nodejs-fullstack-template/api",
-  "packageManager": "pnpm@10.10.0",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
   "exports": {
     ".": "./src/index.ts"
   },
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "bun --watch ./scripts/typegen.ts",
-    "typegen": "bun ./scripts/typegen.ts",
     "build": "pnpm typegen && tsc",
-    "lint": "pnpm typegen && biome lint . && tsc"
+    "dev": "bun --watch ./scripts/typegen.ts",
+    "lint": "pnpm typegen && biome lint . && tsc",
+    "typegen": "bun ./scripts/typegen.ts"
   },
   "dependencies": {
     "@nodejs-template/docs-openapi": "workspace:^",
@@ -27,5 +26,6 @@
     "openapi-zod-client": "^1.18.3",
     "openapi3-ts": "^4.4.0",
     "raw-loader": "^4.0.2"
-  }
+  },
+  "packageManager": "pnpm@10.10.0"
 }

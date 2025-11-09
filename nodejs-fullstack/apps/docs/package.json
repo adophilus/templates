@@ -1,15 +1,17 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@nodejs-fullstack-template/docs",
-  "packageManager": "pnpm@10.10.0",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
-    "lint": "biome lint . && tsc",
-    "dev": "vitepress dev docs",
     "build": "./scripts/build.sh",
+    "dev": "vitepress dev docs",
+    "lint": "biome lint . && tsc",
     "preview": "vitepress preview docs"
+  },
+  "dependencies": {
+    "@scalar/api-reference": "^1.25.21"
   },
   "devDependencies": {
     "@nodejs-template/docs-openapi": "workspace:^",
@@ -19,7 +21,5 @@
     "@types/react-dom": "^18.3.0",
     "vitepress": "^1.6.3"
   },
-  "dependencies": {
-    "@scalar/api-reference": "^1.25.21"
-  }
+  "packageManager": "pnpm@10.10.0"
 }
