@@ -1,8 +1,6 @@
 FROM oven/bun:alpine AS base
 
 ARG NODE_ENV
-ARG VITE_NODE_ENV
-ARG VITE_BACKEND_URL
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -16,13 +14,16 @@ WORKDIR /app
 COPY . .
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
-RUN pnpm run build:docs
- 
+RUN pnpm run build:backend
+
 
 FROM base AS deploy
 
 WORKDIR /app
 
-COPY --from=build /app/apps/docs/docs/.vitepress/dist ./
+COPY --from=build /app/apps/backend/build/server.mjs ./
 
-CMD ["bunx", "zerv"]
+EXPOSE $PORT
+
+CMD ["node", "./server.mjs"]
+
