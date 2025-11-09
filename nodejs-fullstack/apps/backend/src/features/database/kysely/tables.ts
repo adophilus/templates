@@ -1,5 +1,7 @@
 import type { ColumnType } from 'kysely'
 
+type Id = ColumnType<string, string, never>
+
 type TimestampModel = {
   created_at: ColumnType<string, never, never>
   updated_at: ColumnType<string, never, string>
@@ -14,8 +16,8 @@ export type Media = {
   url: string
 }
 
-type UsersTable = TimestampModel & {
-  id: string
+type AuthUsersTable = TimestampModel & {
+  id: Id
   full_name: string
   email: string
   phone_number: string
@@ -24,23 +26,23 @@ type UsersTable = TimestampModel & {
   role: 'USER' | 'ADMIN' | 'CHEF'
 }
 
-type TokensTable = TimestampModel & {
-  id: string
+type AuthTokensTable = TimestampModel & {
+  id: Id
   token: string
   purpose: string
   expires_at: string
   user_id: string
 }
 
-type UserPreferencesTable = TimestampModel & {
-  id: string
-  foods: string[]
-  regions: string[]
-  user_id: string
+type StorageFilesTable = TimestampModel & {
+  id: Id
+  original_name: string
+  file_data: Buffer
+  mime_type: string
 }
 
 export type KyselyDatabaseTables = {
-  users: UsersTable
-  tokens: TokensTable
-  user_preferences: UserPreferencesTable
+  auth_users: AuthUsersTable
+  auth_tokens: AuthTokensTable
+  storage_files: StorageFilesTable
 }

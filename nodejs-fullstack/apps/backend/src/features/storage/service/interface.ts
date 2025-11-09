@@ -1,22 +1,10 @@
-import type { Result, Unit } from 'true-myth'
+import type { MediaDescription } from "@/types";
+import type { Result } from "true-myth";
 
-export type StorageServiceError = 'UPLOAD_FAILED' | 'REMOVE_FAILED'
+export type UploadError = "ERR_UNEXPECTED";
 
-export type UploadedData = {
-  public_id: string
-  url: string
+export abstract class StorageService {
+	public abstract upload(
+		payload: File,
+	): Promise<Result<MediaDescription, UploadError>>;
 }
-
-abstract class StorageService {
-  public abstract upload(
-    file: File
-  ): Promise<Result<UploadedData, StorageServiceError>>
-  public abstract upload(
-    file: File[]
-  ): Promise<Result<UploadedData[], StorageServiceError>>
-  public abstract remove(
-    fileId: string
-  ): Promise<Result<Unit, StorageServiceError>>
-}
-
-export default StorageService

@@ -13,8 +13,8 @@
     "lint": "pnpm build"
   },
   "devDependencies": {
-    "@typespec/compiler": "^1.1.0",
-    "@typespec/openapi3": "^1.1.0",
-    "@typespec/http": "^1.1.0"
+    "@typespec/compiler": "^1.4.0",
+    "@typespec/openapi3": "^1.4.0",
+    "@typespec/http": "^1.4.0"
   }
 }

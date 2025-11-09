@@ -1,27 +1,26 @@
-import { Result, type Unit } from 'true-myth'
-import type StorageService from './interface'
-import type { StorageServiceError, UploadedData } from './interface'
+import { Result } from "true-myth";
+import type { StorageService, UploadError } from "./interface";
+import { ulid } from "ulidx";
+import type { MediaDescription } from "@/types";
 
-class MockStorageService implements StorageService {
-  public upload(file: File): Promise<Result<UploadedData, StorageServiceError>>
-  public upload(
-    file: File[]
-  ): Promise<Result<UploadedData[], StorageServiceError>>
-  public async upload(
-    file: unknown
-  ): Promise<Result<UploadedData | UploadedData[], StorageServiceError>> {
-    const returnData: UploadedData = {
-      public_id: '',
-      url: ''
-    }
-    return Array.isArray(file)
-      ? Result.ok(file.map(() => returnData))
-      : Result.ok(returnData)
-  }
+export class MockStorageService implements StorageService {
+	private files: Record<string, File> = {};
 
-  async remove(_: string): Promise<Result<Unit, StorageServiceError>> {
-    return Result.ok()
-  }
+	public async upload(
+		payload: File,
+	): Promise<Result<MediaDescription, UploadError>> {
+		try {
+			const id = ulid();
+
+			this.files[id] = payload;
+
+			return Result.ok({
+				id,
+				source: "mock",
+				url: `http://mock.url/${id}`,
+			});
+		} catch (error) {
+			return Result.err("ERR_UNEXPECTED");
+		}
+	}
 }
-
-export default MockStorageService

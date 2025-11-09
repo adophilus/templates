@@ -24,9 +24,13 @@ import {
   OpenTelemetryServiceImplementation
 } from '@/features/otel/service'
 import {
-  CloudinaryStorageService,
-  StorageService
+  StorageService,
+  SqliteStorageService
 } from '@/features/storage/service'
+import {
+  StorageRepository,
+  KyselyStorageRepository
+} from '@/features/storage/repository'
 
 export const bootstrap = async () => {
   // OpenTelemetry DI
@@ -41,9 +45,8 @@ export const bootstrap = async () => {
   const kyselyClient = await createKyselyPgClient()
 
   // Storage DI
-  const storageService = new CloudinaryStorageService(
-    config.storage.mediaServerUrl
-  )
+  const storageRepository = new KyselyStorageRepository(kyselyClient, logger)
+  const storageService = new SqliteStorageService(storageRepository)
 
   // Mailer DI
   const mailer = new NodemailerMailer(logger)
@@ -73,6 +76,7 @@ export const bootstrap = async () => {
   Container.set(KyselyClient, kyselyClient)
 
   // Storage DI
+  Container.set(StorageRepository, storageRepository)
   Container.set(StorageService, storageService)
 
   // OpenTelemetry DI

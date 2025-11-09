@@ -1,10 +1,4 @@
-import CloudinaryStorageService from './cloudinary'
-import StorageService, { type UploadedData } from './interface'
-import MockStorageService from './mock'
-
-export {
-  StorageService,
-  CloudinaryStorageService,
-  MockStorageService,
-  type UploadedData
-}
+export * from "./interface";
+export * from "./ipfs";
+export * from "./mock";
+export * from "./sqlite";
