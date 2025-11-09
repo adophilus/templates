@@ -5,7 +5,7 @@ export const env = createEnv({
   clientPrefix: 'VITE_',
   client: {
     VITE_NODE_ENV: z.enum(['production', 'staging', 'development', 'test']),
-    VITE_BACKEND_URL: z.string().url()
+    VITE_SERVER_URL: z.url()
   },
   server: {},
   runtimeEnv: import.meta.env

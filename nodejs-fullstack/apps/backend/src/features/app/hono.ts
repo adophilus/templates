@@ -4,14 +4,14 @@ import { cors } from 'hono/cors'
 import { logger as honoLogger } from 'hono/logger'
 import { StatusCodes } from '@/features/http'
 import type { Logger } from '@/features/logger'
-import OnboardingRouter from '@/features/onboarding/route'
 import type App from './interface'
+import AuthRouter from '@/features/auth/route'
 
 class HonoApp implements App {
   constructor(private logger: Logger) {}
 
   create() {
-    const ApiRouter = new Hono().route('/onboarding', OnboardingRouter)
+    const ApiRouter = new Hono().route('/auth', AuthRouter)
 
     return (
       new Hono()
@@ -34,4 +34,3 @@ class HonoApp implements App {
 }
 
 export default HonoApp
-
