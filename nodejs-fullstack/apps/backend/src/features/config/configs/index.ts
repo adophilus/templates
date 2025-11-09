@@ -2,7 +2,6 @@ import AuthConfig from './auth'
 import DatabaseConfig from './database'
 import EnvironmentConfig from './environment'
 import MailConfig from './mail'
-import OtelConfig from './otel'
 import ServerConfig from './server'
 
 export default {
@@ -11,5 +10,4 @@ export default {
   environment: EnvironmentConfig,
   mail: MailConfig,
   server: ServerConfig,
-  otel: OtelConfig
 }

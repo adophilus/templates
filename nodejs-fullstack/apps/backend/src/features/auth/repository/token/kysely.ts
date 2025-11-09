@@ -1,7 +1,7 @@
 import { Result } from 'true-myth'
 import type { KyselyClient } from '@/features/database/kysely'
 import type { Logger } from '@/features/logger'
-import type { Token } from '@/types'
+import type { AuthToken } from '@/types'
 import type AuthTokenRepository from './interface'
 import type { AuthTokenRepositoryError } from './interface'
 
@@ -12,11 +12,11 @@ class KyselyAuthTokenRepository implements AuthTokenRepository {
   ) {}
 
   public async create(
-    payload: Token.Insertable
-  ): Promise<Result<Token.Selectable, AuthTokenRepositoryError>> {
+    payload: AuthToken.Insertable
+  ): Promise<Result<AuthToken.Selectable, AuthTokenRepositoryError>> {
     try {
       const token = await this.client
-        .insertInto('tokens')
+        .insertInto('auth_tokens')
         .values(payload)
         .returningAll()
         .executeTakeFirstOrThrow()
@@ -31,10 +31,10 @@ class KyselyAuthTokenRepository implements AuthTokenRepository {
   public async findByUserIdAndPurpose(payload: {
     user_id: string
     purpose: string
-  }): Promise<Result<Token.Selectable | null, AuthTokenRepositoryError>> {
+  }): Promise<Result<AuthToken.Selectable | null, AuthTokenRepositoryError>> {
     try {
       const token = await this.client
-        .selectFrom('tokens')
+        .selectFrom('auth_tokens')
         .selectAll()
         .where('user_id', '=', payload.user_id)
         .where('purpose', '=', payload.purpose)
@@ -53,11 +53,14 @@ class KyselyAuthTokenRepository implements AuthTokenRepository {
 
   public async updateById(
     id: string,
-    payload: Omit<Token.Updateable, 'id' | 'purpose' | 'user_id' | 'updated_at'>
-  ): Promise<Result<Token.Selectable, AuthTokenRepositoryError>> {
+    payload: Omit<
+      AuthToken.Updateable,
+      'id' | 'purpose' | 'user_id' | 'updated_at'
+    >
+  ): Promise<Result<AuthToken.Selectable, AuthTokenRepositoryError>> {
     try {
       const token = await this.client
-        .updateTable('tokens')
+        .updateTable('auth_tokens')
         .set(payload)
         .where('id', '=', id)
         .returningAll()

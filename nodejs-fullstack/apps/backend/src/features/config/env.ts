@@ -12,26 +12,24 @@ const baseEnv = z.object({
   AUTH_TOKEN_SECRET: z.string().min(32)
 })
 
-const sqliteDatabaseEnv = baseEnv.safeExtend({
+const sqliteDatabaseEnv = baseEnv.extend({
   DATABASE_PROVIDER: z.literal('sqlite'),
   DATABASE_PREFIX: z.string().optional(),
   DATABASE_URL: z.string()
 })
 
-const pgDatabaseEnv = baseEnv.safeExtend({
+const pgDatabaseEnv = baseEnv.extend({
   DATABASE_PROVIDER: z.literal('postgres'),
   DATABASE_PREFIX: z.string().optional(),
   DATABASE_URL: z.url()
 })
 
-const pgliteDatabaseEnv = baseEnv.safeExtend({
+const pgliteDatabaseEnv = baseEnv.extend({
   DATABASE_PROVIDER: z.literal('pglite'),
   DATABASE_PREFIX: z.string().optional(),
   DATABASE_URL: z.string()
 })
 
-export const env = z.union([
-  sqliteDatabaseEnv,
-  pgDatabaseEnv,
-  pgliteDatabaseEnv
-])
+export const env = z
+  .union([sqliteDatabaseEnv, pgDatabaseEnv, pgliteDatabaseEnv])
+  .parse(process.env)

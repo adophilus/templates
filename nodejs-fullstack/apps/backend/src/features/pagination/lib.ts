@@ -11,16 +11,8 @@ namespace Pagination {
   }
 
   export const schema = z.object({
-    page: z
-      .string()
-      .pipe(z.coerce.number().min(1))
-      .optional()
-      .default(defaults.page.toString()),
-    per_page: z
-      .string()
-      .pipe(z.coerce.number().max(50).min(1))
-      .optional()
-      .default(defaults.per_page.toString())
+    page: z.number().optional().default(defaults.page),
+    per_page: z.number().optional().default(defaults.per_page)
   })
 
   export type Schema = z.infer<typeof schema>

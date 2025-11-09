@@ -1,29 +1,29 @@
 import type { Result } from 'true-myth'
-import type { User } from '@/types'
+import type { AuthUser } from '@/types'
 
 export type AuthUserRepositoryError = 'ERR_UNEXPECTED'
 
 abstract class AuthUserRepository {
   public abstract create(
-    payload: User.Insertable
-  ): Promise<Result<User.Selectable, AuthUserRepositoryError>>
+    payload: AuthUser.Insertable
+  ): Promise<Result<AuthUser.Selectable, AuthUserRepositoryError>>
 
   public abstract findByEmail(
     email: string
-  ): Promise<Result<User.Selectable | null, AuthUserRepositoryError>>
+  ): Promise<Result<AuthUser.Selectable | null, AuthUserRepositoryError>>
 
   public abstract findByReferralCode(
     referral_code: string
-  ): Promise<Result<User.Selectable | null, AuthUserRepositoryError>>
+  ): Promise<Result<AuthUser.Selectable | null, AuthUserRepositoryError>>
 
   public abstract findById(
     id: string
-  ): Promise<Result<User.Selectable | null, AuthUserRepositoryError>>
+  ): Promise<Result<AuthUser.Selectable | null, AuthUserRepositoryError>>
 
   public abstract updateById(
     id: string,
-    payload: Omit<User.Updateable, 'id' | 'referral_code' | 'updated_at'>
-  ): Promise<Result<User.Selectable, AuthUserRepositoryError>>
+    payload: Omit<AuthUser.Updateable, 'id' | 'referral_code' | 'updated_at'>
+  ): Promise<Result<AuthUser.Selectable, AuthUserRepositoryError>>
 }
 
 export default AuthUserRepository

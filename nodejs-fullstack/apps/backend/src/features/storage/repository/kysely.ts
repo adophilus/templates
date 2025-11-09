@@ -1,5 +1,5 @@
 import type { KyselyClient } from '@/features/database/kysely'
-import type { File } from '@/types'
+import type { StorageFile } from '@/types'
 import { Result, Unit } from 'true-myth'
 import type { StorageRepository, StorageRepositoryError } from './interface'
 import type { Logger } from '@/features/logger'
@@ -11,11 +11,11 @@ export class KyselyStorageRepository implements StorageRepository {
   ) {}
 
   async create(
-    payload: File.Insertable
-  ): Promise<Result<File.Selectable, StorageRepositoryError>> {
+    payload: StorageFile.Insertable
+  ): Promise<Result<StorageFile.Selectable, StorageRepositoryError>> {
     try {
       const file = await this.db
-        .insertInto('files')
+        .insertInto('storage_files')
         .values(payload)
         .returningAll()
         .executeTakeFirstOrThrow()
@@ -28,10 +28,10 @@ export class KyselyStorageRepository implements StorageRepository {
 
   async findById(
     publicId: string
-  ): Promise<Result<File.Selectable | null, StorageRepositoryError>> {
+  ): Promise<Result<StorageFile.Selectable | null, StorageRepositoryError>> {
     try {
       const file = await this.db
-        .selectFrom('files')
+        .selectFrom('storage_files')
         .where('id', '=', publicId)
         .selectAll()
         .executeTakeFirst()
@@ -43,11 +43,11 @@ export class KyselyStorageRepository implements StorageRepository {
   }
 
   async createMany(
-    payloads: File.Insertable[]
-  ): Promise<Result<File.Selectable[], StorageRepositoryError>> {
+    payloads: StorageFile.Insertable[]
+  ): Promise<Result<StorageFile.Selectable[], StorageRepositoryError>> {
     try {
       const files = await this.db
-        .insertInto('files')
+        .insertInto('storage_files')
         .values(payloads)
         .returningAll()
         .execute()
@@ -60,7 +60,10 @@ export class KyselyStorageRepository implements StorageRepository {
 
   async deleteById(id: string): Promise<Result<Unit, StorageRepositoryError>> {
     try {
-      await this.db.deleteFrom('files').where('id', '=', id).executeTakeFirst()
+      await this.db
+        .deleteFrom('storage_files')
+        .where('id', '=', id)
+        .executeTakeFirst()
 
       return Result.ok(Unit)
     } catch (error) {

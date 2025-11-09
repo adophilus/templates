@@ -10,10 +10,10 @@ import {
   Text
 } from 'jsx-email'
 import { config } from '@/features/config'
-import type { Token } from '@/types'
+import type { AuthToken } from '@/types'
 
 interface Props {
-  token: Token.Selectable
+  token: AuthToken.Selectable
 }
 
 const main = {

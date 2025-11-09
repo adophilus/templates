@@ -1,7 +1,7 @@
 import { Result } from 'true-myth'
 import type { KyselyClient } from '@/features/database/kysely'
 import type { Logger } from '@/features/logger'
-import type { User } from '@/types'
+import type { AuthUser } from '@/types'
 import type AuthUserRepository from './interface'
 import type { AuthUserRepositoryError } from './interface'
 
@@ -12,11 +12,11 @@ class KyselyAuthUserRepository implements AuthUserRepository {
   ) {}
 
   public async create(
-    payload: User.Insertable
-  ): Promise<Result<User.Selectable, AuthUserRepositoryError>> {
+    payload: AuthUser.Insertable
+  ): Promise<Result<AuthUser.Selectable, AuthUserRepositoryError>> {
     try {
       const user = await this.client
-        .insertInto('users')
+        .insertInto('auth_users')
         .values(payload)
         .returningAll()
         .executeTakeFirstOrThrow()
@@ -29,10 +29,10 @@ class KyselyAuthUserRepository implements AuthUserRepository {
 
   public async findByEmail(
     email: string
-  ): Promise<Result<User.Selectable | null, AuthUserRepositoryError>> {
+  ): Promise<Result<AuthUser.Selectable | null, AuthUserRepositoryError>> {
     try {
       const user = await this.client
-        .selectFrom('users')
+        .selectFrom('auth_users')
         .selectAll()
         .where('email', '=', email)
         .executeTakeFirst()
@@ -45,10 +45,10 @@ class KyselyAuthUserRepository implements AuthUserRepository {
 
   public async findByReferralCode(
     referral_code: string
-  ): Promise<Result<User.Selectable | null, AuthUserRepositoryError>> {
+  ): Promise<Result<AuthUser.Selectable | null, AuthUserRepositoryError>> {
     try {
       const user = await this.client
-        .selectFrom('users')
+        .selectFrom('auth_users')
         .selectAll()
         .where('referral_code', '=', referral_code)
         .executeTakeFirst()
@@ -61,10 +61,10 @@ class KyselyAuthUserRepository implements AuthUserRepository {
 
   public async findById(
     id: string
-  ): Promise<Result<User.Selectable | null, AuthUserRepositoryError>> {
+  ): Promise<Result<AuthUser.Selectable | null, AuthUserRepositoryError>> {
     try {
       const user = await this.client
-        .selectFrom('users')
+        .selectFrom('auth_users')
         .selectAll()
         .where('id', '=', id)
         .executeTakeFirst()
@@ -77,11 +77,11 @@ class KyselyAuthUserRepository implements AuthUserRepository {
 
   public async updateById(
     id: string,
-    payload: Omit<User.Updateable, 'id' | 'referral_code' | 'updated_at'>
-  ): Promise<Result<User.Selectable, AuthUserRepositoryError>> {
+    payload: Omit<AuthUser.Updateable, 'id' | 'referral_code' | 'updated_at'>
+  ): Promise<Result<AuthUser.Selectable, AuthUserRepositoryError>> {
     try {
       const user = await this.client
-        .updateTable('users')
+        .updateTable('auth_users')
         .set(
           Object.assign(payload, {
             updated_at: new Date().toISOString()

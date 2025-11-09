@@ -4,7 +4,7 @@ import { jwtVerify, SignJWT } from 'jose'
 import { Result } from 'true-myth'
 import { config } from '@/features/config'
 import { Logger } from '@/features/logger'
-import type { User } from '@/types'
+import type { AuthUser } from '@/types'
 
 export const generateToken = (): string => {
   return Math.floor(10000 + Math.random() * 90000).toString()
@@ -25,7 +25,7 @@ export type Tokens = {
 export type Error = 'ERR_INVALID_OR_EXPIRED_TOKEN'
 
 export const generateTokens = async (
-  user: User.Selectable
+  user: AuthUser.Selectable
 ): Promise<Tokens> => {
   const accessTokenExpiration = addMinutes(
     new Date(),

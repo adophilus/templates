@@ -8,10 +8,9 @@ import type {
 import { generateToken } from '@/features/auth/utils/token'
 import { config } from '@/features/config'
 import type { Mailer } from '@/features/mailer'
-import { SIGN_IN_VERIFICATION_TOKEN_PURPOSE_KEY, type Token } from '@/types'
+import { SIGN_IN_VERIFICATION_TOKEN_PURPOSE_KEY, type AuthToken } from '@/types'
 import SignUpVerificationMail from './mail/sign-up-verification'
 import type { Request, Response } from './types'
-import { generateKey } from 'node:crypto'
 
 class SendSignInVerificationEmailUseCase {
   constructor(
@@ -57,7 +56,7 @@ class SendSignInVerificationEmailUseCase {
 
     const existingToken = existingTokenResult.value
 
-    let token: Token.Selectable
+    let token: AuthToken.Selectable
 
     if (!existingToken) {
       const tokenCreationResult = await this.authTokenRepository.create({

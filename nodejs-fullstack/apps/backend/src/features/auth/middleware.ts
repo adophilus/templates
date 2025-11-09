@@ -2,7 +2,7 @@ import type { types } from '@nodejs-fullstack-template/api'
 import { Container } from '@n8n/di'
 import type { MiddlewareHandler } from 'hono'
 import { StatusCodes } from '@/features/http'
-import type { User } from '@/types'
+import type { AuthUser } from '@/types'
 import { AuthUserRepository } from './repository'
 import { verifyToken } from './utils/token'
 
@@ -14,7 +14,7 @@ export type Response =
 namespace AuthMiddleware {
   export const middleware: MiddlewareHandler<{
     Variables: {
-      user: User.Selectable
+      user: AuthUser.Selectable
     }
   }> = async (c, next) => {
     let response: Response
