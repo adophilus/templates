@@ -1,11 +1,11 @@
 import { Schema } from 'effect'
 import Timestamp from '@api-docs/common/Timestamp'
 
-import { Schema } from 'effect'
-
-class VerificationEmailAlreadySentError extends Schema.TaggedError(
-  'ERR_VERIFICATION_EMAIL_ALREADY_SENT'
-) {}
+class VerificationEmailAlreadySentError extends Schema.TaggedError<
+  VerificationEmailAlreadySentError
+>()('ERR_VERIFICATION_EMAIL_ALREADY_SENT', {
+  expires_at: Timestamp
+}) {}
 
 export default VerificationEmailAlreadySentError
 

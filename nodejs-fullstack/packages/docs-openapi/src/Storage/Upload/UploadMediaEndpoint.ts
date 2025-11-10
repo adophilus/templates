@@ -1,11 +1,22 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import { OpenApi } from '@effect/platform'
-import Request from '@api-docs/Storage/Upload/Request'
-import Success from '@api-docs/Storage/Upload/Success'
 import BadRequestError from '@api-docs/common/BadRequestError'
 import UnexpectedError from '@api-docs/common/UnexpectedError'
-import Authorization from '@api-docs/utils/Middleware/Authorization'
+import { Schema } from 'effect'
+import ImageFile from '@api-docs/common/ImageFile'
+import MediaDescription from '@api-docs/common/MediaDescription'
+
+const Request = Schema.Struct({
+  files: Schema.Array(ImageFile)
+}).annotations({
+  description: 'Upload media request body'
+})
+
+const Success = Schema.Struct({
+  code: Schema.Literal('MEDIA_UPLOADED'),
+  data: Schema.Array(MediaDescription)
+})
 
 const UploadMediaEndpoint = HttpApiEndpoint.post(
   'uploadMedia',
@@ -16,6 +27,5 @@ const UploadMediaEndpoint = HttpApiEndpoint.post(
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   .annotate(OpenApi.Description, 'Upload multiple media files')
-  .middleware(Authorization)
 
 export default UploadMediaEndpoint

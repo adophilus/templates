@@ -4,6 +4,6 @@ import ResendVerificationApi from '@api-docs/Auth/SignIn/Verification/ResendVeri
 
 const VerificationApi = HttpApiGroup.make('Verification')
   .add(VerifySignInEmailEndpoint)
-  .add(ResendVerificationApi)
+  .add(ResendVerificationApi as any)
 
 export default VerificationApi

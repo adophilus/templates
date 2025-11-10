@@ -1,9 +1,27 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
-import Request from '@api-docs/Auth/SignUp/Verification/Verify/Request'
-import Success from '@api-docs/Auth/SignUp/Verification/Verify/Success'
 import InvalidOrExpiredTokenError from '@api-docs/Auth/SignUp/Verification/Verify/InvalidOrExpiredTokenError'
 import UnexpectedError from '@api-docs/common/UnexpectedError'
+import { OpenApi } from '@effect/platform'
+import { Schema } from 'effect'
+import Email from '@api-docs/common/Email'
+import Otp from '@api-docs/common/Otp'
+import Jwt from '@api-docs/common/Jwt'
+
+const Request = Schema.Struct({
+  email: Email,
+  otp: Otp
+}).annotations({
+  description: 'Verify email request body'
+})
+
+const Success = Schema.Struct({
+  code: Schema.Literal('AUTH_CREDENTIALS'),
+  data: Schema.Struct({
+    access_token: Jwt,
+    refresh_token: Jwt
+  })
+})
 
 const VerifySignUpEmailEndpoint = HttpApiEndpoint.post(
   'verifySignUpEmail',
@@ -13,8 +31,6 @@ const VerifySignUpEmailEndpoint = HttpApiEndpoint.post(
   .addSuccess(Success, { status: StatusCodes.OK })
   .addError(InvalidOrExpiredTokenError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
-  .annotate({
-    description: 'Verify email'
-  })
+  .annotate(OpenApi.Description, 'Verify email')
 
 export default VerifySignUpEmailEndpoint

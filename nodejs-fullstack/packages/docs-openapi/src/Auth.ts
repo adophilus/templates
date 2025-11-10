@@ -5,7 +5,7 @@ import SignInApi from '@api-docs/Auth/SignIn'
 
 const AuthApi = HttpApiGroup.make('Auth')
   .add(GetProfileEndpoint)
-  .add(SignUpApi)
-  .add(SignInApi)
+  .add(SignUpApi as any)
+  .add(SignInApi as any)
 
 export default AuthApi

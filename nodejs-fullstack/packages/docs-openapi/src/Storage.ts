@@ -4,6 +4,6 @@ import ByIdApi from '@api-docs/Storage/ById'
 
 const StorageApi = HttpApiGroup.make('Storage')
   .add(UploadMediaEndpoint)
-  .add(ByIdApi)
+  .add(ByIdApi as any)
 
 export default StorageApi

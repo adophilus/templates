@@ -1,15 +1,10 @@
 import { Schema } from 'effect'
-import { Multipart } from '@effect/platform'
+import * as Multipart from '@effect/platform/Multipart'
 
-const ImageFile = Multipart.FileSchema.annotations({
-  description: 'Image file'
-}).pipe(
-  Schema.filter(
-    (file) =>
-      file.contentType === 'image/jpeg' ||
-      file.contentType === 'image/png' ||
-      file.contentType === 'image/webp'
-  )
+const ImageFile = Multipart.FilesSchema.pipe(
+  Schema.annotations({
+    description: 'Image file'
+  })
 )
 
 export default ImageFile

@@ -1,19 +1,35 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
-import Request from '@api-docs/Auth/SignUp/Request'
-import VerificationEmailSent from '@api-docs/Auth/SignUp/VerificationEmailSent'
 import EmailAlreadyInUseError from '@api-docs/Auth/SignUp/EmailAlreadyInUseError'
 import BadRequestError from '@api-docs/common/BadRequestError'
 import UnexpectedError from '@api-docs/common/UnexpectedError'
+import { OpenApi } from '@effect/platform'
+import { Schema } from 'effect'
+import User from '@api-docs/common/User'
+import ReferralCode from '@api-docs/common/ReferralCode'
+import Email from '@api-docs/common/Email'
+import FullName from '@api-docs/common/FullName'
+import PhoneNumber from '@api-docs/common/PhoneNumber'
+
+const Request = Schema.Struct({
+  full_name: FullName,
+  email: Email,
+  phone_number: PhoneNumber,
+  referral_code: Schema.optional(ReferralCode)
+}).annotations({
+  description: 'Sign up request body'
+})
+
+const Success = Schema.Struct({
+  code: Schema.Literal('VERIFICATION_EMAIL_SENT')
+})
 
 const SignUpEndpoint = HttpApiEndpoint.post('signUp', '/auth/sign-up')
   .setPayload(Request)
-  .addSuccess(VerificationEmailSent, { status: StatusCodes.OK })
+  .addSuccess(Success, { status: StatusCodes.OK })
   .addError(EmailAlreadyInUseError, { status: StatusCodes.CONFLICT })
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
-  .annotate({
-    description: 'Sign up new user'
-  })
+  .annotate(OpenApi.Description, 'Sign up new user')
 
 export default SignUpEndpoint

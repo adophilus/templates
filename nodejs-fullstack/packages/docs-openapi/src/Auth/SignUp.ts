@@ -4,6 +4,6 @@ import VerificationApi from '@api-docs/Auth/SignUp/Verification'
 
 const SignUpApi = HttpApiGroup.make('SignUp')
   .add(SignUpEndpoint)
-  .add(VerificationApi)
+  .add(VerificationApi as any)
 
 export default SignUpApi
