@@ -1,8 +1,8 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { Schema } from 'effect'
-import User from '@/common/User'
-import UnexpectedError from '@/common/UnexpectedError'
-import UnauthorizedError from '@/common/UnauthorizedError'
+import User from '../common/User'
+import UnexpectedError from '../common/UnexpectedError'
+import UnauthorizedError from '../common/UnauthorizedError'
 import { StatusCodes } from 'http-status-codes'
 
 const Success = Schema.Struct({

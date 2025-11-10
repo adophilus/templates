@@ -1,11 +1,11 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import { OpenApi } from '@effect/platform'
-import BadRequestError from '@/common/BadRequestError'
-import UnexpectedError from '@/common/UnexpectedError'
+import BadRequestError from '../../common/BadRequestError'
+import UnexpectedError from '../../common/UnexpectedError'
 import { Schema } from 'effect'
-import ImageFile from '@/common/ImageFile'
-import MediaDescription from '@/common/MediaDescription'
+import ImageFile from '../../common/ImageFile'
+import MediaDescription from '../../common/MediaDescription'
 
 const Request = Schema.Struct({
   files: Schema.Array(ImageFile)

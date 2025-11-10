@@ -1,5 +1,5 @@
 import { HttpApiGroup } from '@effect/platform'
-import ResendSignUpVerificationEmailEndpoint from '@/Auth/SignUp/Verification/ResendVerification/ResendSignUpVerificationEmailEndpoint'
+import ResendSignUpVerificationEmailEndpoint from './ResendVerification/ResendSignUpVerificationEmailEndpoint'
 
 const ResendVerificationApi = HttpApiGroup.make('ResendVerification').add(
   ResendSignUpVerificationEmailEndpoint

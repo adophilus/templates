@@ -1,6 +1,6 @@
 import { HttpApiGroup } from '@effect/platform'
-import SendSignInEmailEndpoint from '@/Auth/SignIn/SignIn/SendSignInEmailEndpoint'
-import VerificationApi from '@/Auth/SignIn/Verification'
+import SendSignInEmailEndpoint from './SignIn/SignIn/SendSignInEmailEndpoint'
+import VerificationApi from './SignIn/Verification'
 
 const SignInApi = HttpApiGroup.make('SignIn')
   .add(SendSignInEmailEndpoint)

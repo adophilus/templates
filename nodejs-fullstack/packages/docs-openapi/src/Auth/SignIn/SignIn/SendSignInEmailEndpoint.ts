@@ -1,11 +1,11 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
-import UserNotFoundError from '@/common/UserNotFoundError'
-import BadRequestError from '@/common/BadRequestError'
-import UnexpectedError from '@/common/UnexpectedError'
+import UserNotFoundError from '../../../common/UserNotFoundError'
+import BadRequestError from '../../../common/BadRequestError'
+import UnexpectedError from '../../../common/UnexpectedError'
 import { Schema } from 'effect'
 import { OpenApi } from '@effect/platform'
-import Email from '@/common/Email'
+import Email from '../../../common/Email'
 
 const Request = Schema.Struct({
   email: Email
