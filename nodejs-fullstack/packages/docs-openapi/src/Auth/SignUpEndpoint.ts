@@ -1,15 +1,15 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import EmailAlreadyInUseError from './EmailAlreadyInUseError'
-import BadRequestError from '../../common/BadRequestError'
-import UnexpectedError from '../../common/UnexpectedError'
+import BadRequestError from '../common/BadRequestError'
+import UnexpectedError from '../common/UnexpectedError'
 import { OpenApi } from '@effect/platform'
 import { Schema } from 'effect'
-import User from '../../common/User'
-import ReferralCode from '../../common/ReferralCode'
-import Email from '../../common/Email'
-import FullName from '../../common/FullName'
-import PhoneNumber from '../../common/PhoneNumber'
+import User from '../common/User'
+import ReferralCode from '../common/ReferralCode'
+import Email from '../common/Email'
+import FullName from '../common/FullName'
+import PhoneNumber from '../common/PhoneNumber'
 
 const Request = Schema.Struct({
   full_name: FullName,

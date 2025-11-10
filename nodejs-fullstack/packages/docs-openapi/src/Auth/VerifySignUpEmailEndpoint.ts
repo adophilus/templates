@@ -1,12 +1,12 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import InvalidOrExpiredTokenError from './InvalidOrExpiredTokenError'
-import UnexpectedError from '../../../../common/UnexpectedError'
+import UnexpectedError from '../common/UnexpectedError'
 import { OpenApi } from '@effect/platform'
 import { Schema } from 'effect'
-import Email from '../../../../common/Email'
-import Otp from '../../../../common/Otp'
-import Jwt from '../../../../common/Jwt'
+import Email from '../common/Email'
+import Otp from '../common/Otp'
+import Jwt from '../common/Jwt'
 
 const Request = Schema.Struct({
   email: Email,

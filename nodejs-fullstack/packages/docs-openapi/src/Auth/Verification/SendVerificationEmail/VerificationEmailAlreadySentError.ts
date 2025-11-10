@@ -8,4 +8,3 @@ class VerificationEmailAlreadySentError extends Schema.TaggedError<
 }) {}
 
 export default VerificationEmailAlreadySentError
-
