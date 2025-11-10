@@ -1,6 +1,6 @@
 import { HttpApi, OpenApi } from '@effect/platform'
-import AuthApi from '@/Auth'
-import StorageApi from '@/Storage'
+import AuthApi from './Auth'
+import StorageApi from './Storage'
 
 const Api = HttpApi.make('API')
   .annotate(OpenApi.Title, 'API Documentation')
