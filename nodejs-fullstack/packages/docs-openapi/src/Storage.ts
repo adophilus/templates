@@ -1,6 +1,6 @@
 import { HttpApiGroup } from '@effect/platform'
-import UploadMediaEndpoint from '@api-docs/Storage/Upload/UploadMediaEndpoint'
-import ByIdApi from '@api-docs/Storage/ById'
+import UploadMediaEndpoint from '@/Storage/Upload/UploadMediaEndpoint'
+import ByIdApi from '@/Storage/ById'
 
 const StorageApi = HttpApiGroup.make('Storage')
   .add(UploadMediaEndpoint)

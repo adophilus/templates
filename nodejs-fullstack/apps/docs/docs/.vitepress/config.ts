@@ -1,4 +1,5 @@
 import '../../src/env'
+import tsconfigPaths from 'vite-tsconfig-paths'
 import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
@@ -25,5 +26,8 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/adophilus/grovine' }
     ]
+  },
+  vite: {
+    plugins: [tsconfigPaths()]
   }
 })

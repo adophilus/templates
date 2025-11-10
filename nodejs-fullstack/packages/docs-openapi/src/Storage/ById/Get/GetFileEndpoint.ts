@@ -1,12 +1,12 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import { OpenApi } from '@effect/platform'
-import ImageFile from '@api-docs/common/ImageFile'
-import FileNotFoundError from '@api-docs/common/FileNotFoundError'
-import UnauthorizedError from '@api-docs/common/UnauthorizedError'
-import UnexpectedError from '@api-docs/common/UnexpectedError'
+import ImageFile from '@/common/ImageFile'
+import FileNotFoundError from '@/common/FileNotFoundError'
+import UnauthorizedError from '@/common/UnauthorizedError'
+import UnexpectedError from '@/common/UnexpectedError'
 import { Schema } from 'effect'
-import Id from '@api-docs/common/Id'
+import Id from '@/common/Id'
 
 const Request = Schema.Struct({
   fileId: Id

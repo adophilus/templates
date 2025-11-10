@@ -1,3 +1,3 @@
-import Api from '@api-docs/Api'
+import Api from '@/Api'
 
 export { Api }

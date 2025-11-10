@@ -1,9 +1,9 @@
 import { Schema } from 'effect'
-import FullName from '@api-docs/common/FullName'
-import Email from '@api-docs/common/Email'
-import Timestamp from '@api-docs/common/Timestamp'
-import Id from '@api-docs/common/Id'
-import PhoneNumber from '@api-docs/common/PhoneNumber'
+import FullName from '@/common/FullName'
+import Email from '@/common/Email'
+import Timestamp from '@/common/Timestamp'
+import Id from '@/common/Id'
+import PhoneNumber from '@/common/PhoneNumber'
 
 const User = Schema.Struct({
   id: Id,

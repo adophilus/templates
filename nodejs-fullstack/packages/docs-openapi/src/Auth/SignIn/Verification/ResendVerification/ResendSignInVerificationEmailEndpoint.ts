@@ -1,14 +1,14 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
-import TokenNotExpiredError from '@api-docs/Auth/Verification/SendVerificationEmail/TokenNotExpiredError'
-import VerificationEmailAlreadySentError from '@api-docs/Auth/Verification/SendVerificationEmail/VerificationEmailAlreadySentError'
-import UserAlreadyVerifiedError from '@api-docs/Auth/Verification/SendVerificationEmail/UserAlreadyVerifiedError'
-import UserNotFoundError from '@api-docs/common/UserNotFoundError'
-import BadRequestError from '@api-docs/common/BadRequestError'
-import UnexpectedError from '@api-docs/common/UnexpectedError'
+import TokenNotExpiredError from '@/Auth/Verification/SendVerificationEmail/TokenNotExpiredError'
+import VerificationEmailAlreadySentError from '@/Auth/Verification/SendVerificationEmail/VerificationEmailAlreadySentError'
+import UserAlreadyVerifiedError from '@/Auth/Verification/SendVerificationEmail/UserAlreadyVerifiedError'
+import UserNotFoundError from '@/common/UserNotFoundError'
+import BadRequestError from '@/common/BadRequestError'
+import UnexpectedError from '@/common/UnexpectedError'
 import { Schema } from 'effect'
 import { OpenApi } from '@effect/platform'
-import Email from '@api-docs/common/Email'
+import Email from '@/common/Email'
 
 const Request = Schema.Struct({
   email: Email
