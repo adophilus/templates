@@ -2,7 +2,7 @@ import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import Request from '@api-docs/Auth/SignIn/SignIn/Request'
 import VerificationEmailSent from '@api-docs/Auth/SignUp/VerificationEmailSent'
-import NotFoundError from '@api-docs/common/NotFoundError'
+import UserNotFoundError from '@api-docs/common/UserNotFoundError'
 import BadRequestError from '@api-docs/common/BadRequestError'
 import UnexpectedError from '@api-docs/common/UnexpectedError'
 import { Schema } from 'effect'
@@ -11,9 +11,9 @@ const SendSignInEmailEndpoint = HttpApiEndpoint.post(
   'sendSignInEmail',
   '/auth/sign-in'
 )
-  .addBody(Request)
+  .setPayload(Request)
   .addSuccess(VerificationEmailSent, { status: StatusCodes.OK })
-  .addError(NotFoundError(Schema.Literal('USER')), {
+  .addError(UserNotFoundError, {
     status: StatusCodes.NOT_FOUND
   })
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })

@@ -7,7 +7,7 @@ import BadRequestError from '@api-docs/common/BadRequestError'
 import UnexpectedError from '@api-docs/common/UnexpectedError'
 
 const SignUpEndpoint = HttpApiEndpoint.post('signUp', '/auth/sign-up')
-  .addBody(Request)
+  .setPayload(Request)
   .addSuccess(VerificationEmailSent, { status: StatusCodes.OK })
   .addError(EmailAlreadyInUseError, { status: StatusCodes.CONFLICT })
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })

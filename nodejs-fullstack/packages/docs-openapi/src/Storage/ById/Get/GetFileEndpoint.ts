@@ -3,15 +3,15 @@ import { StatusCodes } from 'http-status-codes'
 import { OpenApi } from '@effect/platform'
 import Request from '@api-docs/Storage/ById/Get/Request'
 import ImageFile from '@api-docs/common/ImageFile'
-import NotFoundError from '@api-docs/common/NotFoundError'
+import FileNotFoundError from '@api-docs/common/FileNotFoundError'
 import UnauthorizedError from '@api-docs/common/UnauthorizedError'
 import UnexpectedError from '@api-docs/common/UnexpectedError'
 import { Schema } from 'effect'
 
 const GetFileEndpoint = HttpApiEndpoint.get('getFile', '/storage/:fileId')
-  .addPath(Request)
+  .setPath(Request)
   .addSuccess(ImageFile, { status: StatusCodes.OK })
-  .addError(NotFoundError(Schema.Literal('FILE')), {
+  .addError(FileNotFoundError, {
     status: StatusCodes.NOT_FOUND
   })
   .addError(UnauthorizedError, { status: StatusCodes.UNAUTHORIZED })

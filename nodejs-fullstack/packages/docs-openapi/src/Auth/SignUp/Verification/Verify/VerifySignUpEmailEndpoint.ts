@@ -9,7 +9,7 @@ const VerifySignUpEmailEndpoint = HttpApiEndpoint.post(
   'verifySignUpEmail',
   '/auth/sign-up/verification'
 )
-  .addBody(Request)
+  .setPayload(Request)
   .addSuccess(Success, { status: StatusCodes.OK })
   .addError(InvalidOrExpiredTokenError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
