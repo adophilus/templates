@@ -1,10 +1,10 @@
 import { Schema } from 'effect'
 import * as Multipart from '@effect/platform/Multipart'
 
-const ImageFile = Multipart.FileSchema.pipe(
+const ImageFiles = Multipart.FilesSchema.pipe(
   Schema.annotations({
     description: 'Image file'
   })
 )
 
-export default ImageFile
+export default ImageFiles

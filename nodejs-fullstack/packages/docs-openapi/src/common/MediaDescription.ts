@@ -1,12 +1,11 @@
 import { Schema } from 'effect'
+import Id from './Id'
 
 const MediaDescription = Schema.Struct({
   source: Schema.String.annotations({ examples: ['server'] }),
-  id: Schema.String.annotations({
-    examples: ['QmXoypizjW3WknFiJnKLwL7Qh18qJnZ7qQFp2kFmCtmDZ9']
-  }),
+  id: Id,
   url: Schema.String.annotations({
-    examples: ['https://ipfs.io/ipfs/QmXoypizjW3WknFiJnKLwL7Qh18qJnZ7qQFp2kFmCtmDZ9']
+    examples: ['http://localhost:3000/f47ac10b-58cc-4372-a567-0e02b2c3d479']
   })
 })
 

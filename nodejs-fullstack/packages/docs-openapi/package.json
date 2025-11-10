@@ -6,22 +6,15 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./openapi.yaml": "./build/openapi.yaml",
     "./*": "./src/*"
   },
   "scripts": {
-    "build": "tsp compile .",
-    "dev": "pnpm build --watch",
     "lint": "tsc"
   },
   "dependencies": {
-    "@nodejs-fullstack-template/docs-openapi": "workspace:^",
     "http-status-codes": "^2.3.0"
   },
   "devDependencies": {
-    "@types/node": "^24.10.0",
-    "@typespec/compiler": "^1.4.0",
-    "@typespec/http": "^1.4.0",
-    "@typespec/openapi3": "^1.4.0"
+    "@types/node": "^24.10.0"
   }
 }

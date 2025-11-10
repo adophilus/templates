@@ -4,12 +4,12 @@ import { OpenApi } from '@effect/platform'
 import BadRequestError from '../common/BadRequestError'
 import UnexpectedError from '../common/UnexpectedError'
 import { Schema } from 'effect'
-import ImageFile from '../common/ImageFile'
+import ImageFiles from '../common/ImageFiles'
 import MediaDescription from '../common/MediaDescription'
 
 const Request = HttpApiSchema.Multipart(
   Schema.Struct({
-    files: Schema.Array(ImageFile)
+    files: ImageFiles
   })
 ).annotations({
   description: 'Upload media request body'
