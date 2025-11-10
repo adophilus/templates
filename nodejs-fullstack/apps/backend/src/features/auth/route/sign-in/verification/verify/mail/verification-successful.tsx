@@ -53,13 +53,7 @@ export default function VerificationSuccessful() {
       <Head />
       <Body style={main}>
         <Container style={container}>
-          <Img
-            src={logoUrl}
-            width="212"
-            height="88"
-            alt="Grovine"
-            style={logo}
-          />
+          <Img src={logoUrl} width="212" height="88" alt="LOGO" style={logo} />
           <Text style={tertiary}>Verification Successful</Text>
           <Heading style={secondary}>
             Thank you for verifying your account

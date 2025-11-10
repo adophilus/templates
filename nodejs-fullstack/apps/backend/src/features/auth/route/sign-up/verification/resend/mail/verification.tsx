@@ -108,13 +108,7 @@ export default function VerificationMail({ token }: Props) {
       <Head />
       <Body style={main}>
         <Container style={container}>
-          <Img
-            src={logoUrl}
-            width="212"
-            height="88"
-            alt="Grovine"
-            style={logo}
-          />
+          <Img src={logoUrl} width="212" height="88" alt="LOGO" style={logo} />
           <Text style={tertiary}>Verify Your Identity</Text>
           <Heading style={secondary}>
             Enter the following code to verify your account.

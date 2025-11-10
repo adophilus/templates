@@ -4,14 +4,11 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'Grovine',
-  description: 'Documentation for Grovine',
+  title: 'NodeJS Fullstack Template',
+  description: 'Documentation for NodeJS Fullstack Template',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    nav: [
-      { text: 'Home', link: '/' }
-      // { text: "Examples", link: "/markdown-examples" },
-    ],
+    nav: [{ text: 'Home', link: '/' }],
 
     // sidebar: [
     //   {
@@ -24,7 +21,7 @@ export default defineConfig({
     // ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/adophilus/grovine' }
+      { icon: 'github', link: 'https://github.com/adophilus/templates' }
     ]
   },
   vite: {

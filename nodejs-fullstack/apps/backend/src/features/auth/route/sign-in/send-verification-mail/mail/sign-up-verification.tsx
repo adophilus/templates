@@ -110,7 +110,7 @@ export default function SignUpVerificationMail({ token }: Props) {
             src="https://via.placeholder.com/512"
             width="212"
             height="88"
-            alt="Grovine"
+            alt="LOGO"
             style={logo}
           />
           <Text style={tertiary}>Verify Your Identity</Text>
