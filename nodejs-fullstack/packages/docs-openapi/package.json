@@ -5,12 +5,18 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./openapi.yaml": "./build/openapi.yaml"
+    ".": "./src/index.ts",
+    "./openapi.yaml": "./build/openapi.yaml",
+    "./*": "./src/*"
   },
   "scripts": {
     "build": "tsp compile .",
     "dev": "pnpm build --watch",
     "lint": "pnpm build"
+  },
+  "dependencies": {
+    "@nodejs-fullstack-template/docs-openapi": "workspace:^",
+    "http-status-codes": "^2.3.0"
   },
   "devDependencies": {
     "@typespec/compiler": "^1.4.0",

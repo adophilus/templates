@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@effect/platform':
+        specifier: ^0.82.8
+        version: 0.82.8(effect@3.17.11)
+      '@effect/platform-node':
+        specifier: ^0.81.5
+        version: 0.81.5(@effect/cluster@0.34.1(@effect/platform@0.82.8(effect@3.17.11))(@effect/rpc@0.59.5(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(@effect/sql@0.35.4(@effect/experimental@0.46.4(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(effect@3.17.11))(@effect/platform@0.82.8(effect@3.17.11))(@effect/rpc@0.59.5(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(@effect/sql@0.35.4(@effect/experimental@0.46.4(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(effect@3.17.11)
+      effect:
+        specifier: ^3.17.11
+        version: 3.17.11
       zod:
         specifier: ^4.1.12
         version: 4.1.12
@@ -269,6 +278,13 @@ importers:
         version: 4.0.2(webpack@5.99.9(@swc/core@1.11.21(@swc/helpers@0.5.17)))
 
   packages/docs-openapi:
+    dependencies:
+      '@nodejs-fullstack-template/docs-openapi':
+        specifier: workspace:^
+        version: 'link:'
+      http-status-codes:
+        specifier: ^2.3.0
+        version: 2.3.0
     devDependencies:
       '@typespec/compiler':
         specifier: ^1.4.0
@@ -8174,18 +8190,6 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  ws@8.18.2:
-    resolution: {integrity: sha512-DMricUmwGZUVr++AEAe2uiVM7UoO9MAVZMDu05UQOaUII0lp+zOzLLU4Xqh/JvTqklB1T4uELaaPBKyjE1r4fQ==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
   ws@8.18.3:
     resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
     engines: {node: '>=10.0.0'}
@@ -9799,7 +9803,7 @@ snapshots:
       '@parcel/watcher': 2.5.1
       effect: 3.17.11
       multipasta: 0.2.5
-      ws: 8.18.2
+      ws: 8.18.3
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -9814,7 +9818,7 @@ snapshots:
       effect: 3.17.11
       mime: 3.0.0
       undici: 7.10.0
-      ws: 8.18.2
+      ws: 8.18.3
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -17728,8 +17732,6 @@ snapshots:
       strip-ansi: 7.1.0
 
   wrappy@1.0.2: {}
-
-  ws@8.18.2: {}
 
   ws@8.18.3: {}
 

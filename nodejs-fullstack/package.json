@@ -17,6 +17,9 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@effect/platform": "^0.82.8",
+    "@effect/platform-node": "^0.81.5",
+    "effect": "^3.17.11",
     "zod": "^4.1.12"
   }
 }
