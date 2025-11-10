@@ -5,17 +5,12 @@ import BadRequestError from '../common/BadRequestError'
 import UnexpectedError from '../common/UnexpectedError'
 import { OpenApi } from '@effect/platform'
 import { Schema } from 'effect'
-import User from '../common/User'
-import ReferralCode from '../common/ReferralCode'
 import Email from '../common/Email'
 import FullName from '../common/FullName'
-import PhoneNumber from '../common/PhoneNumber'
 
 const Request = Schema.Struct({
   full_name: FullName,
-  email: Email,
-  phone_number: PhoneNumber,
-  referral_code: Schema.optional(ReferralCode)
+  email: Email
 }).annotations({
   description: 'Sign up request body'
 })
