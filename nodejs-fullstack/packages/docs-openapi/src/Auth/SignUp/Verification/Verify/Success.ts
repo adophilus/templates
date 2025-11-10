@@ -1,5 +1,5 @@
 import { Schema } from 'effect'
-import Jwt from '../../../../common/Jwt'
+import Jwt from '@api-docs/common/Jwt'
 
 const Success = Schema.Struct({
   code: Schema.Literal('AUTH_CREDENTIALS'),

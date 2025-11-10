@@ -1,10 +1,10 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
-import Request from './Request'
-import VerificationEmailSent from '../../SignUp/VerificationEmailSent'
-import NotFoundError from '../../../../common/NotFoundError'
-import BadRequestError from '../../../../common/BadRequestError'
-import UnexpectedError from '../../../../common/UnexpectedError'
+import Request from '@api-docs/Auth/SignIn/SignIn/Request'
+import VerificationEmailSent from '@api-docs/Auth/SignUp/VerificationEmailSent'
+import NotFoundError from '@api-docs/common/NotFoundError'
+import BadRequestError from '@api-docs/common/BadRequestError'
+import UnexpectedError from '@api-docs/common/UnexpectedError'
 import { Schema } from 'effect'
 
 const SendSignInEmailEndpoint = HttpApiEndpoint.post(

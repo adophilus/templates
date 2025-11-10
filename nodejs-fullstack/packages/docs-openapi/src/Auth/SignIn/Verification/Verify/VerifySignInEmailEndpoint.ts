@@ -1,9 +1,9 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
-import Request from '../../SignUp/Verification/Verify/Request'
-import Success from '../../SignUp/Verification/Verify/Success'
-import InvalidOrExpiredTokenError from '../../SignUp/Verification/Verify/InvalidOrExpiredTokenError'
-import UnexpectedError from '../../../../common/UnexpectedError'
+import Request from '@api-docs/Auth/SignUp/Verification/Verify/Request'
+import Success from '@api-docs/Auth/SignUp/Verification/Verify/Success'
+import InvalidOrExpiredTokenError from '@api-docs/Auth/SignUp/Verification/Verify/InvalidOrExpiredTokenError'
+import UnexpectedError from '@api-docs/common/UnexpectedError'
 
 const VerifySignInEmailEndpoint = HttpApiEndpoint.post(
   'verifySignInEmail',

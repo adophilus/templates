@@ -1,5 +1,5 @@
 import { Schema } from 'effect'
-import ImageFile from '../../../common/ImageFile'
+import ImageFile from '@api-docs/common/ImageFile'
 
 const Request = Schema.Struct({
   files: Schema.Array(ImageFile)

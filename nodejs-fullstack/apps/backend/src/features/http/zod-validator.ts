@@ -4,10 +4,11 @@ import type { Env, Input, MiddlewareHandler, ValidationTargets } from 'hono'
 import type { ZodSchema, z } from 'zod'
 import { StatusCodes } from './status-codes'
 
+type ZodTypeDef = any // Temporary fix for ZodTypeDef not found
 type HasUndefined<T> = undefined extends T ? true : false
 
 export function zValidator<
-  T extends ZodSchema<any, z.ZodTypeDef, any>,
+  T extends ZodSchema<any, ZodTypeDef, any>,
   Target extends keyof ValidationTargets,
   E extends Env,
   P extends string,

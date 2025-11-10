@@ -1,11 +1,11 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import { OpenApi } from '@effect/platform'
-import Request from './Request'
-import Success from './Success'
-import BadRequestError from '../../common/BadRequestError'
-import UnauthorizedError from '../../common/UnauthorizedError'
-import UnexpectedError from '../../common/UnexpectedError'
+import Request from '@api-docs/Storage/Upload/Request'
+import Success from '@api-docs/Storage/Upload/Success'
+import BadRequestError from '@api-docs/common/BadRequestError'
+import UnauthorizedError from '@api-docs/common/UnauthorizedError'
+import UnexpectedError from '@api-docs/common/UnexpectedError'
 
 const UploadMediaEndpoint = HttpApiEndpoint.post('uploadMedia', '/storage/upload')
   .addMultipartBody(Request)

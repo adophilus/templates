@@ -1,5 +1,5 @@
 import { Schema } from 'effect'
-import MediaDescription from '../../../common/MediaDescription'
+import MediaDescription from '@api-docs/common/MediaDescription'
 
 const Success = Schema.Struct({
   code: Schema.Literal('MEDIA_UPLOADED'),

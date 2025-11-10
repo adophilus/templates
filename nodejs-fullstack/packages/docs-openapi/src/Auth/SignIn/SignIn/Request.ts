@@ -1,5 +1,5 @@
 import { Schema } from 'effect'
-import Email from '../../../../common/Email'
+import Email from '@api-docs/common/Email'
 
 const Request = Schema.Struct({
   email: Email

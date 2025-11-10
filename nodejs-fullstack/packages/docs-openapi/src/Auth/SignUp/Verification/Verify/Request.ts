@@ -1,6 +1,6 @@
 import { Schema } from 'effect'
-import Email from '../../../../common/Email'
-import Otp from '../../../../common/Otp'
+import Email from '@api-docs/common/Email'
+import Otp from '@api-docs/common/Otp'
 
 const Request = Schema.Struct({
   email: Email,

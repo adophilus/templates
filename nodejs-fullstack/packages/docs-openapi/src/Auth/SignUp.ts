@@ -1,6 +1,6 @@
 import { HttpApiGroup } from '@effect/platform'
-import SignUpEndpoint from './SignUp/SignUpEndpoint'
-import VerificationApi from './Verification/index.ts'
+import SignUpEndpoint from '@api-docs/Auth/SignUp/SignUpEndpoint'
+import VerificationApi from '@api-docs/Auth/SignUp/Verification'
 
 const SignUpApi = HttpApiGroup.make('SignUp')
   .add(SignUpEndpoint)

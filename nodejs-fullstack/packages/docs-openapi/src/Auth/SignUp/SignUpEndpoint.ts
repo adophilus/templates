@@ -1,10 +1,10 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
-import Request from './Request'
-import VerificationEmailSent from './VerificationEmailSent'
-import EmailAlreadyInUseError from './EmailAlreadyInUseError'
-import BadRequestError from '../../common/BadRequestError'
-import UnexpectedError from '../../common/UnexpectedError'
+import Request from '@api-docs/Auth/SignUp/Request'
+import VerificationEmailSent from '@api-docs/Auth/SignUp/VerificationEmailSent'
+import EmailAlreadyInUseError from '@api-docs/Auth/SignUp/EmailAlreadyInUseError'
+import BadRequestError from '@api-docs/common/BadRequestError'
+import UnexpectedError from '@api-docs/common/UnexpectedError'
 
 const SignUpEndpoint = HttpApiEndpoint.post('signUp', '/auth/sign-up')
   .addBody(Request)

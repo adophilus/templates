@@ -1,5 +1,5 @@
 import { Schema } from 'effect'
-import Timestamp from '../../../../common/Timestamp'
+import Timestamp from '@api-docs/common/Timestamp'
 
 class VerificationEmailAlreadySentError extends Schema.TaggedError<
   VerificationEmailAlreadySentError

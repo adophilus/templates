@@ -1,11 +1,11 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import { OpenApi } from '@effect/platform'
-import Request from './Request'
-import ImageFile from '../../../../common/ImageFile'
-import NotFoundError from '../../../common/NotFoundError'
-import UnauthorizedError from '../../../common/UnauthorizedError'
-import UnexpectedError from '../../../common/UnexpectedError'
+import Request from '@api-docs/Storage/ById/Get/Request'
+import ImageFile from '@api-docs/common/ImageFile'
+import NotFoundError from '@api-docs/common/NotFoundError'
+import UnauthorizedError from '@api-docs/common/UnauthorizedError'
+import UnexpectedError from '@api-docs/common/UnexpectedError'
 import { Schema } from 'effect'
 
 const GetFileEndpoint = HttpApiEndpoint.get('getFile', '/storage/:fileId')

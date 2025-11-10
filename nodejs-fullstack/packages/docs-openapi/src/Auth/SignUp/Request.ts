@@ -1,9 +1,9 @@
 import { Schema } from 'effect'
-import User from '../../common/User'
-import ReferralCode from '../../common/ReferralCode'
-import Email from '../../common/Email'
-import FullName from '../../common/FullName'
-import PhoneNumber from '../../common/PhoneNumber'
+import User from '@api-docs/common/User'
+import ReferralCode from '@api-docs/common/ReferralCode'
+import Email from '@api-docs/common/Email'
+import FullName from '@api-docs/common/FullName'
+import PhoneNumber from '@api-docs/common/PhoneNumber'
 
 const Request = Schema.Struct({
   full_name: FullName,
