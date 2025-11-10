@@ -1,4 +1,4 @@
-import { HttpApiEndpoint } from '@effect/platform'
+import { HttpApiEndpoint, HttpApiSchema } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import { OpenApi } from '@effect/platform'
 import ImageFile from '../common/ImageFile'
@@ -16,7 +16,7 @@ const Request = Schema.Struct({
 
 const GetFileEndpoint = HttpApiEndpoint.get('getFile', '/storage/:fileId')
   .setPath(Request)
-  .addSuccess(ImageFile, { status: StatusCodes.OK })
+  .addSuccess(HttpApiSchema.Multipart(ImageFile), { status: StatusCodes.OK })
   .addError(FileNotFoundError, {
     status: StatusCodes.NOT_FOUND
   })

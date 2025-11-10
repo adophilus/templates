@@ -1,4 +1,4 @@
-import { HttpApiEndpoint } from '@effect/platform'
+import { HttpApiEndpoint, HttpApiSchema } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import { OpenApi } from '@effect/platform'
 import BadRequestError from '../common/BadRequestError'
@@ -7,9 +7,11 @@ import { Schema } from 'effect'
 import ImageFile from '../common/ImageFile'
 import MediaDescription from '../common/MediaDescription'
 
-const Request = Schema.Struct({
-  files: Schema.Array(ImageFile)
-}).annotations({
+const Request = HttpApiSchema.Multipart(
+  Schema.Struct({
+    files: Schema.Array(ImageFile)
+  })
+).annotations({
   description: 'Upload media request body'
 })
 
