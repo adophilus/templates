@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "effect-mcp": {
+      "command": "pnpx",
+      "args": [
+        "@niklaserik/effect-mcp"
+      ],
+      "trust": true
+    }
+  },
+  "$version": 2
+}
