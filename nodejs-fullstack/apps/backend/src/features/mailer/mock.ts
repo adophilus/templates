@@ -1,14 +1,6 @@
-import { Result, type Unit } from 'true-myth'
-import type { MailerError } from './interface'
+import type { Mailer } from './interface'
+import { type Context, Effect } from 'effect'
 
-class MockMailer {
-  public async send(_: {
-    recipients: string[]
-    subject: string
-    email: JSX.Element
-  }): Promise<Result<Unit, MailerError>> {
-    return Result.ok()
-  }
+export const MockMailer: Context.Tag.Service<Mailer> = {
+  send: (_) => Effect.void
 }
-
-export default MockMailer

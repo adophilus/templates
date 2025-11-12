@@ -31,5 +31,9 @@ const pgliteDatabaseEnv = baseEnv.extend({
 })
 
 export const env = z
-  .union([sqliteDatabaseEnv, pgDatabaseEnv, pgliteDatabaseEnv])
+  .discriminatedUnion('DATABASE_PROVIDER', [
+    sqliteDatabaseEnv,
+    pgDatabaseEnv,
+    pgliteDatabaseEnv
+  ])
   .parse(process.env)

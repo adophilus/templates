@@ -1,5 +1,4 @@
-import Mailer from './interface'
-import MockMailer from './mock'
-import NodemailerMailer from './nodemailer'
-
-export { Mailer, NodemailerMailer, MockMailer }
+export * from './error'
+export * from './interface'
+export * from './mock'
+export * from './nodemailer'

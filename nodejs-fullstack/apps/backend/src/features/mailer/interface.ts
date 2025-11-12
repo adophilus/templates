@@ -1,13 +1,13 @@
-import type { Result, Unit } from 'true-myth'
+import { Context, type Effect } from 'effect'
+import type { MailerError } from './error'
 
-export type MailerError = 'ERR_MAIL_NOT_SENT'
-
-abstract class Mailer {
-  public abstract send(payload: {
-    recipients: string[]
-    subject: string
-    email: JSX.Element
-  }): Promise<Result<Unit, MailerError>>
-}
-
-export default Mailer
+export class Mailer extends Context.Tag('MailerService')<
+  Mailer,
+  {
+    send: (payload: {
+      recipients: string[]
+      subject: string
+      email: JSX.Element
+    }) => Effect.Effect<void, MailerError>
+  }
+>() { }
