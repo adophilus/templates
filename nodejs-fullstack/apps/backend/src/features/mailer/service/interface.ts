@@ -1,5 +1,5 @@
 import { Context, type Effect } from 'effect'
-import type { MailerError } from './error'
+import type { SendMailError } from './error'
 
 export class Mailer extends Context.Tag('MailerService')<
   Mailer,
@@ -8,6 +8,6 @@ export class Mailer extends Context.Tag('MailerService')<
       recipients: string[]
       subject: string
       email: JSX.Element
-    }) => Effect.Effect<void, MailerError>
+    }) => Effect.Effect<void, SendMailError>
   }
 >() { }
