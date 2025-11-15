@@ -1,15 +1,14 @@
 import { StorageRepository } from "../repository/interface";
-import type { StorageRepositoryOperationError } from "../repository/interface";
+import {
+  StorageUploadError,
+  StorageDatabaseError,
+  StorageValidationError,
+  StorageFileError
+} from './error';
 import { ulid } from "ulidx";
 import type { MediaDescription } from "@/types";
 import { Effect, Layer } from 'effect';
 import { Storage } from './interface';
-import { 
-  StorageUploadError, 
-  StorageDatabaseError, 
-  StorageValidationError,
-  StorageFileError 
-} from './error';
 import { config } from "@/features/config";
 
 // Validation utilities
