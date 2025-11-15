@@ -15,7 +15,7 @@ const Request = HttpApiSchema.Multipart(
   description: 'Upload media request body'
 })
 
-const Success = Schema.Struct({
+export const Success = Schema.Struct({
   code: Schema.Literal('MEDIA_UPLOADED'),
   data: Schema.Array(MediaDescription)
 })

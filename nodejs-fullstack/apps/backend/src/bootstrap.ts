@@ -12,10 +12,7 @@ import { config } from '@/features/config'
 import { KyselyClient } from '@/features/database/kysely'
 import { Logger } from '@/features/logger'
 import { Mailer, NodemailerMailer } from '@/features/mailer'
-import {
-  StorageService,
-  SqliteStorageService
-} from '@/features/storage/service'
+import { Storage, SqliteStorageService } from '@/features/storage/service'
 import {
   StorageRepository,
   KyselyStorageRepository
@@ -52,7 +49,7 @@ export const bootstrap = async () => {
 
   // Storage DI
   Container.set(StorageRepository, storageRepository)
-  Container.set(StorageService, storageService)
+  Container.set(Storage, storageService)
 
   // Mailer DI
   Container.set(Mailer, mailer)

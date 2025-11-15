@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@effect/cli": "^0.61.8",
+    "@effect/language-service": "^0.56.0",
     "@effect/platform": "^0.82.8",
     "@effect/platform-node": "^0.81.5",
     "@types/base64-url": "^2.2.2",

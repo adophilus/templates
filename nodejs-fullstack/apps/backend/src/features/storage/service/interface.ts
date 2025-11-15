@@ -23,4 +23,4 @@ export class Storage extends Context.Tag('StorageService')<
       id: string
     ) => Effect.Effect<void, StorageServiceNotFoundError | StorageServiceError>
   }
->() { }
+>() {}

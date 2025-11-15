@@ -166,6 +166,9 @@ importers:
       '@effect/cli':
         specifier: ^0.61.8
         version: 0.61.8(@effect/platform@0.82.8(effect@3.17.11))(@effect/printer-ansi@0.43.2(@effect/typeclass@0.34.2(effect@3.17.11))(effect@3.17.11))(@effect/printer@0.43.2(@effect/typeclass@0.34.2(effect@3.17.11))(effect@3.17.11))(effect@3.17.11)
+      '@effect/language-service':
+        specifier: ^0.56.0
+        version: 0.56.0
       '@effect/platform':
         specifier: ^0.82.8
         version: 0.82.8(effect@3.17.11)
@@ -1268,6 +1271,10 @@ packages:
         optional: true
       lmdb:
         optional: true
+
+  '@effect/language-service@0.56.0':
+    resolution: {integrity: sha512-gvJaHoeXMHAoA6+Xyj9Vdq52yDCs+ECLbKpHvxHtdJP/C0D9b3JFEfLjdVuw37zoWcYS856um4rgEYHlW2LSEQ==}
+    hasBin: true
 
   '@effect/platform-node-shared@0.35.5':
     resolution: {integrity: sha512-F0Hh+aueRxOw2vqo9LNqWh31ch5WBhz0Hp0vYQ8jntjLOsvN5oX/0JbGO4E5BNsMZV5HCraP6I4ACjP3KUnvCQ==}
@@ -9472,6 +9479,8 @@ snapshots:
       '@effect/platform': 0.82.8(effect@3.17.11)
       effect: 3.17.11
       uuid: 11.1.0
+
+  '@effect/language-service@0.56.0': {}
 
   '@effect/platform-node-shared@0.35.5(@effect/cluster@0.34.1(@effect/platform@0.82.8(effect@3.17.11))(@effect/rpc@0.59.5(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(@effect/sql@0.35.4(@effect/experimental@0.46.4(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(effect@3.17.11))(@effect/platform@0.82.8(effect@3.17.11))(@effect/rpc@0.59.5(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(@effect/sql@0.35.4(@effect/experimental@0.46.4(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(@effect/platform@0.82.8(effect@3.17.11))(effect@3.17.11))(effect@3.17.11)':
     dependencies:

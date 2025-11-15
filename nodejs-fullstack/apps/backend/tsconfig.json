@@ -20,6 +20,11 @@
     "noImplicitAny": true,
     "types": ["node"],
     "jsx": "react-jsx",
+    "plugins": [
+      {
+        "name": "@effect/language-service"
+      }
+    ],
     "paths": {
       "@/*": ["./src/*"]
     }
