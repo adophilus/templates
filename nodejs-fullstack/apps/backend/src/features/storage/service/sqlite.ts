@@ -48,7 +48,7 @@ export const createSqliteStorage = Layer.effect(
           const fileBuffer = yield* Effect.tryPromise({
             try: () => payload.arrayBuffer(),
             catch: (error) => 
-              new StorageServiceNotFoundError({ 
+              new StorageServiceUploadError({ 
                 message: `Failed to read file buffer: ${String(error)}`,
                 cause: error
               })
@@ -62,8 +62,8 @@ export const createSqliteStorage = Layer.effect(
             file_data: Buffer.from(fileBuffer),
           }).pipe(
             Effect.mapError((error) => 
-              new StorageServiceError({ 
-                message: `Database operation failed: ${String(error)}`,
+              new StorageServiceUploadError({ 
+                message: `Upload operation failed: ${String(error)}`,
                 cause: error
               })
             )
@@ -78,45 +78,9 @@ export const createSqliteStorage = Layer.effect(
           };
         }),
       
-      create: (payload) =>
-        Effect.gen(function*(_) {
-          const uploadedFile = yield* repository.create(payload);
-
-          const id = uploadedFile.id;
-
-          return {
-            id,
-            source: "cloud",
-            url: `${config.server.url}/storage/${id}`,
-          };
-        }).pipe(
-          Effect.mapError((error) => 
-            new StorageServiceUploadError({ 
-              message: `Storage operation failed: ${String(error)}`,
-              cause: error
-            })
-          )
-        ),
       
-      createMany: (payloads) =>
-        Effect.gen(function*(_) {
-          const uploadedFiles = yield* repository.createMany(payloads);
-
-          return uploadedFiles.map(file => ({
-            id: file.id,
-            source: "cloud",
-            url: `${config.server.url}/storage/${file.id}`,
-          }));
-        }).pipe(
-          Effect.mapError((error) => 
-            new StorageServiceUploadError({ 
-              message: `Storage operation failed: ${String(error)}`,
-              cause: error
-            })
-          )
-        ),
       
-      findById: (id) =>
+      get: (id) =>
         Effect.gen(function*(_) {
           const result = yield* repository.findById(id);
           
@@ -133,22 +97,25 @@ export const createSqliteStorage = Layer.effect(
           return mappedResult;
         }).pipe(
           Effect.mapError((error) => 
-            new StorageRepositoryError({ 
+            new StorageServiceError({ 
               message: `Database operation failed: ${String(error)}`,
               cause: error
             })
           )
         ),
       
-      deleteById: (id) =>
+      delete: (id) =>
         Effect.gen(function*(_) {
           yield* repository.deleteById(id);
         }).pipe(
           Effect.mapError((error) => {
             if (error instanceof StorageRepositoryNotFoundError) {
-              return error; // Pass through the not found error
+              return new StorageServiceNotFoundError({ 
+                message: `File with ID ${id} not found`,
+                cause: error
+              });
             }
-            return new StorageRepositoryError({ 
+            return new StorageServiceError({ 
               message: `Database operation failed: ${String(error)}`,
               cause: error
             });

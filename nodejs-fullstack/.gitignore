@@ -159,3 +159,4 @@ dist
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
 .direnv
+prompt.md
