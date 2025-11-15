@@ -1,27 +1,36 @@
 import { Data } from 'effect'
 
-export class StorageUploadError extends Data.TaggedError('StorageUploadError')<{
+export class StorageServiceUploadError extends Data.TaggedError(
+  'StorageUploadError'
+)<{
   message: string
   cause?: unknown
 }> { }
 
-export class StorageValidationError extends Data.TaggedError('StorageValidationError')<{
+export class StorageServiceValidationError extends Data.TaggedError(
+  'StorageValidationError'
+)<{
   message: string
   cause?: unknown
 }> { }
 
-export class StorageDatabaseError extends Data.TaggedError('StorageDatabaseError')<{
+export class StorageServiceError extends Data.TaggedError(
+  'StorageDatabaseError'
+)<{
   message: string
   cause?: unknown
 }> { }
 
-export class StorageFileError extends Data.TaggedError('StorageFileError')<{
+export class StorageServiceNotFoundError extends Data.TaggedError(
+  'StorageFileError'
+)<{
   message: string
   cause?: unknown
 }> { }
 
-export type UploadFileError = 
-  | StorageUploadError 
-  | StorageValidationError 
-  | StorageDatabaseError
-  | StorageFileError
+export type StorageServiceOperationError =
+  | StorageServiceUploadError
+  | StorageServiceValidationError
+  | StorageServiceError
+  | StorageServiceNotFoundError
+

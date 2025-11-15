@@ -1,5 +1,5 @@
 import { KyselyClient } from '@/features/database/kysely'
-import { Effect, Layer } from 'effect'
+import { Effect, Layer, Option } from 'effect'
 import { StorageRepository } from './interface'
 import { StorageRepositoryError } from './error'
 
@@ -63,7 +63,7 @@ export const KyselyStorageRepositoryLive = Layer.effect(
               })
           })
 
-          return result ?? null
+          return Option.fromNullable(result)
         }),
 
       deleteById: (id) =>

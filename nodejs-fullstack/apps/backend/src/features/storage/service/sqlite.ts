@@ -1,31 +1,31 @@
 import { StorageRepository } from "../repository/interface";
+import { StorageRepositoryError, StorageRepositoryNotFoundError } from "../repository/error";
 import {
-  StorageUploadError,
-  StorageDatabaseError,
-  StorageValidationError,
-  StorageFileError
+  StorageServiceUploadError,
+  StorageServiceError,
+  StorageServiceValidationError,
+  StorageServiceNotFoundError
 } from './error';
 import { ulid } from "ulidx";
-import type { MediaDescription } from "@/types";
-import { Effect, Layer } from 'effect';
+import { Effect, Layer, Option } from 'effect';
 import { Storage } from './interface';
 import { config } from "@/features/config";
 
 // Validation utilities
-const validateFile = (file: File): Effect.Effect<true, StorageValidationError> => 
+const validateFile = (file: File): Effect.Effect<true, StorageServiceValidationError> => 
   Effect.gen(function*(_) {
     if (!file.name) {
-      yield* Effect.fail(new StorageValidationError({ message: "File name is required" }));
+      yield* Effect.fail(new StorageServiceValidationError({ message: "File name is required" }));
     }
     
     if (file.size === 0) {
-      yield* Effect.fail(new StorageValidationError({ message: "File size cannot be zero" }));
+      yield* Effect.fail(new StorageServiceValidationError({ message: "File size cannot be zero" }));
     }
     
     // Check file size limit - using a reasonable default
     const maxFileSize = 10 * 1024 * 1024; // 10MB default
     if (file.size > maxFileSize) {
-      yield* Effect.fail(new StorageValidationError({ 
+      yield* Effect.fail(new StorageServiceValidationError({ 
         message: `File size exceeds maximum allowed size: ${maxFileSize} bytes` 
       }));
     }
@@ -48,7 +48,7 @@ export const createSqliteStorage = Layer.effect(
           const fileBuffer = yield* Effect.tryPromise({
             try: () => payload.arrayBuffer(),
             catch: (error) => 
-              new StorageFileError({ 
+              new StorageServiceNotFoundError({ 
                 message: `Failed to read file buffer: ${String(error)}`,
                 cause: error
               })
@@ -62,7 +62,7 @@ export const createSqliteStorage = Layer.effect(
             file_data: Buffer.from(fileBuffer),
           }).pipe(
             Effect.mapError((error) => 
-              new StorageDatabaseError({ 
+              new StorageServiceError({ 
                 message: `Database operation failed: ${String(error)}`,
                 cause: error
               })
@@ -76,7 +76,84 @@ export const createSqliteStorage = Layer.effect(
             source: "cloud",
             url: `${config.server.url}/storage/${id}`,
           };
-        })
+        }),
+      
+      create: (payload) =>
+        Effect.gen(function*(_) {
+          const uploadedFile = yield* repository.create(payload);
+
+          const id = uploadedFile.id;
+
+          return {
+            id,
+            source: "cloud",
+            url: `${config.server.url}/storage/${id}`,
+          };
+        }).pipe(
+          Effect.mapError((error) => 
+            new StorageServiceUploadError({ 
+              message: `Storage operation failed: ${String(error)}`,
+              cause: error
+            })
+          )
+        ),
+      
+      createMany: (payloads) =>
+        Effect.gen(function*(_) {
+          const uploadedFiles = yield* repository.createMany(payloads);
+
+          return uploadedFiles.map(file => ({
+            id: file.id,
+            source: "cloud",
+            url: `${config.server.url}/storage/${file.id}`,
+          }));
+        }).pipe(
+          Effect.mapError((error) => 
+            new StorageServiceUploadError({ 
+              message: `Storage operation failed: ${String(error)}`,
+              cause: error
+            })
+          )
+        ),
+      
+      findById: (id) =>
+        Effect.gen(function*(_) {
+          const result = yield* repository.findById(id);
+          
+          // Transform StorageFile to MediaDescription within the Option
+          const mappedResult = Option.map(
+            result, 
+            (file) => ({
+              id: file.id,
+              source: "cloud",
+              url: `${config.server.url}/storage/${file.id}`,
+            })
+          );
+          
+          return mappedResult;
+        }).pipe(
+          Effect.mapError((error) => 
+            new StorageRepositoryError({ 
+              message: `Database operation failed: ${String(error)}`,
+              cause: error
+            })
+          )
+        ),
+      
+      deleteById: (id) =>
+        Effect.gen(function*(_) {
+          yield* repository.deleteById(id);
+        }).pipe(
+          Effect.mapError((error) => {
+            if (error instanceof StorageRepositoryNotFoundError) {
+              return error; // Pass through the not found error
+            }
+            return new StorageRepositoryError({ 
+              message: `Database operation failed: ${String(error)}`,
+              cause: error
+            });
+          })
+        )
     });
   })
 );
