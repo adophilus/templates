@@ -25,7 +25,7 @@ export const uploadMediaEndpointLive = HttpApiBuilder.handler(
         })
       )
 
-      const files = yield* Effect.forEach(payload.files, (file) =>
+      const files = yield* Effect.forEach(convertedFiles, (file) =>
         storage.upload(file).pipe(
           Effect.catchTags({
             StorageServiceUploadError: () => new UnexpectedError(),

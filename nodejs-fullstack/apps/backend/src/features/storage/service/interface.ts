@@ -18,9 +18,9 @@ export class Storage extends Context.Tag('StorageService')<
       StorageServiceValidationError | StorageServiceUploadError
     >
     uploadMany: (
-      payload: FileSystem.File
+      payload: Array<FileSystem.File>
     ) => Effect.Effect<
-      MediaDescription,
+      Array<MediaDescription>,
       StorageServiceValidationError | StorageServiceUploadError
     >
     get: (

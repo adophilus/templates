@@ -1,5 +1,4 @@
 import { ulid } from 'ulidx'
-import type { MediaDescription } from '@/types'
 import { Context, Effect, Layer, Option } from 'effect'
 import { Storage } from './interface'
 import {
@@ -11,18 +10,20 @@ import {
 
 export const MockStorage: Context.Tag.Service<Storage> = {
   upload: (payload) =>
-    Effect.gen(function* (_) {
-      // Validate the file first
-      if (!payload.name) {
-        yield* Effect.fail(
-          new StorageServiceValidationError({
-            message: 'File name is required'
-          })
+    Effect.gen(function* () {
+      const bytes = new Uint8Array()
+      const size = yield* payload.read(bytes).pipe(
+        Effect.catchAll(
+          (err) =>
+            new StorageServiceUploadError({
+              message: 'Failed to upload file',
+              cause: err
+            })
         )
-      }
+      )
 
-      if (payload.size === 0) {
-        yield* Effect.fail(
+      if (size.valueOf() === 0n) {
+        return yield* Effect.fail(
           new StorageServiceValidationError({
             message: 'File size cannot be zero'
           })
@@ -37,6 +38,38 @@ export const MockStorage: Context.Tag.Service<Storage> = {
         url: `http://mock.url/${id}`
       }
     }),
+
+  uploadMany: (payloads) =>
+    Effect.forEach(payloads, (payload) =>
+      Effect.gen(function* () {
+        const bytes = new Uint8Array()
+        const size = yield* payload.read(bytes).pipe(
+          Effect.catchAll(
+            (err) =>
+              new StorageServiceUploadError({
+                message: 'Failed to upload file',
+                cause: err
+              })
+          )
+        )
+
+        if (size.valueOf() === 0n) {
+          return yield* Effect.fail(
+            new StorageServiceValidationError({
+              message: 'File size cannot be zero'
+            })
+          )
+        }
+
+        const id = ulid()
+
+        return {
+          id,
+          source: 'mock',
+          url: `http://mock.url/${id}`
+        }
+      })
+    ),
 
   get: (id) =>
     Effect.gen(function* (_) {
@@ -69,7 +102,7 @@ export const MockStorage: Context.Tag.Service<Storage> = {
       // If we had a list of valid IDs, we'd check against that
       // For now, let's just say if ID looks valid but "doesn't exist", throw not found
       if (!id || id.length === 0) {
-        yield* Effect.fail(
+        return yield* Effect.fail(
           new StorageServiceError({
             message: `Invalid file ID: ${id}`
           })
