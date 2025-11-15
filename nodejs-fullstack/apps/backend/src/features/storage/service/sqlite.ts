@@ -24,12 +24,12 @@ export const sqliteStorageLive = Layer.effect(
     return Storage.of({
       upload: (payload) =>
         Effect.gen(function* () {
-          // Validate the file first
-          yield* validateFile(payload)
+          // Validate the file first - this returns the detected MIME type
+          const validationInfo = yield* validateFile(payload)
 
           // Convert file to buffer - need to handle FileSystem.File differently
-          const bytes = new Uint8Array()
-          yield* payload.read(bytes).pipe(
+          const bytes = new Uint8Array(4100) // Use same size as validation to read full file if needed
+          const readResult = yield* payload.read(bytes).pipe(
             Effect.catchAll(
               (err) =>
                 new StorageServiceUploadError({
@@ -39,13 +39,16 @@ export const sqliteStorageLive = Layer.effect(
             )
           )
 
+          const actualSize = readResult.valueOf()
+          const fileBytes = bytes.slice(0, Number(actualSize)) // Use the actual number of bytes read
+
           // Create the file record in the database using the repository from context
           const uploadedFile = yield* repository
             .create({
               id: ulid(),
-              mime_type: (payload as any).type || 'application/octet-stream', // TODO: Get proper mime type
-              original_name: (payload as any).name || 'unnamed', // TODO: Get proper name
-              file_data: Buffer.from(bytes) // This is a simplification
+              mime_type: validationInfo.mimeType, // Use the validated MIME type from validation
+              original_name: 'unnamed', // Name is not directly available on FileSystem.File, but can be obtained from multipart
+              file_data: Buffer.from(fileBytes) // Use the actual file data read
             })
             .pipe(
               Effect.mapError(
@@ -65,16 +68,16 @@ export const sqliteStorageLive = Layer.effect(
             url: `${config.server.url}/storage/${id}`
           }
         }),
-      
+
       uploadMany: (payloads) =>
         Effect.forEach(payloads, (payload) =>
           Effect.gen(function* () {
-            // Validate the file first
-            yield* validateFile(payload)
+            // Validate the file first - this returns the detected MIME type
+            const validationInfo = yield* validateFile(payload)
 
             // Convert file to buffer - need to handle FileSystem.File differently
-            const bytes = new Uint8Array()
-            yield* payload.read(bytes).pipe(
+            const bytes = new Uint8Array(4100) // Use same size as validation to read full file if needed
+            const readResult = yield* payload.read(bytes).pipe(
               Effect.catchAll(
                 (err) =>
                   new StorageServiceUploadError({
@@ -84,13 +87,16 @@ export const sqliteStorageLive = Layer.effect(
               )
             )
 
+            const actualSize = readResult.valueOf()
+            const fileBytes = bytes.slice(0, Number(actualSize)) // Use the actual number of bytes read
+
             // Create the file record in the database using the repository from context
             const uploadedFile = yield* repository
               .create({
                 id: ulid(),
-                mime_type: (payload as any).type || 'application/octet-stream', // TODO: Get proper mime type
-                original_name: (payload as any).name || 'unnamed', // TODO: Get proper name
-                file_data: Buffer.from(bytes) // This is a simplification
+                mime_type: validationInfo.mimeType, // Use the validated MIME type from validation
+                original_name: 'unnamed', // Name is not directly available on FileSystem.File, but can be obtained from multipart
+                file_data: Buffer.from(fileBytes) // Use the actual file data read
               })
               .pipe(
                 Effect.mapError(

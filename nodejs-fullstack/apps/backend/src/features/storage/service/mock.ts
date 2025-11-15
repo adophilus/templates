@@ -1,12 +1,7 @@
 import { ulid } from 'ulidx'
 import { Context, Effect, Layer, Option } from 'effect'
 import { Storage } from './interface'
-import {
-  StorageServiceUploadError,
-  StorageServiceValidationError,
-  StorageServiceError,
-  StorageServiceNotFoundError
-} from './error'
+import { StorageServiceError, StorageServiceNotFoundError } from './error'
 import { validateFile } from './validation'
 
 export const MockStorage: Context.Tag.Service<Storage> = {
@@ -41,7 +36,7 @@ export const MockStorage: Context.Tag.Service<Storage> = {
     ),
 
   get: (id) =>
-    Effect.gen(function* () {
+    Effect.sync(() => {
       // For mock, we'll just return a mock media description if id exists
       const exists = id && id.length > 0 // simple check
 
@@ -54,16 +49,7 @@ export const MockStorage: Context.Tag.Service<Storage> = {
       }
 
       return Option.none()
-    }).pipe(
-      Effect.catchAll((error) =>
-        Effect.fail(
-          new StorageServiceError({
-            message: `Failed to get file: ${String(error)}`,
-            cause: error
-          })
-        )
-      )
-    ),
+    }),
 
   delete: (id) =>
     Effect.gen(function* () {
