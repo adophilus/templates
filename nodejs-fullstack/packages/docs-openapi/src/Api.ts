@@ -12,7 +12,7 @@ const Api = HttpApi.make('API')
       description: 'server'
     }
   ])
-  .add(AuthApi)
+  // .add(AuthApi)
   .add(StorageApi)
 
 export default Api

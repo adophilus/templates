@@ -7,13 +7,15 @@ import { Storage } from '../service'
 import BadRequestError from '@nodejs-fullstack-template/docs-openapi/common/BadRequestError'
 import UnexpectedError from '@nodejs-fullstack-template/docs-openapi/common/UnexpectedError'
 
-export const UploadMediaEndpointLive = HttpApiBuilder.handler(
+export const uploadMediaEndpointLive = HttpApiBuilder.handler(
   Api,
   'Storage',
   'uploadMedia',
   ({ payload }) =>
     Effect.gen(function* () {
       const storage = yield* Storage
+
+      console.log(payload.files)
 
       const files = yield* Effect.forEach(payload.files, (file) =>
         storage.upload(file).pipe(

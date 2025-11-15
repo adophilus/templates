@@ -20,13 +20,13 @@ const validateFile = (
 ): Effect.Effect<true, StorageServiceValidationError> =>
   Effect.gen(function* (_) {
     if (!file.name) {
-      yield* Effect.fail(
+      return yield* Effect.fail(
         new StorageServiceValidationError({ message: 'File name is required' })
       )
     }
 
     if (file.size === 0) {
-      yield* Effect.fail(
+      return yield* Effect.fail(
         new StorageServiceValidationError({
           message: 'File size cannot be zero'
         })
@@ -36,7 +36,7 @@ const validateFile = (
     // Check file size limit - using a reasonable default
     const maxFileSize = 10 * 1024 * 1024 // 10MB default
     if (file.size > maxFileSize) {
-      yield* Effect.fail(
+      return yield* Effect.fail(
         new StorageServiceValidationError({
           message: `File size exceeds maximum allowed size: ${maxFileSize} bytes`
         })
@@ -46,7 +46,7 @@ const validateFile = (
     return true as const
   })
 
-export const createSqliteStorage = Layer.effect(
+export const sqliteStorageLive = Layer.effect(
   Storage,
   Effect.gen(function* (_) {
     const repository = yield* StorageRepository
@@ -137,4 +137,4 @@ export const createSqliteStorage = Layer.effect(
   })
 )
 
-export const SqliteStorageLive = createSqliteStorage
+export const SqliteStorageLive = sqliteStorageLive

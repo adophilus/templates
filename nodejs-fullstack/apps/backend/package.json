@@ -9,6 +9,7 @@
     "build": "tsc && tsx ./scripts/build.ts",
     "db": "kysely",
     "dev": "tsx watch ./scripts/start.ts",
+    "temp:dev": "tsx watch ./src/temp.ts",
     "typecheck": "tsc",
     "lint": "biome lint . && pnpm typecheck",
     "start": "tsx ./scripts/start.ts",

@@ -3,14 +3,14 @@ import { Effect, Layer, Option } from 'effect'
 import { StorageRepository } from './interface'
 import { StorageRepositoryError } from './error'
 
-export const KyselyStorageRepositoryLive = Layer.effect(
+export const kyselyStorageRepositoryLive = Layer.effect(
   StorageRepository,
-  Effect.gen(function*(_) {
+  Effect.gen(function* (_) {
     const db = yield* KyselyClient
 
     return StorageRepository.of({
       create: (payload) =>
-        Effect.gen(function*(_) {
+        Effect.gen(function* () {
           const file = yield* Effect.tryPromise({
             try: () =>
               db
@@ -29,7 +29,7 @@ export const KyselyStorageRepositoryLive = Layer.effect(
         }),
 
       createMany: (payloads) =>
-        Effect.gen(function*(_) {
+        Effect.gen(function* () {
           const files = yield* Effect.tryPromise({
             try: () =>
               db
@@ -48,7 +48,7 @@ export const KyselyStorageRepositoryLive = Layer.effect(
         }),
 
       findById: (id) =>
-        Effect.gen(function*(_) {
+        Effect.gen(function* () {
           const result = yield* Effect.tryPromise({
             try: () =>
               db
@@ -67,19 +67,17 @@ export const KyselyStorageRepositoryLive = Layer.effect(
         }),
 
       deleteById: (id) =>
-        Effect.gen(function*(_) {
-          yield* Effect.tryPromise({
-            try: () =>
-              db
-                .deleteFrom('storage_files')
-                .where('id', '=', id)
-                .executeTakeFirst(),
-            catch: (error) =>
-              new StorageRepositoryError({
-                message: `Failed to delete file by ID: ${String(error)}`,
-                cause: error
-              })
-          })
+        Effect.tryPromise({
+          try: () =>
+            db
+              .deleteFrom('storage_files')
+              .where('id', '=', id)
+              .executeTakeFirst(),
+          catch: (error) =>
+            new StorageRepositoryError({
+              message: `Failed to delete file by ID: ${String(error)}`,
+              cause: error
+            })
         })
     })
   })
