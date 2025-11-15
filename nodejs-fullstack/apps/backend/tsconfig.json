@@ -30,6 +30,7 @@
     }
   },
   "include": [
+    "kysely.config.ts",
     "scripts/**/*.ts",
     "src/**/*.ts",
     // "tests/**/*.ts",

@@ -12,24 +12,19 @@ export const uploadMediaEndpointLive = HttpApiBuilder.handler(
   'Storage',
   'uploadMedia',
   ({ payload }) =>
-    Effect.gen(function* () {
+    Effect.gen(function*() {
       const storage = yield* Storage
       const fs = yield* FileSystem.FileSystem
 
       const convertedFiles = yield* Effect.forEach(payload.files, (file) =>
         fs.open(file.path)
-      ).pipe(
-        Effect.catchTags({
-          BadArgument: () => new UnexpectedError(),
-          SystemError: () => new UnexpectedError()
-        })
-      )
+      ).pipe(Effect.mapError(() => new UnexpectedError()))
 
       const files = yield* Effect.forEach(convertedFiles, (file) =>
         storage.upload(file).pipe(
-          Effect.catchTags({
-            StorageServiceUploadError: () => new UnexpectedError(),
-            StorageServiceValidationError: () => new BadRequestError()
+          Effect.mapError((err) => {
+            console.log(err)
+            return new UnexpectedError()
           })
         )
       )

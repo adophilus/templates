@@ -205,9 +205,6 @@ importers:
       kysely-ctl:
         specifier: ^0.13.1
         version: 0.13.1(kysely@0.28.5)(magicast@0.3.5)
-      kysely-migration-cli:
-        specifier: ^0.4.2
-        version: 0.4.2
       tsx:
         specifier: ^4.20.2
         version: 4.20.5
@@ -1198,11 +1195,6 @@ packages:
 
   '@codemirror/view@6.38.2':
     resolution: {integrity: sha512-bTWAJxL6EOFLPzTx+O5P5xAO3gTqpatQ2b/ARQ8itfU/v2LlpS3pH2fkL0A3E/Fx8Y2St2KES7ZEV0sHTsSW/A==}
-
-  '@commander-js/extra-typings@11.1.0':
-    resolution: {integrity: sha512-GuvZ38d23H+7Tz2C9DhzCepivsOsky03s5NI+KCy7ke1FNUvsJ2oO47scQ9YaGGhgjgNW5OYYNSADmbjcSoIhw==}
-    peerDependencies:
-      commander: 11.1.x
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -4772,10 +4764,6 @@ packages:
     resolution: {integrity: sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==}
     engines: {node: '>=14'}
 
-  commander@11.1.0:
-    resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
-    engines: {node: '>=16'}
-
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
 
@@ -5903,10 +5891,6 @@ packages:
     peerDependenciesMeta:
       kysely-postgres-js:
         optional: true
-
-  kysely-migration-cli@0.4.2:
-    resolution: {integrity: sha512-904MSUdzkdxl+k3C67ogvP6ogPOEr0D6ZZDtxAmDeIHEJxZAA+eC+TLAcJt3HQABTPetwsW3pj6y1MPmaveQUg==}
-    hasBin: true
 
   kysely-pglite@0.6.1:
     resolution: {integrity: sha512-+q9FS6km6Y9yLLxe4SAMu4cQA3qIOSqdZ9uidVDU7g90Z/ZEjDhEKX/Rk5xug0HoGpCfMLHC2XGLqiVMZXqnRw==}
@@ -9406,10 +9390,6 @@ snapshots:
       crelt: 1.0.6
       style-mod: 4.1.2
       w3c-keyname: 2.2.8
-
-  '@commander-js/extra-typings@11.1.0(commander@11.1.0)':
-    dependencies:
-      commander: 11.1.0
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -13451,8 +13431,6 @@ snapshots:
 
   commander@10.0.1: {}
 
-  commander@11.1.0: {}
-
   commander@2.20.3: {}
 
   commander@4.1.1: {}
@@ -14724,11 +14702,6 @@ snapshots:
       std-env: 3.9.0
     transitivePeerDependencies:
       - magicast
-
-  kysely-migration-cli@0.4.2:
-    dependencies:
-      '@commander-js/extra-typings': 11.1.0(commander@11.1.0)
-      commander: 11.1.0
 
   kysely-pglite@0.6.1(@electric-sql/pglite@0.3.7)(better-sqlite3@12.4.1)(kysely@0.28.5)(mysql2@3.14.2)(pg@8.16.3)(tarn@3.0.2):
     dependencies:

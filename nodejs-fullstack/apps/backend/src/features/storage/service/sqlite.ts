@@ -1,17 +1,14 @@
 import { StorageRepository } from '../repository/interface'
 import {
-  StorageRepositoryError,
   StorageRepositoryNotFoundError
 } from '../repository/error'
 import {
   StorageServiceUploadError,
   StorageServiceError,
-  StorageServiceValidationError,
   StorageServiceNotFoundError
 } from './error'
 import { ulid } from 'ulidx'
 import { Effect, Layer, Option } from 'effect'
-import type { FileSystem } from '@effect/platform'
 import { Storage } from './interface'
 import { config } from '@/features/config'
 import { validateFile } from './validation'
@@ -24,11 +21,9 @@ export const sqliteStorageLive = Layer.effect(
     return Storage.of({
       upload: (payload) =>
         Effect.gen(function* () {
-          // Validate the file first - this returns the detected MIME type
           const validationInfo = yield* validateFile(payload)
 
-          // Convert file to buffer - need to handle FileSystem.File differently
-          const bytes = new Uint8Array(4100) // Use same size as validation to read full file if needed
+          const bytes = new Uint8Array(4100)
           const readResult = yield* payload.read(bytes).pipe(
             Effect.catchAll(
               (err) =>
@@ -40,15 +35,14 @@ export const sqliteStorageLive = Layer.effect(
           )
 
           const actualSize = readResult.valueOf()
-          const fileBytes = bytes.slice(0, Number(actualSize)) // Use the actual number of bytes read
+          const fileBytes = bytes.slice(0, Number(actualSize))
 
-          // Create the file record in the database using the repository from context
           const uploadedFile = yield* repository
             .create({
               id: ulid(),
-              mime_type: validationInfo.mimeType, // Use the validated MIME type from validation
-              original_name: 'unnamed', // Name is not directly available on FileSystem.File, but can be obtained from multipart
-              file_data: Buffer.from(fileBytes) // Use the actual file data read
+              mime_type: validationInfo.mimeType,
+              original_name: 'unnamed',
+              file_data: Buffer.from(fileBytes)
             })
             .pipe(
               Effect.mapError(
@@ -72,11 +66,9 @@ export const sqliteStorageLive = Layer.effect(
       uploadMany: (payloads) =>
         Effect.forEach(payloads, (payload) =>
           Effect.gen(function* () {
-            // Validate the file first - this returns the detected MIME type
             const validationInfo = yield* validateFile(payload)
 
-            // Convert file to buffer - need to handle FileSystem.File differently
-            const bytes = new Uint8Array(4100) // Use same size as validation to read full file if needed
+            const bytes = new Uint8Array(4100)
             const readResult = yield* payload.read(bytes).pipe(
               Effect.catchAll(
                 (err) =>
@@ -88,15 +80,14 @@ export const sqliteStorageLive = Layer.effect(
             )
 
             const actualSize = readResult.valueOf()
-            const fileBytes = bytes.slice(0, Number(actualSize)) // Use the actual number of bytes read
+            const fileBytes = bytes.slice(0, Number(actualSize))
 
-            // Create the file record in the database using the repository from context
             const uploadedFile = yield* repository
               .create({
                 id: ulid(),
-                mime_type: validationInfo.mimeType, // Use the validated MIME type from validation
-                original_name: 'unnamed', // Name is not directly available on FileSystem.File, but can be obtained from multipart
-                file_data: Buffer.from(fileBytes) // Use the actual file data read
+                mime_type: validationInfo.mimeType,
+                original_name: 'unnamed',
+                file_data: Buffer.from(fileBytes)
               })
               .pipe(
                 Effect.mapError(
@@ -122,7 +113,6 @@ export const sqliteStorageLive = Layer.effect(
         Effect.gen(function* () {
           const result = yield* repository.findById(id)
 
-          // Transform StorageFile to MediaDescription within the Option
           const mappedResult = Option.map(result, (file) => ({
             id: file.id,
             source: 'cloud',
