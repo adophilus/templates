@@ -16,6 +16,7 @@ const apiLive = HttpApiBuilder.api(Api).pipe(
 )
 
 const httpLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
+  Layer.provide(HttpApiBuilder.middlewareCors()),
   Layer.provide(apiLive),
   HttpServer.withLogAddress,
   Layer.provide(NodeHttpServer.layer(createServer, { port: 5000 }))

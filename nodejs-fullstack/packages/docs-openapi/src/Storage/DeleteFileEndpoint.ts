@@ -1,4 +1,4 @@
-import { HttpApiEndpoint, HttpApiSchema } from '@effect/platform'
+import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import { OpenApi } from '@effect/platform'
 import FileNotFoundError from '../common/FileNotFoundError'
@@ -18,7 +18,7 @@ const Success = Schema.Struct({
   message: Schema.String
 })
 
-const DeleteFileEndpoint = HttpApiEndpoint.delete('deleteFile', '/storage/:fileId')
+const DeleteFileEndpoint = HttpApiEndpoint.del('deleteFile', '/storage/:fileId')
   .setPath(Request)
   .addSuccess(Success, { status: StatusCodes.OK })
   .addError(FileNotFoundError, {
