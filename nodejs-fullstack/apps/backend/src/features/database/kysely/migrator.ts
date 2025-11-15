@@ -1,10 +1,11 @@
 import { promises as fs } from 'node:fs'
 import * as path from 'node:path'
 import { FileMigrationProvider, Migrator } from 'kysely'
-import type { KyselyClient } from './interface'
+import type { Kysely } from 'kysely'
+import type { KyselyDatabaseTables } from './tables'
 
 export const createKyselyMigrator = (
-  client: KyselyClient,
+  client: Kysely<KyselyDatabaseTables>,
   folder: string
 ): Migrator =>
   new Migrator({

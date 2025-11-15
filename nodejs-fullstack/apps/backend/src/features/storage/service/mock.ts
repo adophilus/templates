@@ -1,26 +1,30 @@
-import { Result } from "true-myth";
-import type { StorageService, UploadError } from "./interface";
 import { ulid } from "ulidx";
 import type { MediaDescription } from "@/types";
+import { Context, Effect, Layer } from 'effect';
+import { Storage } from './interface';
+import { StorageUploadError } from './error';
 
-export class MockStorageService implements StorageService {
-	private files: Record<string, File> = {};
+export const MockStorage: Context.Tag.Service<Storage> = {
+  upload: (payload) =>
+    Effect.gen(function*(_) {
+      const id = ulid();
 
-	public async upload(
-		payload: File,
-	): Promise<Result<MediaDescription, UploadError>> {
-		try {
-			const id = ulid();
+      // In a real implementation, you might want to store the file content somewhere
+      // For the mock, we'll just generate a URL
 
-			this.files[id] = payload;
-
-			return Result.ok({
-				id,
-				source: "mock",
-				url: `http://mock.url/${id}`,
-			});
-		} catch (error) {
-			return Result.err("ERR_UNEXPECTED");
-		}
-	}
+      return {
+        id,
+        source: "mock",
+        url: `http://mock.url/${id}`,
+      };
+    }).pipe(
+      Effect.catchAll((error) => 
+        Effect.fail(new StorageUploadError({ 
+          message: `Failed to upload file: ${String(error)}`,
+          cause: error 
+        }))
+      )
+    )
 }
+
+export const MockStorageLive = Layer.succeed(Storage, MockStorage);

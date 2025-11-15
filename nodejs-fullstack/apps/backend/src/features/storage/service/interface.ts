@@ -1,10 +1,10 @@
+import { Context, type Effect } from 'effect'
 import type { MediaDescription } from "@/types";
-import type { Result } from "true-myth";
+import type { UploadFileError } from './error';
 
-export type UploadError = "ERR_UNEXPECTED";
-
-export abstract class StorageService {
-	public abstract upload(
-		payload: File,
-	): Promise<Result<MediaDescription, UploadError>>;
-}
+export class Storage extends Context.Tag('StorageService')<
+  Storage,
+  {
+    upload: (payload: File) => Effect.Effect<MediaDescription, UploadFileError>
+  }
+>() { }

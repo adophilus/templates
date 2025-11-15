@@ -1,2 +1,2 @@
-export { KyselyClient } from './interface'
-export type { KyselyDatabaseTables } from './tables'
+export * from './interface'
+export type * from './tables'

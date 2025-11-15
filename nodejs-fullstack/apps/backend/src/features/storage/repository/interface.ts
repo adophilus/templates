@@ -1,19 +1,13 @@
-import { Result, type Unit } from 'true-myth'
+import { Context, type Effect } from 'effect'
 import type { StorageFile } from '@/types'
+import type { StorageRepositoryOperationError } from './error'
 
-export type StorageRepositoryError = 'ERR_UNEXPECTED'
-
-export abstract class StorageRepository {
-  public abstract create(
-    payload: StorageFile.Insertable
-  ): Promise<Result<StorageFile.Selectable, StorageRepositoryError>>
-  public abstract createMany(
-    payloads: StorageFile.Insertable[]
-  ): Promise<Result<StorageFile.Selectable[], StorageRepositoryError>>
-  public abstract findById(
-    id: string
-  ): Promise<Result<StorageFile.Selectable | null, StorageRepositoryError>>
-  public abstract deleteById(
-    id: string
-  ): Promise<Result<Unit, StorageRepositoryError>>
-}
+export class StorageRepository extends Context.Tag('StorageRepository')<
+  StorageRepository,
+  {
+    create: (payload: StorageFile.Insertable) => Effect.Effect<StorageFile.Selectable, StorageRepositoryOperationError>
+    createMany: (payloads: StorageFile.Insertable[]) => Effect.Effect<StorageFile.Selectable[], StorageRepositoryOperationError>
+    findById: (id: string) => Effect.Effect<StorageFile.Selectable | null, StorageRepositoryOperationError>
+    deleteById: (id: string) => Effect.Effect<void, StorageRepositoryOperationError>
+  }
+>() { }

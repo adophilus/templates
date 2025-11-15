@@ -9,7 +9,8 @@
     "build": "tsc && tsx ./scripts/build.ts",
     "db": "kysely",
     "dev": "tsx watch ./scripts/start.ts",
-    "lint": "biome lint . && tsc",
+    "typecheck": "tsc",
+    "lint": "biome lint . && pnpm typecheck",
     "start": "tsx ./scripts/start.ts",
     "test": "./scripts/test.sh"
   },

@@ -1,13 +1,14 @@
 import { render, renderPlainText } from 'jsx-email'
 import nodemailer from 'nodemailer'
-import { config } from '../config'
+import { config } from '@/features/config'
 import { 
   Context, 
   Effect, 
   Layer 
 } from 'effect'
-import type { Mailer } from './interface'
-import { MailerRenderingError, MailerTransportError, MailerValidationError, SendMailError } from './error'
+import { Mailer } from './interface'
+import { MailerRenderingError, MailerTransportError, MailerValidationError } from './error'
+import type { SendMailError } from './error'
 
 // Define types for better type safety
 type EmailPayload = {

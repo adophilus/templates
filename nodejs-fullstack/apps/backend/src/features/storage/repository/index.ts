@@ -1,2 +1,3 @@
-export { StorageRepository } from './interface'
-export { KyselyStorageRepository } from './kysely'
+export * from './error'
+export * from './interface'
+export * from './kysely'

@@ -1,74 +1,86 @@
-import type { KyselyClient } from '@/features/database/kysely'
-import type { StorageFile } from '@/types'
-import { Result, Unit } from 'true-myth'
-import type { StorageRepository, StorageRepositoryError } from './interface'
-import type { Logger } from '@/features/logger'
+import { KyselyClient } from '@/features/database/kysely'
+import { Effect, Layer } from 'effect'
+import { StorageRepository } from './interface'
+import { StorageRepositoryError } from './error'
 
-export class KyselyStorageRepository implements StorageRepository {
-  constructor(
-    private db: KyselyClient,
-    private logger: Logger
-  ) {}
+export const KyselyStorageRepositoryLive = Layer.effect(
+  StorageRepository,
+  Effect.gen(function*(_) {
+    const db = yield* KyselyClient
 
-  async create(
-    payload: StorageFile.Insertable
-  ): Promise<Result<StorageFile.Selectable, StorageRepositoryError>> {
-    try {
-      const file = await this.db
-        .insertInto('storage_files')
-        .values(payload)
-        .returningAll()
-        .executeTakeFirstOrThrow()
-      return Result.ok(file)
-    } catch (error) {
-      this.logger.error('Error creating file:', error)
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
+    return StorageRepository.of({
+      create: (payload) =>
+        Effect.gen(function*(_) {
+          const file = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .insertInto('storage_files')
+                .values(payload)
+                .returningAll()
+                .executeTakeFirstOrThrow(),
+            catch: (error) =>
+              new StorageRepositoryError({
+                message: `Failed to create file: ${String(error)}`,
+                cause: error
+              })
+          })
 
-  async findById(
-    publicId: string
-  ): Promise<Result<StorageFile.Selectable | null, StorageRepositoryError>> {
-    try {
-      const file = await this.db
-        .selectFrom('storage_files')
-        .where('id', '=', publicId)
-        .selectAll()
-        .executeTakeFirst()
-      return Result.ok(file || null)
-    } catch (error) {
-      this.logger.error('Error finding file by public ID:', error)
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
+          return file
+        }),
 
-  async createMany(
-    payloads: StorageFile.Insertable[]
-  ): Promise<Result<StorageFile.Selectable[], StorageRepositoryError>> {
-    try {
-      const files = await this.db
-        .insertInto('storage_files')
-        .values(payloads)
-        .returningAll()
-        .execute()
-      return Result.ok(files)
-    } catch (error) {
-      this.logger.error('Error creating many files:', error)
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
+      createMany: (payloads) =>
+        Effect.gen(function*(_) {
+          const files = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .insertInto('storage_files')
+                .values(payloads)
+                .returningAll()
+                .execute(),
+            catch: (error) =>
+              new StorageRepositoryError({
+                message: `Failed to create multiple files: ${String(error)}`,
+                cause: error
+              })
+          })
 
-  async deleteById(id: string): Promise<Result<Unit, StorageRepositoryError>> {
-    try {
-      await this.db
-        .deleteFrom('storage_files')
-        .where('id', '=', id)
-        .executeTakeFirst()
+          return files
+        }),
 
-      return Result.ok(Unit)
-    } catch (error) {
-      this.logger.error('Error deleting file by ID:', error)
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
-}
+      findById: (id) =>
+        Effect.gen(function*(_) {
+          const result = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .selectFrom('storage_files')
+                .where('id', '=', id)
+                .selectAll()
+                .executeTakeFirst(),
+            catch: (error) =>
+              new StorageRepositoryError({
+                message: `Failed to find file by ID: ${String(error)}`,
+                cause: error
+              })
+          })
+
+          return result ?? null
+        }),
+
+      deleteById: (id) =>
+        Effect.gen(function*(_) {
+          yield* Effect.tryPromise({
+            try: () =>
+              db
+                .deleteFrom('storage_files')
+                .where('id', '=', id)
+                .executeTakeFirst(),
+            catch: (error) =>
+              new StorageRepositoryError({
+                message: `Failed to delete file by ID: ${String(error)}`,
+                cause: error
+              })
+          })
+        })
+    })
+  })
+)
