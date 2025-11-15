@@ -3,9 +3,9 @@
 layout: home
 
 hero:
-  name: "App"
-  text: "Documentation for App"
-  tagline: The best app ever
+  name: "NodeJS Fullstack Template"
+  text: "Documentation"
+  tagline: Docs so you don't get lost
   image:
     src: /images/logo.svg
     alt: Logo
