@@ -1,7 +1,6 @@
-import { HttpApiEndpoint, HttpApiSchema } from '@effect/platform'
+import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import { OpenApi } from '@effect/platform'
-import ImageFile from '../common/ImageFile'
 import FileNotFoundError from '../common/FileNotFoundError'
 import UnauthorizedError from '../common/UnauthorizedError'
 import UnexpectedError from '../common/UnexpectedError'
@@ -11,17 +10,22 @@ import Id from '../common/Id'
 const Request = Schema.Struct({
   fileId: Id
 }).annotations({
-  description: 'Get file request path parameters'
+  description: 'Delete file request path parameters'
 })
 
-const GetFileEndpoint = HttpApiEndpoint.get('getFile', '/storage/:fileId')
+export const Success = Schema.Struct({
+  code: Schema.Literal('FILE_DELETED'),
+  message: Schema.String
+})
+
+const DeleteMediaEndpoint = HttpApiEndpoint.del('deleteMedia', '/storage/:fileId')
   .setPath(Request)
-  .addSuccess(HttpApiSchema.Multipart(ImageFile), { status: StatusCodes.OK })
+  .addSuccess(Success, { status: StatusCodes.OK })
   .addError(FileNotFoundError, {
     status: StatusCodes.NOT_FOUND
   })
   .addError(UnauthorizedError, { status: StatusCodes.UNAUTHORIZED })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
-  .annotate(OpenApi.Description, 'Get a single media file by ID')
+  .annotate(OpenApi.Description, 'Delete a media file by ID')
 
-export default GetFileEndpoint
+export default DeleteMediaEndpoint

@@ -2,14 +2,14 @@ import { HttpApiBuilder, HttpMiddleware, HttpServer } from '@effect/platform'
 import { NodeHttpServer, NodeRuntime } from '@effect/platform-node'
 import { Api } from '@nodejs-fullstack-template/docs-openapi'
 import { createServer } from 'node:http'
-import storageApiLive from './features/storage/route'
+import StorageApiLive from './features/storage/route'
 import { Layer } from 'effect'
 import { sqliteStorageLive } from './features/storage/service'
 import { kyselyStorageRepositoryLive } from './features/storage/repository'
 import { sqliteKyselyClientLive } from './features/database/kysely/db/sqlite'
 
 const apiLive = HttpApiBuilder.api(Api).pipe(
-  Layer.provide(storageApiLive),
+  Layer.provide(StorageApiLive),
   Layer.provide(sqliteStorageLive),
   Layer.provide(kyselyStorageRepositoryLive),
   Layer.provide(sqliteKyselyClientLive)
