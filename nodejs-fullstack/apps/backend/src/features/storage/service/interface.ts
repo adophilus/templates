@@ -1,6 +1,6 @@
 import { Context, type Effect, type Option } from 'effect'
 import type { FileSystem } from '@effect/platform'
-import type { MediaDescription } from '@/types'
+import type { MediaDescription, StorageFile } from '@/types'
 import type {
   StorageServiceError,
   StorageServiceNotFoundError,
@@ -14,20 +14,24 @@ export class Storage extends Context.Tag('StorageService')<
     upload: (
       payload: FileSystem.File
     ) => Effect.Effect<
-      MediaDescription,
+      StorageFile.Selectable,
       StorageServiceValidationError | StorageServiceUploadError
     >
     uploadMany: (
       payload: Array<FileSystem.File>
     ) => Effect.Effect<
-      Array<MediaDescription>,
+      Array<StorageFile.Selectable>,
       StorageServiceValidationError | StorageServiceUploadError
     >
     get: (
       id: string
-    ) => Effect.Effect<Option.Option<MediaDescription>, StorageServiceError>
+    ) => Effect.Effect<
+      Option.Option<StorageFile.Selectable>,
+      StorageServiceError
+    >
     delete: (
       id: string
     ) => Effect.Effect<void, StorageServiceNotFoundError | StorageServiceError>
+    convertToMediaDescription(payload: StorageFile.Selectable): MediaDescription
   }
->() {}
+>() { }
