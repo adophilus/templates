@@ -1,5 +1,8 @@
 import { createRawSqliteKyselyClient } from '@/features/database/kysely/db/sqlite'
+import { defineConfig } from 'kysely-ctl'
 
 const client = await createRawSqliteKyselyClient()
 
-export default client
+export default defineConfig({
+  kysely: client
+})

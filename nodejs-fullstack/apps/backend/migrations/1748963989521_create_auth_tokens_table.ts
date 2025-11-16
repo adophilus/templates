@@ -2,12 +2,12 @@ import { type Kysely, sql } from 'kysely'
 
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
-    .createTable('auth_users')
+    .createTable('auth_tokens')
     .addColumn('id', 'text', (col) => col.primaryKey().notNull())
-    .addColumn('full_name', 'text', (col) => col.notNull())
-    .addColumn('email', 'text', (col) => col.notNull())
-    .addColumn('phone_number', 'text', (col) => col.notNull())
-    .addColumn('verified_at', 'integer')
+    .addColumn('token', 'text', (col) => col.notNull())
+    .addColumn('purpose', 'text', (col) => col.notNull())
+    .addColumn('expires_at', 'integer', (col) => col.notNull())
+    .addColumn('user_id', 'text', (col) => col.notNull())
     .addColumn('created_at', 'integer', (col) =>
       col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull()
     )
@@ -16,5 +16,5 @@ export async function up(db: Kysely<any>): Promise<void> {
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
-  await db.schema.dropTable('auth_users').execute()
+  await db.schema.dropTable('auth_tokens').execute()
 }

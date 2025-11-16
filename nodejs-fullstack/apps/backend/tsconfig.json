@@ -18,7 +18,9 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "noImplicitAny": true,
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "jsx": "react-jsx",
     "plugins": [
       {
@@ -26,14 +28,16 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
-    "kysely.config.ts",
     "scripts/**/*.ts",
     "src/**/*.ts",
     // "tests/**/*.ts",
-    "migrations/**/*.ts"
+    "migrations/**/*.ts",
+    "kysely.config.ts"
   ]
 }

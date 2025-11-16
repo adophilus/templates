@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "tsc && tsx ./scripts/build.ts",
-    "db": "kysely",
+    "db": "./scripts/db.sh",
     "dev": "tsx watch ./scripts/start.ts",
     "temp:dev": "tsx watch ./src/temp.ts",
     "typecheck": "tsc",
