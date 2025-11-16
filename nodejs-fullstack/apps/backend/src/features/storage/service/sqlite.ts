@@ -23,7 +23,7 @@ export const sqliteStorageLive = Layer.effect(
         Effect.gen(function* () {
           const validationInfo = yield* validateFile(payload)
 
-          const bytes = new Uint8Array(4100)
+          const bytes = new Uint8Array()
           const readResult = yield* payload.read(bytes).pipe(
             Effect.catchAll(
               (err) =>
@@ -54,13 +54,8 @@ export const sqliteStorageLive = Layer.effect(
               )
             )
 
-          const id = uploadedFile.id
-
-          return {
-            id,
-            source: 'cloud',
-            url: `${config.server.url}/storage/${id}`
-          }
+          // Return the StorageFile.Selectable directly from the repository
+          return uploadedFile
         }),
 
       uploadMany: (payloads) =>
@@ -99,13 +94,8 @@ export const sqliteStorageLive = Layer.effect(
                 )
               )
 
-            const id = uploadedFile.id
-
-            return {
-              id,
-              source: 'cloud',
-              url: `${config.server.url}/storage/${id}`
-            }
+            // Return the StorageFile.Selectable directly from the repository
+            return uploadedFile
           })
         ),
 
@@ -113,13 +103,8 @@ export const sqliteStorageLive = Layer.effect(
         Effect.gen(function* () {
           const result = yield* repository.findById(id)
 
-          const mappedResult = Option.map(result, (file) => ({
-            id: file.id,
-            source: 'cloud',
-            url: `${config.server.url}/storage/${file.id}`
-          }))
-
-          return mappedResult
+          // Return the StorageFile.Selectable directly from the repository
+          return result
         }).pipe(
           Effect.mapError(
             (error) =>
@@ -146,7 +131,13 @@ export const sqliteStorageLive = Layer.effect(
               cause: error
             })
           })
-        )
+        ),
+
+      convertToMediaDescription: (payload) => ({
+        id: payload.id,
+        source: 'cloud',
+        url: `${config.server.url}/storage/${payload.id}`
+      })
     })
   })
 )

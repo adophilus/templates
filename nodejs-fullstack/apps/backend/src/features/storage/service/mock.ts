@@ -3,19 +3,23 @@ import { Context, Effect, Layer, Option } from 'effect'
 import { Storage } from './interface'
 import { StorageServiceError, StorageServiceNotFoundError } from './error'
 import { validateFile } from './validation'
+import type { StorageFile } from '@/types'
 
 export const MockStorage: Context.Tag.Service<Storage> = {
   upload: (payload) =>
     Effect.gen(function* () {
       // Use the shared validation function
-      yield* validateFile(payload)
+      const validationInfo = yield* validateFile(payload)
 
       const id = ulid()
 
       return {
         id,
-        source: 'mock',
-        url: `http://mock.url/${id}`
+        mime_type: validationInfo.mimeType,
+        original_name: 'mock-file',
+        file_data: Buffer.from([]), // mock file data
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       }
     }),
 
@@ -23,28 +27,34 @@ export const MockStorage: Context.Tag.Service<Storage> = {
     Effect.forEach(payloads, (payload) =>
       Effect.gen(function* () {
         // Use the shared validation function
-        yield* validateFile(payload)
+        const validationInfo = yield* validateFile(payload)
 
         const id = ulid()
 
         return {
           id,
-          source: 'mock',
-          url: `http://mock.url/${id}`
+          mime_type: validationInfo.mimeType,
+          original_name: 'mock-file',
+          file_data: Buffer.from([]), // mock file data
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         }
       })
     ),
 
   get: (id) =>
     Effect.sync(() => {
-      // For mock, we'll just return a mock media description if id exists
+      // For mock, we'll just return a mock StorageFile if id exists
       const exists = id && id.length > 0 // simple check
 
       if (exists) {
         return Option.some({
           id,
-          source: 'mock',
-          url: `http://mock.url/${id}`
+          mime_type: 'application/octet-stream',
+          original_name: 'mock-file',
+          file_data: Buffer.from([]), // mock file data
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         })
       }
 
@@ -91,7 +101,13 @@ export const MockStorage: Context.Tag.Service<Storage> = {
           })
         )
       })
-    )
+    ),
+
+  convertToMediaDescription: (payload) => ({
+    id: payload.id,
+    source: 'mock',
+    url: `http://mock.url/${payload.id}`
+  })
 }
 
 export const MockStorageLive = Layer.succeed(Storage, MockStorage)

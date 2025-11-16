@@ -11,7 +11,7 @@ export const UploadMediaEndpointLive = HttpApiBuilder.handler(
   'Storage',
   'uploadMedia',
   ({ payload }) =>
-    Effect.gen(function* () {
+    Effect.gen(function*() {
       const storage = yield* Storage
       const fs = yield* FileSystem.FileSystem
 
@@ -30,7 +30,9 @@ export const UploadMediaEndpointLive = HttpApiBuilder.handler(
 
       return Success.make({
         code: 'MEDIA_UPLOADED',
-        data: files.map((file) => MediaDescription.make(file))
+        data: files.map((file) =>
+          MediaDescription.make(storage.convertToMediaDescription(file))
+        )
       })
     })
 )

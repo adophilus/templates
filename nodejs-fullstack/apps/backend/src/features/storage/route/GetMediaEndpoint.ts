@@ -23,12 +23,12 @@ export const GetMediaEndpointLive = HttpApiBuilder.handler(
         return yield* new FileNotFoundError()
       }
 
-      const stream = Stream.make('a', 'b', 'c').pipe(
-        Stream.schedule(Schedule.spaced('500 millis')),
-        Stream.map((s) => new TextEncoder().encode(s))
-      )
+      // const stream = Stream.make('a', 'b', 'c').pipe(
+      //   Stream.schedule(Schedule.spaced('500 millis')),
+      //   Stream.map((s) => new TextEncoder().encode(s))
+      // )
 
-      return new Uint8Array()
+      return result.file_data
       // return HttpServerResponse.stream(stream)
       // return yield* HttpServerResponse.stream(stream)
     })
