@@ -1,4 +1,4 @@
-import { Effect } from 'effect'
+import { Console, Effect } from 'effect'
 import { HttpApiBuilder, FileSystem } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/docs-openapi'
 import { Success } from '@nodejs-fullstack-template/docs-openapi/Storage/UploadMediaEndpoint'
@@ -20,12 +20,7 @@ export const UploadMediaEndpointLive = HttpApiBuilder.handler(
       ).pipe(Effect.mapError(() => new UnexpectedError()))
 
       const files = yield* Effect.forEach(convertedFiles, (file) =>
-        storage.upload(file).pipe(
-          Effect.mapError((err) => {
-            console.log(err)
-            return new UnexpectedError()
-          })
-        )
+        storage.upload(file).pipe(Effect.mapError(() => new UnexpectedError()))
       )
 
       return Success.make({

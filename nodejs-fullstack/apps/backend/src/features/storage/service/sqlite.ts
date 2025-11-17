@@ -1,7 +1,5 @@
 import { StorageRepository } from '../repository/interface'
-import {
-  StorageRepositoryNotFoundError
-} from '../repository/error'
+import { StorageRepositoryNotFoundError } from '../repository/error'
 import {
   StorageServiceUploadError,
   StorageServiceError,
@@ -15,34 +13,56 @@ import { validateFile } from './validation'
 
 export const sqliteStorageLive = Layer.effect(
   Storage,
-  Effect.gen(function* (_) {
+  Effect.gen(function*() {
     const repository = yield* StorageRepository
 
     return Storage.of({
       upload: (payload) =>
-        Effect.gen(function* () {
+        Effect.gen(function*() {
           const validationInfo = yield* validateFile(payload)
 
-          const bytes = new Uint8Array()
-          const readResult = yield* payload.read(bytes).pipe(
+          const stats = yield* payload.stat.pipe(
+            Effect.mapError(
+              (err) =>
+                new StorageServiceUploadError({
+                  message: `Failed to get file statistics: ${String(err)}`,
+                  cause: err
+                })
+            )
+          )
+
+          console.log('stats.size:', stats.size.valueOf())
+
+          const bytes = yield* payload.readAlloc(stats.size).pipe(
             Effect.catchAll(
               (err) =>
                 new StorageServiceUploadError({
                   message: `Failed to read file: ${String(err)}`,
                   cause: err
                 })
+            ),
+            Effect.flatMap(
+              Option.match({
+                onSome: (b) => Effect.succeed(b),
+                onNone: () =>
+                  Effect.fail(
+                    new StorageServiceUploadError({
+                      message: 'Failed to read file content - no data returned'
+                    })
+                  )
+              })
             )
           )
 
-          const actualSize = readResult.valueOf()
-          const fileBytes = bytes.slice(0, Number(actualSize))
+          console.log('bytes.length:', bytes.length)
+          console.log('bytes.byteLength:', bytes.byteLength)
 
           const uploadedFile = yield* repository
             .create({
               id: ulid(),
               mime_type: validationInfo.mimeType,
               original_name: 'unnamed',
-              file_data: Buffer.from(fileBytes)
+              file_data: Buffer.from(bytes)
             })
             .pipe(
               Effect.mapError(
@@ -54,13 +74,12 @@ export const sqliteStorageLive = Layer.effect(
               )
             )
 
-          // Return the StorageFile.Selectable directly from the repository
           return uploadedFile
         }),
 
       uploadMany: (payloads) =>
         Effect.forEach(payloads, (payload) =>
-          Effect.gen(function* () {
+          Effect.gen(function*() {
             const validationInfo = yield* validateFile(payload)
 
             const bytes = new Uint8Array(4100)
@@ -94,18 +113,12 @@ export const sqliteStorageLive = Layer.effect(
                 )
               )
 
-            // Return the StorageFile.Selectable directly from the repository
             return uploadedFile
           })
         ),
 
       get: (id) =>
-        Effect.gen(function* () {
-          const result = yield* repository.findById(id)
-
-          // Return the StorageFile.Selectable directly from the repository
-          return result
-        }).pipe(
+        repository.findById(id).pipe(
           Effect.mapError(
             (error) =>
               new StorageServiceError({
@@ -116,9 +129,7 @@ export const sqliteStorageLive = Layer.effect(
         ),
 
       delete: (id) =>
-        Effect.gen(function* () {
-          yield* repository.deleteById(id)
-        }).pipe(
+        repository.deleteById(id).pipe(
           Effect.mapError((error) => {
             if (error instanceof StorageRepositoryNotFoundError) {
               return new StorageServiceNotFoundError({
