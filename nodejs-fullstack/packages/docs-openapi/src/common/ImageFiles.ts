@@ -1,5 +1,5 @@
 import { Schema } from 'effect'
-import * as Multipart from '@effect/platform/Multipart'
+import { Multipart } from '@effect/platform'
 
 const ImageFiles = Multipart.FilesSchema.pipe(
   Schema.annotations({
