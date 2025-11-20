@@ -15,11 +15,10 @@ export const DeleteMediaEndpointLive = HttpApiBuilder.handler(
       const storage = yield* Storage
 
       yield* storage.delete(path.fileId).pipe(
-        Effect.catchTag(
-          'StorageServiceNotFoundError',
-          () => new FileNotFoundError()
-        ),
-        Effect.mapError(() => new UnexpectedError())
+        Effect.catchTags({
+          StorageServiceNotFoundError: () => new FileNotFoundError(),
+          StorageServiceError: () => new UnexpectedError()
+        })
       )
 
       return Success.make({

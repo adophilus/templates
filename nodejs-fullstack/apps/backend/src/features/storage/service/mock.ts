@@ -16,7 +16,7 @@ export const MockStorage: Context.Tag.Service<Storage> = {
       return {
         id,
         mime_type: validationInfo.mimeType,
-        original_name: 'mock-file',
+        original_name: payload.name || 'unnamed',
         file_data: Buffer.from([]), // mock file data
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
@@ -34,7 +34,7 @@ export const MockStorage: Context.Tag.Service<Storage> = {
         return {
           id,
           mime_type: validationInfo.mimeType,
-          original_name: 'mock-file',
+          original_name: payload.name || 'unnamed',
           file_data: Buffer.from([]), // mock file data
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()

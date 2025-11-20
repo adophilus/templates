@@ -1,5 +1,5 @@
-import { Effect, Option, Schedule, Stream } from 'effect'
-import { HttpApiBuilder, HttpServerResponse } from '@effect/platform'
+import { Effect, Option } from 'effect'
+import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/docs-openapi'
 import FileNotFoundError from '@nodejs-fullstack-template/docs-openapi/common/FileNotFoundError'
 import UnexpectedError from '@nodejs-fullstack-template/docs-openapi/common/UnexpectedError'
@@ -10,7 +10,7 @@ export const GetMediaEndpointLive = HttpApiBuilder.handler(
   'Storage',
   'getMedia',
   ({ path }) =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const storage = yield* Storage
 
       const result = Option.getOrNull(
@@ -23,13 +23,6 @@ export const GetMediaEndpointLive = HttpApiBuilder.handler(
         return yield* new FileNotFoundError()
       }
 
-      // const stream = Stream.make('a', 'b', 'c').pipe(
-      //   Stream.schedule(Schedule.spaced('500 millis')),
-      //   Stream.map((s) => new TextEncoder().encode(s))
-      // )
-
       return result.file_data
-      // return HttpServerResponse.stream(stream)
-      // return yield* HttpServerResponse.stream(stream)
     })
 )

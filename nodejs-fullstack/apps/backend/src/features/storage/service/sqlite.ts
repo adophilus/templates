@@ -6,63 +6,42 @@ import {
   StorageServiceNotFoundError
 } from './error'
 import { ulid } from 'ulidx'
-import { Effect, Layer, Option } from 'effect'
+import { Effect, Layer } from 'effect'
 import { Storage } from './interface'
 import { config } from '@/features/config'
 import { validateFile } from './validation'
 
 export const sqliteStorageLive = Layer.effect(
   Storage,
-  Effect.gen(function*() {
+  Effect.gen(function* () {
     const repository = yield* StorageRepository
 
     return Storage.of({
       upload: (payload) =>
-        Effect.gen(function*() {
+        Effect.gen(function* () {
+          // Use the shared validation function which returns ValidationInfo with mimeType
           const validationInfo = yield* validateFile(payload)
 
-          const stats = yield* payload.stat.pipe(
-            Effect.mapError(
-              (err) =>
-                new StorageServiceUploadError({
-                  message: `Failed to get file statistics: ${String(err)}`,
-                  cause: err
-                })
-            )
-          )
-
-          console.log('stats.size:', stats.size.valueOf())
-
-          const bytes = yield* payload.readAlloc(stats.size).pipe(
-            Effect.catchAll(
-              (err) =>
-                new StorageServiceUploadError({
-                  message: `Failed to read file: ${String(err)}`,
-                  cause: err
-                })
-            ),
-            Effect.flatMap(
-              Option.match({
-                onSome: (b) => Effect.succeed(b),
-                onNone: () =>
-                  Effect.fail(
-                    new StorageServiceUploadError({
-                      message: 'Failed to read file content - no data returned'
-                    })
-                  )
+          // Convert the File to ArrayBuffer and then to Buffer
+          const arrayBuffer = yield* Effect.tryPromise({
+            try: () => payload.arrayBuffer(),
+            catch: (error) =>
+              new StorageServiceUploadError({
+                message: `Failed to read file buffer: ${String(error)}`,
+                cause: error
               })
-            )
-          )
+          })
 
-          console.log('bytes.length:', bytes.length)
-          console.log('bytes.byteLength:', bytes.byteLength)
+          // Convert ArrayBuffer to Buffer
+          const fileBuffer = Buffer.from(arrayBuffer)
 
+          // Create the file record in the database using the repository
           const uploadedFile = yield* repository
             .create({
               id: ulid(),
-              mime_type: validationInfo.mimeType,
-              original_name: 'unnamed',
-              file_data: Buffer.from(bytes)
+              mime_type: validationInfo.mimeType, // Use the validated MIME type
+              original_name: payload.name,
+              file_data: fileBuffer
             })
             .pipe(
               Effect.mapError(
@@ -79,29 +58,30 @@ export const sqliteStorageLive = Layer.effect(
 
       uploadMany: (payloads) =>
         Effect.forEach(payloads, (payload) =>
-          Effect.gen(function*() {
+          Effect.gen(function* () {
+            // Use the shared validation function which returns ValidationInfo with mimeType
             const validationInfo = yield* validateFile(payload)
 
-            const bytes = new Uint8Array(4100)
-            const readResult = yield* payload.read(bytes).pipe(
-              Effect.catchAll(
-                (err) =>
-                  new StorageServiceUploadError({
-                    message: `Failed to read file: ${String(err)}`,
-                    cause: err
-                  })
-              )
-            )
+            // Convert the File to ArrayBuffer and then to Buffer
+            const arrayBuffer = yield* Effect.tryPromise({
+              try: () => payload.arrayBuffer(),
+              catch: (error) =>
+                new StorageServiceUploadError({
+                  message: `Failed to read file buffer: ${String(error)}`,
+                  cause: error
+                })
+            })
 
-            const actualSize = readResult.valueOf()
-            const fileBytes = bytes.slice(0, Number(actualSize))
+            // Convert ArrayBuffer to Buffer
+            const fileBuffer = Buffer.from(arrayBuffer)
 
+            // Create the file record in the database using the repository
             const uploadedFile = yield* repository
               .create({
                 id: ulid(),
-                mime_type: validationInfo.mimeType,
-                original_name: 'unnamed',
-                file_data: Buffer.from(fileBytes)
+                mime_type: validationInfo.mimeType, // Use the validated MIME type
+                original_name: payload.name,
+                file_data: fileBuffer
               })
               .pipe(
                 Effect.mapError(
@@ -130,17 +110,17 @@ export const sqliteStorageLive = Layer.effect(
 
       delete: (id) =>
         repository.deleteById(id).pipe(
-          Effect.mapError((error) => {
-            if (error instanceof StorageRepositoryNotFoundError) {
-              return new StorageServiceNotFoundError({
+          Effect.catchTags({
+            StorageRepositoryNotFoundError: (error) =>
+              new StorageServiceNotFoundError({
                 message: `File with ID ${id} not found`,
                 cause: error
+              }),
+            StorageRepositoryError: (error) =>
+              new StorageServiceError({
+                message: `Database operation failed: ${String(error)}`,
+                cause: error
               })
-            }
-            return new StorageServiceError({
-              message: `Database operation failed: ${String(error)}`,
-              cause: error
-            })
           })
         ),
 

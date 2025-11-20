@@ -1,7 +1,7 @@
 import { KyselyClient } from '@/features/database/kysely'
 import { Effect, Layer, Option } from 'effect'
 import { StorageRepository } from './interface'
-import { StorageRepositoryError } from './error'
+import { StorageRepositoryError, StorageRepositoryNotFoundError } from './error'
 
 export const kyselyStorageRepositoryLive = Layer.effect(
   StorageRepository,
@@ -67,16 +67,23 @@ export const kyselyStorageRepositoryLive = Layer.effect(
         }),
 
       deleteById: (id) =>
-        Effect.tryPromise({
-          try: () =>
-            db
-              .deleteFrom('storage_files')
-              .where('id', '=', id)
-              .executeTakeFirst(),
-          catch: (error) =>
-            new StorageRepositoryError({
-              message: `Failed to delete file by ID: ${String(error)}`,
-              cause: error
+        Effect.gen(function* () {
+          const res = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .deleteFrom('storage_files')
+                .where('id', '=', id)
+                .executeTakeFirst(),
+            catch: (error) =>
+              new StorageRepositoryError({
+                message: `Failed to delete file by ID: ${String(error)}`,
+                cause: error
+              })
+          })
+
+          if (res.numDeletedRows === 0n)
+            return yield* new StorageRepositoryNotFoundError({
+              message: ''
             })
         })
     })

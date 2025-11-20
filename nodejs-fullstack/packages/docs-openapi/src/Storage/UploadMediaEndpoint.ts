@@ -10,7 +10,7 @@ import MediaDescription from '../common/MediaDescription'
 const Request = HttpApiSchema.Multipart(
   Schema.Struct({
     files: ImageFiles
-  })
+  }),
 ).annotations({
   description: 'Upload media request body'
 })
