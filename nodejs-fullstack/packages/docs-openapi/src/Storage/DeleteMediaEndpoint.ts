@@ -13,16 +13,10 @@ const Request = Schema.Struct({
   description: 'Delete file request path parameters'
 })
 
-export const DeleteMediaSuccessResponse = Schema.TaggedClass(
+export class DeleteMediaSuccessResponse extends Schema.TaggedClass<DeleteMediaSuccessResponse>()(
   'DeleteMediaResponse',
   {}
-).pipe(
-  Schema.annotations({
-    identifier: 'DeleteMediaSuccessResponse',
-    title: 'Delete Media Success Response',
-    description: 'Response returned when a media file is successfully deleted'
-  })
-)
+) {}
 
 const DeleteMediaEndpoint = HttpApiEndpoint.del('deleteMedia', '/storage/:fileId')
   .setPath(Request)

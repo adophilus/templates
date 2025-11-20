@@ -3,30 +3,24 @@ import { StatusCodes } from 'http-status-codes'
 import { OpenApi } from '@effect/platform'
 import BadRequestError from '../common/BadRequestError'
 import UnexpectedError from '../common/UnexpectedError'
-import { Schema, Data } from 'effect'
+import { Schema } from 'effect'
 import ImageFiles from '../common/ImageFiles'
 import MediaDescription from '../common/MediaDescription'
 
 const Request = HttpApiSchema.Multipart(
   Schema.Struct({
     files: ImageFiles
-  }),
+  })
 ).annotations({
   description: 'Upload media request body'
 })
 
-export const UploadMediaSuccessResponse = Schema.TaggedClass(
+export class UploadMediaSuccessResponse extends Schema.TaggedClass<UploadMediaSuccessResponse>()(
   'UploadMediaResponse',
   {
     data: Schema.Array(MediaDescription)
   }
-).pipe(
-  Schema.annotations({
-    identifier: 'UploadMediaSuccessResponse',
-    title: 'Upload Media Success Response',
-    description: 'Response returned when media files are successfully uploaded'
-  })
-)
+) {}
 
 const UploadMediaEndpoint = HttpApiEndpoint.post(
   'uploadMedia',

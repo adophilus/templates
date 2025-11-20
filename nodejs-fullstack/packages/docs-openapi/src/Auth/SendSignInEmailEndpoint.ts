@@ -13,16 +13,17 @@ const Request = Schema.Struct({
   description: 'Send sign in email request body'
 })
 
-const Success = Schema.Struct({
-  code: Schema.Literal('VERIFICATION_EMAIL_SENT')
-})
+class SendSignInEmailSuccessResponse extends Schema.TaggedClass<SendSignInEmailSuccessResponse>()(
+  'SendSignInEmailResponse',
+  {}
+) {}
 
 const SendSignInEmailEndpoint = HttpApiEndpoint.post(
   'sendSignInEmail',
   '/auth/sign-in'
 )
   .setPayload(Request)
-  .addSuccess(Success, { status: StatusCodes.OK })
+  .addSuccess(SendSignInEmailSuccessResponse, { status: StatusCodes.OK })
   .addError(UserNotFoundError, {
     status: StatusCodes.NOT_FOUND
   })

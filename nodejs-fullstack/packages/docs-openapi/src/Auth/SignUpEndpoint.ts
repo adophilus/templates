@@ -15,13 +15,14 @@ const Request = Schema.Struct({
   description: 'Sign up request body'
 })
 
-const Success = Schema.Struct({
-  code: Schema.Literal('VERIFICATION_EMAIL_SENT')
-})
+class SignUpSuccessResponse extends Schema.TaggedClass<SignUpSuccessResponse>()(
+  'SignUpResponse',
+  {}
+) {}
 
 const SignUpEndpoint = HttpApiEndpoint.post('signUp', '/auth/sign-up')
   .setPayload(Request)
-  .addSuccess(Success, { status: StatusCodes.OK })
+  .addSuccess(SignUpSuccessResponse, { status: StatusCodes.OK })
   .addError(EmailAlreadyInUseError, { status: StatusCodes.CONFLICT })
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })

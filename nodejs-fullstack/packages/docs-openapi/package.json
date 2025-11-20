@@ -9,6 +9,7 @@
     "./*": "./src/*.ts"
   },
   "scripts": {
+    "typecheck": "tsc",
     "lint": "tsc"
   },
   "dependencies": {

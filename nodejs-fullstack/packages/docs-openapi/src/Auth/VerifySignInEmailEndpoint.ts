@@ -15,20 +15,22 @@ const Request = Schema.Struct({
   description: 'Verify email request body'
 })
 
-const Success = Schema.Struct({
-  code: Schema.Literal('AUTH_CREDENTIALS'),
-  data: Schema.Struct({
-    access_token: Jwt,
-    refresh_token: Jwt
-  })
-})
+class VerifySignInEmailSuccessResponse extends Schema.TaggedClass<VerifySignInEmailSuccessResponse>()(
+  'VerifySignInEmailResponse',
+  {
+    data: Schema.Struct({
+      access_token: Jwt,
+      refresh_token: Jwt
+    })
+  }
+) {}
 
 const VerifySignInEmailEndpoint = HttpApiEndpoint.post(
   'verifySignInEmail',
   '/auth/sign-in/verification'
 )
   .setPayload(Request)
-  .addSuccess(Success, { status: StatusCodes.OK })
+  .addSuccess(VerifySignInEmailSuccessResponse, { status: StatusCodes.OK })
   .addError(InvalidOrExpiredTokenError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   .annotate(OpenApi.Description, 'Verify email')

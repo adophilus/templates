@@ -1,0 +1,12 @@
+{
+	"servers": {
+		"effect-mcp": {
+			"type": "stdio",
+			"command": "pnpx",
+			"args": [
+				"@niklaserik/effect-mcp"
+			]
+		}
+	},
+	"inputs": []
+}

@@ -5,13 +5,15 @@ import UnexpectedError from '../common/UnexpectedError'
 import UnauthorizedError from '../common/UnauthorizedError'
 import { StatusCodes } from 'http-status-codes'
 
-const Success = Schema.Struct({
-  code: Schema.Literal('USER_PROFILE'),
-  data: User
-})
+class GetProfileSuccessResponse extends Schema.TaggedClass<GetProfileSuccessResponse>()(
+  'GetProfileResponse',
+  {
+    data: User
+  }
+) {}
 
 const GetProfileEndpoint = HttpApiEndpoint.get('getProfile', '/auth/profile')
-  .addSuccess(Success)
+  .addSuccess(GetProfileSuccessResponse)
   .addError(UnauthorizedError, { status: StatusCodes.UNAUTHORIZED })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
 

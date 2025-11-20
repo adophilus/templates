@@ -16,16 +16,17 @@ const Request = Schema.Struct({
   description: 'Send verification email request body'
 })
 
-const Success = Schema.Struct({
-  code: Schema.Literal('VERIFICATION_EMAIL_SENT')
-})
+class ResendSignInVerificationEmailSuccessResponse extends Schema.TaggedClass<ResendSignInVerificationEmailSuccessResponse>()(
+  'ResendSignInVerificationEmailResponse',
+  {}
+) {}
 
 const ResendSignInVerificationEmailEndpoint = HttpApiEndpoint.post(
   'resendSignInVerificationEmail',
   '/auth/sign-in/verification/resend'
 )
   .setPayload(Request)
-  .addSuccess(Success, { status: StatusCodes.OK })
+  .addSuccess(ResendSignInVerificationEmailSuccessResponse, { status: StatusCodes.OK })
   .addError(TokenNotExpiredError, { status: StatusCodes.BAD_REQUEST })
   .addError(VerificationEmailAlreadySentError, {
     status: StatusCodes.BAD_REQUEST
