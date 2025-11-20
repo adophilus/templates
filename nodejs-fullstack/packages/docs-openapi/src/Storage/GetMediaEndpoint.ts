@@ -13,17 +13,22 @@ const Request = Schema.Struct({
   description: 'Get file request path parameters'
 })
 
+export const GetMediaSuccessResponse = Schema.Uint8ArrayFromSelf.pipe(
+  HttpApiSchema.withEncoding({
+    kind: 'Uint8Array',
+    contentType: 'application/octet-stream'
+  })
+).pipe(
+  Schema.annotations({
+    identifier: 'GetMediaSuccessResponse',
+    title: 'Get Media Success Response',
+    description: 'Success response containing the media file content'
+  })
+)
+
 const GetMediaEndpoint = HttpApiEndpoint.get('getMedia', '/storage/:fileId')
   .setPath(Request)
-  .addSuccess(
-    Schema.Uint8ArrayFromSelf.pipe(
-      HttpApiSchema.withEncoding({
-        kind: 'Uint8Array',
-        contentType: 'application/octet-stream'
-      })
-    ),
-    { status: StatusCodes.OK }
-  )
+  .addSuccess(GetMediaSuccessResponse, { status: StatusCodes.OK })
   .addError(FileNotFoundError, {
     status: StatusCodes.NOT_FOUND
   })

@@ -13,14 +13,20 @@ const Request = Schema.Struct({
   description: 'Delete file request path parameters'
 })
 
-export const Success = Schema.Struct({
-  code: Schema.Literal('FILE_DELETED'),
-  message: Schema.String
-})
+export const DeleteMediaSuccessResponse = Schema.TaggedClass(
+  'DeleteMediaResponse',
+  {}
+).pipe(
+  Schema.annotations({
+    identifier: 'DeleteMediaSuccessResponse',
+    title: 'Delete Media Success Response',
+    description: 'Response returned when a media file is successfully deleted'
+  })
+)
 
 const DeleteMediaEndpoint = HttpApiEndpoint.del('deleteMedia', '/storage/:fileId')
   .setPath(Request)
-  .addSuccess(Success, { status: StatusCodes.OK })
+  .addSuccess(DeleteMediaSuccessResponse, { status: StatusCodes.OK })
   .addError(FileNotFoundError, {
     status: StatusCodes.NOT_FOUND
   })
