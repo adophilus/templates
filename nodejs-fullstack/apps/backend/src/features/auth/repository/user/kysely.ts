@@ -1,106 +1,132 @@
-import { Result } from 'true-myth'
-import type { KyselyClient } from '@/features/database/kysely'
-import type { Logger } from '@/features/logger'
+import { Effect, Layer } from 'effect'
+import { KyselyClient } from '@/features/database/kysely'
+import { AuthUserRepository } from './interface'
+import {
+  AuthUserRepositoryError,
+  AuthUserRepositoryNotFoundError
+} from './error'
 import type { AuthUser } from '@/types'
-import type AuthUserRepository from './interface'
-import type { AuthUserRepositoryError } from './interface'
 
-class KyselyAuthUserRepository implements AuthUserRepository {
-  constructor(
-    private client: KyselyClient,
-    private logger: Logger
-  ) {}
+export const KyselyAuthUserRepositoryLive = Layer.effect(
+  AuthUserRepository,
+  Effect.gen(function*(_) {
+    const db = yield* KyselyClient
 
-  public async create(
-    payload: AuthUser.Insertable
-  ): Promise<Result<AuthUser.Selectable, AuthUserRepositoryError>> {
-    try {
-      const user = await this.client
-        .insertInto('auth_users')
-        .values(payload)
-        .returningAll()
-        .executeTakeFirstOrThrow()
-      return Result.ok(user)
-    } catch (err) {
-      this.logger.error('failed to create user:', err)
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
-
-  public async findByEmail(
-    email: string
-  ): Promise<Result<AuthUser.Selectable | null, AuthUserRepositoryError>> {
-    try {
-      const user = await this.client
-        .selectFrom('auth_users')
-        .selectAll()
-        .where('email', '=', email)
-        .executeTakeFirst()
-      return Result.ok(user ?? null)
-    } catch (err) {
-      this.logger.error('failed to find user by email:', err)
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
-
-  public async findByReferralCode(
-    referral_code: string
-  ): Promise<Result<AuthUser.Selectable | null, AuthUserRepositoryError>> {
-    try {
-      const user = await this.client
-        .selectFrom('auth_users')
-        .selectAll()
-        .where('referral_code', '=', referral_code)
-        .executeTakeFirst()
-      return Result.ok(user ?? null)
-    } catch (err) {
-      this.logger.error('failed to find user by refferral code:', err)
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
-
-  public async findById(
-    id: string
-  ): Promise<Result<AuthUser.Selectable | null, AuthUserRepositoryError>> {
-    try {
-      const user = await this.client
-        .selectFrom('auth_users')
-        .selectAll()
-        .where('id', '=', id)
-        .executeTakeFirst()
-      return Result.ok(user ?? null)
-    } catch (err) {
-      this.logger.error('failed to find user by id:', id, err)
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
-
-  public async updateById(
-    id: string,
-    payload: Omit<AuthUser.Updateable, 'id' | 'referral_code' | 'updated_at'>
-  ): Promise<Result<AuthUser.Selectable, AuthUserRepositoryError>> {
-    try {
-      const user = await this.client
-        .updateTable('auth_users')
-        .set(
-          Object.assign(payload, {
-            updated_at: new Date().toISOString()
+    return AuthUserRepository.of({
+      create: (payload) =>
+        Effect.gen(function*(_) {
+          const user = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .insertInto('auth_users')
+                .values(payload)
+                .returningAll()
+                .executeTakeFirstOrThrow(),
+            catch: (error) =>
+              new AuthUserRepositoryError({
+                message: `Failed to create auth user: ${String(error)}`,
+                cause: error
+              })
           })
-        )
-        .where('id', '=', id)
-        .returningAll()
-        .executeTakeFirstOrThrow()
-      return Result.ok(user)
-    } catch (err) {
-      this.logger.error(
-        'failed to update user by id with payload',
-        id,
-        payload,
-        err
-      )
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
-}
 
-export default KyselyAuthUserRepository
+          return user
+        }),
+
+      findByEmail: (email) =>
+        Effect.gen(function*(_) {
+          const user = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .selectFrom('auth_users')
+                .selectAll()
+                .where('email', '=', email)
+                .executeTakeFirst(),
+            catch: (error) =>
+              new AuthUserRepositoryError({
+                message: `Failed to find user by email: ${String(error)}`,
+                cause: error
+              })
+          })
+
+          return user ?? null
+        }),
+
+      findByReferralCode: (referralCode) =>
+        Effect.gen(function*(_) {
+          const user = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .selectFrom('auth_users')
+                .selectAll()
+                .where('referral_code', '=', referralCode)
+                .executeTakeFirst(),
+            catch: (error) =>
+              new AuthUserRepositoryError({
+                message: `Failed to find user by referral code: ${String(error)}`,
+                cause: error
+              })
+          })
+
+          return user ?? null
+        }),
+
+      findById: (id) =>
+        Effect.gen(function*(_) {
+          const user = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .selectFrom('auth_users')
+                .selectAll()
+                .where('id', '=', id)
+                .executeTakeFirst(),
+            catch: (error) =>
+              new AuthUserRepositoryError({
+                message: `Failed to find user by ID: ${String(error)}`,
+                cause: error
+              })
+          })
+
+          return user ?? null
+        }),
+
+      updateById: (id, payload) =>
+        Effect.gen(function*(_) {
+          const user = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .updateTable('auth_users')
+                .set({
+                  ...payload,
+                  updated_at: new Date().toISOString()
+                })
+                .where('id', '=', id)
+                .returningAll()
+                .executeTakeFirstOrThrow(),
+            catch: (error) =>
+              new AuthUserRepositoryError({
+                message: `Failed to update user by ID: ${String(error)}`,
+                cause: error
+              })
+          })
+
+          return user;
+        }),
+
+      deleteById: (id) =>
+        Effect.gen(function*(_) {
+          yield* Effect.tryPromise({
+            try: () =>
+              db
+                .deleteFrom('auth_users')
+                .where('id', '=', id)
+                .executeTakeFirst(),
+            catch: (error) =>
+              new AuthUserRepositoryError({
+                message: `Failed to delete user by ID: ${String(error)}`,
+                cause: error
+              })
+          })
+        })
+    })
+  })
+)

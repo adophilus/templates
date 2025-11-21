@@ -1,76 +1,114 @@
-import { Result } from 'true-myth'
-import type { KyselyClient } from '@/features/database/kysely'
-import type { Logger } from '@/features/logger'
+import { Effect, Layer } from 'effect'
+import { KyselyClient } from '@/features/database/kysely'
+import { AuthTokenRepository } from './interface'
+import {
+  AuthTokenRepositoryError,
+  AuthTokenRepositoryNotFoundError
+} from './error'
 import type { AuthToken } from '@/types'
-import type AuthTokenRepository from './interface'
-import type { AuthTokenRepositoryError } from './interface'
 
-class KyselyAuthTokenRepository implements AuthTokenRepository {
-  constructor(
-    private client: KyselyClient,
-    private logger: Logger
-  ) {}
+export const KyselyAuthTokenRepositoryLive = Layer.effect(
+  AuthTokenRepository,
+  Effect.gen(function* (_) {
+    const db = yield* KyselyClient
 
-  public async create(
-    payload: AuthToken.Insertable
-  ): Promise<Result<AuthToken.Selectable, AuthTokenRepositoryError>> {
-    try {
-      const token = await this.client
-        .insertInto('auth_tokens')
-        .values(payload)
-        .returningAll()
-        .executeTakeFirstOrThrow()
-      return Result.ok(token)
-    } catch (err) {
-      this.logger.error('failed to create token:', err)
-      this.logger.error((err as any).code)
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
+    return AuthTokenRepository.of({
+      create: (payload) =>
+        Effect.gen(function* (_) {
+          const token = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .insertInto('auth_tokens')
+                .values(payload)
+                .returningAll()
+                .executeTakeFirstOrThrow(),
+            catch: (error) =>
+              new AuthTokenRepositoryError({
+                message: `Failed to create auth token: ${String(error)}`,
+                cause: error
+              })
+          })
 
-  public async findByUserIdAndPurpose(payload: {
-    user_id: string
-    purpose: string
-  }): Promise<Result<AuthToken.Selectable | null, AuthTokenRepositoryError>> {
-    try {
-      const token = await this.client
-        .selectFrom('auth_tokens')
-        .selectAll()
-        .where('user_id', '=', payload.user_id)
-        .where('purpose', '=', payload.purpose)
-        .executeTakeFirst()
-      return Result.ok(token ?? null)
-    } catch (err) {
-      this.logger.error(
-        'failed to find token by user id and purpose:',
-        payload.user_id,
-        payload.purpose,
-        err
-      )
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
+          return token
+        }),
 
-  public async updateById(
-    id: string,
-    payload: Omit<
-      AuthToken.Updateable,
-      'id' | 'purpose' | 'user_id' | 'updated_at'
-    >
-  ): Promise<Result<AuthToken.Selectable, AuthTokenRepositoryError>> {
-    try {
-      const token = await this.client
-        .updateTable('auth_tokens')
-        .set(payload)
-        .where('id', '=', id)
-        .returningAll()
-        .executeTakeFirstOrThrow()
-      return Result.ok(token)
-    } catch (err) {
-      this.logger.error('failed to update token by id:', id, err)
-      return Result.err('ERR_UNEXPECTED')
-    }
-  }
-}
+      findByUserIdAndPurpose: (payload) =>
+        Effect.gen(function* (_) {
+          const token = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .selectFrom('auth_tokens')
+                .selectAll()
+                .where('user_id', '=', payload.user_id)
+                .where('purpose', '=', payload.purpose)
+                .executeTakeFirst(),
+            catch: (error) =>
+              new AuthTokenRepositoryError({
+                message: `Failed to find token by user ID and purpose: ${String(error)}`,
+                cause: error
+              })
+          })
 
-export default KyselyAuthTokenRepository
+          return token ?? null
+        }),
+
+      updateById: (id, payload) =>
+        Effect.gen(function* (_) {
+          const token = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .updateTable('auth_tokens')
+                .set({
+                  ...payload,
+                  updated_at: new Date().toISOString()
+                })
+                .where('id', '=', id)
+                .returningAll()
+                .executeTakeFirstOrThrow(),
+            catch: (error) =>
+              new AuthTokenRepositoryError({
+                message: `Failed to update token by ID: ${String(error)}`,
+                cause: error
+              })
+          })
+
+          return token
+        }),
+
+      findById: (id) =>
+        Effect.gen(function* (_) {
+          const token = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .selectFrom('auth_tokens')
+                .selectAll()
+                .where('id', '=', id)
+                .executeTakeFirst(),
+            catch: (error) =>
+              new AuthTokenRepositoryError({
+                message: `Failed to find token by ID: ${String(error)}`,
+                cause: error
+              })
+          })
+
+          return token ?? null
+        }),
+
+      deleteById: (id) =>
+        Effect.gen(function* (_) {
+          yield* Effect.tryPromise({
+            try: () =>
+              db
+                .deleteFrom('auth_tokens')
+                .where('id', '=', id)
+                .executeTakeFirst(),
+            catch: (error) =>
+              new AuthTokenRepositoryError({
+                message: `Failed to delete token by ID: ${String(error)}`,
+                cause: error
+              })
+          })
+        })
+    })
+  })
+)

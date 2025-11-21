@@ -1,11 +1,11 @@
-import AuthTokenRepository from './token/interface'
-import KyselyAuthTokenRepository from './token/kysely'
-import AuthUserRepository from './user/interface'
-import KyselyAuthUserRepository from './user/kysely'
+import { AuthTokenRepository } from './token/interface'
+import { KyselyAuthTokenRepositoryLive } from './token/kysely'
+import { AuthUserRepository } from './user/interface'
+import { KyselyAuthUserRepositoryLive } from './user/kysely'
 
 export {
-  AuthUserRepository,
-  KyselyAuthUserRepository,
   AuthTokenRepository,
-  KyselyAuthTokenRepository
+  KyselyAuthTokenRepositoryLive,
+  AuthUserRepository,
+  KyselyAuthUserRepositoryLive
 }
