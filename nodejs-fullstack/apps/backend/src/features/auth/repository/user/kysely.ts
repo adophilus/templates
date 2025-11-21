@@ -1,4 +1,4 @@
-import { Effect, Layer } from 'effect'
+import { Effect, Layer, Option } from 'effect'
 import { KyselyClient } from '@/features/database/kysely'
 import { AuthUserRepository } from './interface'
 import {
@@ -48,7 +48,7 @@ export const KyselyAuthUserRepositoryLive = Layer.effect(
               })
           })
 
-          return user ?? null
+          return user ? Option.some(user) : Option.none()
         }),
 
       findByReferralCode: (referralCode) =>
@@ -67,7 +67,7 @@ export const KyselyAuthUserRepositoryLive = Layer.effect(
               })
           })
 
-          return user ?? null
+          return user ? Option.some(user) : Option.none()
         }),
 
       findById: (id) =>
@@ -86,7 +86,7 @@ export const KyselyAuthUserRepositoryLive = Layer.effect(
               })
           })
 
-          return user ?? null
+          return user ? Option.some(user) : Option.none()
         }),
 
       updateById: (id, payload) =>

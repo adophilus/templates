@@ -1,4 +1,4 @@
-import { Effect, Layer } from 'effect'
+import { Effect, Layer, Option } from 'effect'
 import { KyselyClient } from '@/features/database/kysely'
 import { AuthTokenRepository } from './interface'
 import {
@@ -49,7 +49,7 @@ export const KyselyAuthTokenRepositoryLive = Layer.effect(
               })
           })
 
-          return token ?? null
+          return token ? Option.some(token) : Option.none()
         }),
 
       updateById: (id, payload) =>
@@ -91,7 +91,7 @@ export const KyselyAuthTokenRepositoryLive = Layer.effect(
               })
           })
 
-          return token ?? null
+          return token ? Option.some(token) : Option.none()
         }),
 
       deleteById: (id) =>

@@ -16,6 +16,7 @@
     "test": "./scripts/test.sh"
   },
   "dependencies": {
+    "@effect/experimental": "^0.57.4",
     "@hono/node-server": "^1.14.4",
     "@hono/otel": "^0.4.0",
     "@hono/zod-validator": "^0.4.3",
