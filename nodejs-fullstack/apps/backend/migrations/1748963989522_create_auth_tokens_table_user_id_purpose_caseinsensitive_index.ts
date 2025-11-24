@@ -12,6 +12,5 @@ export async function up(db: Kysely<any>): Promise<void> {
 export async function down(db: Kysely<any>): Promise<void> {
   await db.schema
     .dropIndex('user_id_purpose_unique_caseinsensitive_idx')
-    .on('auth_tokens')
     .execute()
 }
