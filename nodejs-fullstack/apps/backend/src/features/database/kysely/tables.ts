@@ -15,8 +15,6 @@ type AuthUsersTable = TimestampModel & {
   id: Id
   full_name: string
   email: string
-  phone_number: string
-  referral_code: string | null
   verified_at: string | null
 }
 

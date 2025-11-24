@@ -1,9 +1,9 @@
 import { Context, Option, type Effect } from 'effect'
 import type { AuthUser } from '@/types'
 import type {
-  AuthUserRepositoryOperationError,
   AuthUserRepositoryError,
-  AuthUserRepositoryNotFoundError
+  AuthUserRepositoryNotFoundError,
+  AuthUserRepositoryConstraintError
 } from './error'
 
 export class AuthUserRepository extends Context.Tag('AuthUserRepository')<
@@ -11,29 +11,43 @@ export class AuthUserRepository extends Context.Tag('AuthUserRepository')<
   {
     create: (
       payload: AuthUser.Insertable
-    ) => Effect.Effect<AuthUser.Selectable, AuthUserRepositoryOperationError>
+    ) => Effect.Effect<
+      AuthUser.Selectable,
+      AuthUserRepositoryError | AuthUserRepositoryConstraintError
+    >
 
     findByEmail: (
       email: string
-    ) => Effect.Effect<Option.Option<AuthUser.Selectable>, AuthUserRepositoryError>
-
-    findByReferralCode: (
-      referralCode: string
-    ) => Effect.Effect<Option.Option<AuthUser.Selectable>, AuthUserRepositoryError>
+    ) => Effect.Effect<
+      Option.Option<AuthUser.Selectable>,
+      AuthUserRepositoryError
+    >
 
     findById: (
       id: string
-    ) => Effect.Effect<Option.Option<AuthUser.Selectable>, AuthUserRepositoryError>
+    ) => Effect.Effect<
+      Option.Option<AuthUser.Selectable>,
+      AuthUserRepositoryError
+    >
 
     updateById: (
       id: string,
-      payload: Omit<AuthUser.Updateable, 'id' | 'referral_code' | 'created_at' | 'updated_at'>
-    ) => Effect.Effect<AuthUser.Selectable, AuthUserRepositoryOperationError>
+      payload: Omit<
+        AuthUser.Updateable,
+        'id' | 'referral_code' | 'created_at' | 'updated_at'
+      >
+    ) => Effect.Effect<
+      AuthUser.Selectable,
+      AuthUserRepositoryError | AuthUserRepositoryConstraintError
+    >
 
     deleteById: (
       id: string
-    ) => Effect.Effect<void, AuthUserRepositoryError | AuthUserRepositoryNotFoundError>
+    ) => Effect.Effect<
+      void,
+      AuthUserRepositoryError | AuthUserRepositoryNotFoundError
+    >
   }
->() { }
+>() {}
 
 export type { AuthUserRepositoryOperationError } from './error'

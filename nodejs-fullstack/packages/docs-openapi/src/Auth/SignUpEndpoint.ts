@@ -15,7 +15,7 @@ const Request = Schema.Struct({
   description: 'Sign up request body'
 })
 
-class SignUpSuccessResponse extends Schema.TaggedClass<SignUpSuccessResponse>()(
+export class SignUpSuccessResponse extends Schema.TaggedClass<SignUpSuccessResponse>()(
   'SignUpResponse',
   {}
 ) {}

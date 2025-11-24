@@ -1,4 +1,4 @@
-export * from './BadRequestError'
+export { default as BadRequestError } from './BadRequestError'
 export * from './Email'
 export * from './FileNotFoundError'
 export * from './FullName'
@@ -16,3 +16,4 @@ export * from './User'
 export * from './UserAlreadyVerifiedError'
 export * from './UserNotFoundError'
 export * from './VerificationEmailAlreadySentError'
+
