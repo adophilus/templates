@@ -29,7 +29,7 @@ export const createRawSqliteKyselyClient = async (): Promise<
   return client
 }
 
-export const sqliteKyselyClientLive = Layer.effect(
+export const SqliteKyselyClientLive = Layer.effect(
   KyselyClient,
   Effect.promise(async () => {
     const client = await createRawSqliteKyselyClient()

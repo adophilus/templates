@@ -3,7 +3,7 @@ import { Effect, Layer, Option } from 'effect'
 import { StorageRepository } from './interface'
 import { StorageRepositoryError, StorageRepositoryNotFoundError } from './error'
 
-export const kyselyStorageRepositoryLive = Layer.effect(
+export const KyselyStorageRepositoryLive = Layer.effect(
   StorageRepository,
   Effect.gen(function* (_) {
     const db = yield* KyselyClient

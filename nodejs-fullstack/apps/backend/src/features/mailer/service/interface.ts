@@ -10,4 +10,4 @@ export class Mailer extends Context.Tag('MailerService')<
       email: JSX.Element
     }) => Effect.Effect<void, SendMailError>
   }
->() { }
+>() {}
