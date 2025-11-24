@@ -15,46 +15,38 @@ export const SignUpEndpointLive = HttpApiBuilder.handler(
   'Auth',
   'signUp',
   ({ payload }) =>
-    Effect.gen(function* () {
+    Effect.gen(function*() {
       const userRepository = yield* AuthUserRepository
 
       yield* userRepository.findByEmail(payload.email).pipe(
-        Effect.catchTags({
-          AuthUserRepositoryError: (error) =>
-            Effect.fail(
-              new UnexpectedError({
-                message: `Failed to find user by email: ${error.message}`
-              })
-            )
-        }),
         Effect.flatMap(
           Option.match({
-            onNone: () => Effect.fail(new EmailAlreadyInUseError()),
-            onSome: Effect.succeed
+            onSome: () => Effect.fail(new EmailAlreadyInUseError()),
+            onNone: () => Effect.void
           })
         )
       )
 
-      yield* userRepository
-        .create({
-          id: ulid(),
-          full_name: payload.full_name,
-          email: payload.email,
-          verified_at: null
-        })
-        .pipe(
-          Effect.catchTags({
-            AuthUserRepositoryError: (error) =>
-              new UnexpectedError({
-                message: `Failed to create user: ${error}`
-              }),
-            AuthUserRepositoryConstraintError: (error) =>
-              new BadRequestError({
-                message: `Failed to create user: ${error}`
-              })
-          })
-        )
+      yield* userRepository.create({
+        ...payload,
+        id: ulid()
+      })
 
       return SignUpSuccessResponse.make()
-    })
+    }).pipe(
+      Effect.catchTags({
+        AuthUserRepositoryError: (error) => {
+          console.log(error)
+          return Effect.fail(
+            new UnexpectedError({
+              message: error.message
+            })
+          )
+        },
+        AuthUserRepositoryConstraintError: (error) =>
+          new BadRequestError({
+            message: `Failed to create user: ${error}`
+          })
+      })
+    )
 )
