@@ -1,5 +1,4 @@
 import { StorageRepository } from '../repository/interface'
-import { StorageRepositoryNotFoundError } from '../repository/error'
 import {
   StorageServiceUploadError,
   StorageServiceError,
@@ -11,14 +10,14 @@ import { Storage } from './interface'
 import { config } from '@/features/config'
 import { validateFile } from './validation'
 
-export const sqliteStorageLive = Layer.effect(
+export const SqliteStorageLive = Layer.effect(
   Storage,
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const repository = yield* StorageRepository
 
     return Storage.of({
       upload: (payload) =>
-        Effect.gen(function* () {
+        Effect.gen(function*() {
           // Use the shared validation function which returns ValidationInfo with mimeType
           const validationInfo = yield* validateFile(payload)
 
@@ -58,7 +57,7 @@ export const sqliteStorageLive = Layer.effect(
 
       uploadMany: (payloads) =>
         Effect.forEach(payloads, (payload) =>
-          Effect.gen(function* () {
+          Effect.gen(function*() {
             // Use the shared validation function which returns ValidationInfo with mimeType
             const validationInfo = yield* validateFile(payload)
 
@@ -132,5 +131,3 @@ export const sqliteStorageLive = Layer.effect(
     })
   })
 )
-
-export const SqliteStorageLive = sqliteStorageLive
