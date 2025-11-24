@@ -2,7 +2,7 @@ import { Schema } from 'effect'
 import Timestamp from './Timestamp'
 
 class VerificationEmailAlreadySentError extends Schema.TaggedError<VerificationEmailAlreadySentError>()(
-  'ERR_VERIFICATION_EMAIL_ALREADY_SENT',
+  'VerificationEmailAlreadySentError',
   {
     expires_at: Timestamp
   }

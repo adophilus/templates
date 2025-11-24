@@ -1,6 +1,6 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
-import EmailAlreadyInUseError from './EmailAlreadyInUseError'
+import EmailAlreadyInUseError from '../common/EmailAlreadyInUseError'
 import BadRequestError from '../common/BadRequestError'
 import UnexpectedError from '../common/UnexpectedError'
 import { OpenApi } from '@effect/platform'
