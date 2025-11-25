@@ -1,6 +1,6 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
-import InvalidOrExpiredTokenError from './InvalidOrExpiredTokenError'
+import InvalidOrExpiredTokenError from '../common/InvalidOrExpiredTokenError'
 import UnexpectedError from '../common/UnexpectedError'
 import { OpenApi } from '@effect/platform'
 import { Schema } from 'effect'
@@ -15,7 +15,7 @@ const Request = Schema.Struct({
   description: 'Verify email request body'
 })
 
-class VerifySignUpEmailSuccessResponse extends Schema.TaggedClass<VerifySignUpEmailSuccessResponse>()(
+export class VerifySignUpEmailSuccessResponse extends Schema.TaggedClass<VerifySignUpEmailSuccessResponse>()(
   'VerifySignUpEmailResponse',
   {
     data: Schema.Struct({

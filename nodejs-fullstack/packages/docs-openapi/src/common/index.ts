@@ -17,4 +17,4 @@ export { default as UserAlreadyVerifiedError } from './UserAlreadyVerifiedError'
 export { default as UserNotFoundError } from './UserNotFoundError'
 export { default as VerificationEmailAlreadySentError } from './VerificationEmailAlreadySentError'
 export { default as EmailAlreadyInUseError } from './EmailAlreadyInUseError'
-
+export { default as InvalidOrExpiredTokenError } from './InvalidOrExpiredTokenError'

@@ -13,7 +13,7 @@ const Request = Schema.Struct({
   description: 'Send sign in email request body'
 })
 
-class SendSignInEmailSuccessResponse extends Schema.TaggedClass<SendSignInEmailSuccessResponse>()(
+export class SendSignInEmailSuccessResponse extends Schema.TaggedClass<SendSignInEmailSuccessResponse>()(
   'SendSignInEmailResponse',
   {}
 ) {}
