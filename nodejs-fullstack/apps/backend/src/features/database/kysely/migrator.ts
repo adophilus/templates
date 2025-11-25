@@ -13,7 +13,10 @@ export const createKyselyMigrator = (
     provider: new FileMigrationProvider({
       fs,
       path,
-      migrationFolder: folder
+      migrationFolder: new URL(
+        path.join(process.cwd(), folder),
+        import.meta.url
+      ).pathname
     })
   })
 

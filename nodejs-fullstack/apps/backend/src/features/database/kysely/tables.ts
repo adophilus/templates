@@ -7,22 +7,22 @@ export type MediaDescription =
 type Id = ColumnType<string, string, never>
 
 type TimestampModel = {
-  created_at: ColumnType<string, never, never>
-  updated_at: ColumnType<string, never, string>
+  created_at: ColumnType<number, never, never>
+  updated_at: ColumnType<number, never, number>
 }
 
 type AuthUsersTable = TimestampModel & {
   id: Id
   full_name: string
   email: string
-  verified_at: string | null
+  verified_at: number | null
 }
 
 type AuthTokensTable = TimestampModel & {
   id: Id
   token: string
   purpose: string
-  expires_at: string
+  expires_at: number
   user_id: string
 }
 

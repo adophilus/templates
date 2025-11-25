@@ -1,4 +1,4 @@
-import { Effect, Option } from 'effect'
+import { DateTime, Duration, Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/docs-openapi'
 import { SignUpSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Auth/SignUpEndpoint'
@@ -23,27 +23,30 @@ export const SignUpEndpointLive = HttpApiBuilder.handler(
       const tokenRepository = yield* AuthTokenRepository
       const mailer = yield* Mailer
 
-      const existingUser = yield* userRepository
-        .findByEmail(payload.email)
-        .pipe(
-          Effect.flatMap(
-            Option.match({
-              onSome: () => Effect.fail(new EmailAlreadyInUseError()),
-              onNone: () => Effect.void
-            })
-          )
+      yield* userRepository.findByEmail(payload.email).pipe(
+        Effect.flatMap(
+          Option.match({
+            onSome: () => Effect.fail(new EmailAlreadyInUseError()),
+            onNone: () => Effect.void
+          })
         )
+      )
 
       const user = yield* userRepository.create({
         ...payload,
         id: ulid()
       })
 
+      const tokenExpiry = DateTime.unsafeMake(new Date()).pipe(
+        DateTime.add({ minutes: 5 })
+      )
+
       const verificationToken = yield* tokenRepository.create({
         id: ulid(),
         user_id: user.id,
+        token: '12345',
         purpose: 'SIGNUP_VERIFICATION',
-        expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+        expires_at: Math.round(tokenExpiry.epochMillis / 1000)
       })
 
       yield* mailer.send({
@@ -56,6 +59,19 @@ export const SignUpEndpointLive = HttpApiBuilder.handler(
 
       return SignUpSuccessResponse.make()
     }).pipe(
+      Effect.mapError((error) => {
+        if (
+          error._tag === 'MailerRenderingError' ||
+          error._tag === 'MailerTransportError' ||
+          error._tag === 'MailerValidationError'
+        ) {
+          return new UnexpectedError({
+            message: error.message
+          })
+        }
+
+        return error
+      }),
       Effect.catchTags({
         AuthUserRepositoryError: (error) =>
           Effect.fail(
@@ -63,19 +79,24 @@ export const SignUpEndpointLive = HttpApiBuilder.handler(
               message: error.message
             })
           ),
+        AuthUserRepositoryConstraintError: (error) =>
+          Effect.fail(
+            new UnexpectedError({
+              message: `Failed to create auth user: ${error.message}`
+            })
+          ),
         AuthTokenRepositoryError: (error) =>
-          new UnexpectedError({
-            message: `Failed to create verification token: ${error.message}`
-          }),
-        
+          Effect.fail(
+            new UnexpectedError({
+              message: `Failed to create verification token: ${error.message}`
+            })
+          ),
         AuthTokenRepositoryConstraintError: (error) =>
-          new BadRequestError({
-            message: `Invalid token data: ${error.message}`
-          }),
-        MailerError: (error) =>
-          new UnexpectedError({
-            message: `Failed to send verification email: ${error.message}`
-          })
+          Effect.fail(
+            new BadRequestError({
+              message: `Invalid token data: ${error.message}`
+            })
+          )
       })
     )
 )
