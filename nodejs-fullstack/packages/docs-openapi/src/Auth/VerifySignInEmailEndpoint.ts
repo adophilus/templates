@@ -6,7 +6,7 @@ import { OpenApi } from '@effect/platform'
 import { Schema } from 'effect'
 import Email from '../common/Email'
 import Otp from '../common/Otp'
-import Jwt from '../common/Jwt'
+import SessionToken from '../common/SessionToken'
 
 const Request = Schema.Struct({
   email: Email,
@@ -19,8 +19,7 @@ export class VerifySignInEmailSuccessResponse extends Schema.TaggedClass<VerifyS
   'VerifySignInEmailResponse',
   {
     data: Schema.Struct({
-      access_token: Jwt,
-      refresh_token: Jwt
+      access_token: SessionToken
     })
   }
 ) {}

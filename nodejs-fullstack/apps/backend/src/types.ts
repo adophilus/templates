@@ -27,6 +27,13 @@ export namespace AuthToken {
   export type Updateable = T['Updateable']
 }
 
+export namespace AuthSession {
+  type T = GenerateTypes<KyselyDatabaseTables['auth_sessions']>
+  export type Selectable = T['Selectable']
+  export type Insertable = T['Insertable']
+  export type Updateable = T['Updateable']
+}
+
 export namespace StorageFile {
   type T = GenerateTypes<KyselyDatabaseTables['storage_files']>
   export type Selectable = T['Selectable']

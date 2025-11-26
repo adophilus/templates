@@ -26,6 +26,12 @@ type AuthTokensTable = TimestampModel & {
   user_id: string
 }
 
+type AuthSessionsTable = TimestampModel & {
+  id: Id
+  expires_at: number
+  user_id: string
+}
+
 type StorageFilesTable = TimestampModel & {
   id: Id
   original_name: string
@@ -36,5 +42,6 @@ type StorageFilesTable = TimestampModel & {
 export type KyselyDatabaseTables = {
   auth_users: AuthUsersTable
   auth_tokens: AuthTokensTable
+  auth_sessions: AuthSessionsTable
   storage_files: StorageFilesTable
 }
