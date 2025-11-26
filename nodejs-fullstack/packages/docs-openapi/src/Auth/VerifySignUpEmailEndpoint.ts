@@ -19,8 +19,8 @@ export class VerifySignUpEmailSuccessResponse extends Schema.TaggedClass<VerifyS
   'VerifySignUpEmailResponse',
   {
     data: Schema.Struct({
-      access_token: Jwt,
-      refresh_token: Jwt
+      access_token: Jwt
+      // Note: refresh tokens have been phased out in favor of server-side sessions
     })
   }
 ) {}

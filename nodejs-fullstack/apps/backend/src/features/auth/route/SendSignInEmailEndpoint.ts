@@ -1,4 +1,4 @@
-import { DateTime, Effect, Option } from 'effect'
+import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/docs-openapi'
 import { SendSignInEmailSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Auth/SendSignInEmailEndpoint'
@@ -26,15 +26,15 @@ export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(
       const userOption = yield* userRepository.findByEmail(payload.email)
 
       if (Option.isNone(userOption)) {
-        return yield* Effect.fail(new UserNotFoundError({ message: 'User not found' }))
+        return yield* Effect.fail(
+          new UserNotFoundError({ message: 'User not found' })
+        )
       }
 
       const user = userOption.value
 
       // Generate a sign-in verification token
-      const tokenExpiry = DateTime.unsafeMake(new Date()).pipe(
-        DateTime.add({ minutes: 5 })
-      )
+      const tokenExpiry = Math.round(Date.now() / 1000) + 300 // add 5 mins
 
       const verificationToken = yield* tokenRepository.create({
         id: ulid(),

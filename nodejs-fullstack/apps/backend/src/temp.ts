@@ -10,6 +10,7 @@ import { SqliteKyselyClientLive } from './features/database/kysely/db/sqlite'
 import { DevTools } from '@effect/experimental'
 import AuthApiLive from './features/auth/route'
 import {
+  KyselyAuthSessionRepositoryLive,
   KyselyAuthTokenRepositoryLive,
   KyselyAuthUserRepositoryLive
 } from './features/auth/repository'
@@ -56,7 +57,8 @@ const MailerLayer = NodemailerMailerLive
 
 const AuthLayer = AuthApiLive.pipe(
   Layer.provide(KyselyAuthUserRepositoryLive),
-  Layer.provide(KyselyAuthTokenRepositoryLive)
+  Layer.provide(KyselyAuthTokenRepositoryLive),
+  Layer.provide(KyselyAuthSessionRepositoryLive)
 )
 
 const StorageLayer = StorageApiLive.pipe(

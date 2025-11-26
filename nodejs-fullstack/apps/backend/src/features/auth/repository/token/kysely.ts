@@ -47,7 +47,7 @@ export const KyselyAuthTokenRepositoryLive = Layer.effect(
               .updateTable('auth_tokens')
               .set({
                 ...payload,
-                updated_at: new Date().toISOString()
+                updated_at: Math.round(Date.now() / 1000)
               })
               .where('id', '=', id)
               .returningAll()

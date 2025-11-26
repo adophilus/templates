@@ -1,4 +1,4 @@
-import { DateTime, Effect, Option } from 'effect'
+import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/docs-openapi'
 import { VerifySignInEmailSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Auth/VerifySignInEmailEndpoint'
@@ -46,10 +46,7 @@ export const VerifySignInEmailEndpointLive = HttpApiBuilder.handler(
 
       const token = tokenOption.value
 
-      if (
-        DateTime.unsafeMake(new Date()).epochMillis / 1000 >
-        token.expires_at
-      ) {
+      if (Date.now() / 1000 > token.expires_at) {
         return yield* Effect.fail(
           new InvalidOrExpiredTokenError({
             message: 'Verification token has expired'

@@ -2,8 +2,7 @@ import { Context, Option, type Effect } from 'effect'
 import type { AuthUser } from '@/types'
 import type {
   AuthUserRepositoryError,
-  AuthUserRepositoryNotFoundError,
-  AuthUserRepositoryConstraintError
+  AuthUserRepositoryNotFoundError
 } from './error'
 
 export class AuthUserRepository extends Context.Tag('AuthUserRepository')<
@@ -11,10 +10,7 @@ export class AuthUserRepository extends Context.Tag('AuthUserRepository')<
   {
     create: (
       payload: AuthUser.Insertable
-    ) => Effect.Effect<
-      AuthUser.Selectable,
-      AuthUserRepositoryError | AuthUserRepositoryConstraintError
-    >
+    ) => Effect.Effect<AuthUser.Selectable, AuthUserRepositoryError>
 
     findByEmail: (
       email: string
@@ -36,10 +32,7 @@ export class AuthUserRepository extends Context.Tag('AuthUserRepository')<
         AuthUser.Updateable,
         'id' | 'referral_code' | 'created_at' | 'updated_at'
       >
-    ) => Effect.Effect<
-      AuthUser.Selectable,
-      AuthUserRepositoryError | AuthUserRepositoryConstraintError
-    >
+    ) => Effect.Effect<AuthUser.Selectable, AuthUserRepositoryError>
 
     deleteById: (
       id: string
@@ -49,5 +42,3 @@ export class AuthUserRepository extends Context.Tag('AuthUserRepository')<
     >
   }
 >() {}
-
-export type { AuthUserRepositoryOperationError } from './error'

@@ -39,21 +39,6 @@ export const KyselyAuthUserRepositoryLive = Layer.effect(
             })
         }).pipe(Effect.map(Option.fromNullable)),
 
-      findByReferralCode: (referralCode) =>
-        Effect.tryPromise({
-          try: () =>
-            db
-              .selectFrom('auth_users')
-              .selectAll()
-              .where('referral_code', '=', referralCode)
-              .executeTakeFirst(),
-          catch: (error) =>
-            new AuthUserRepositoryError({
-              message: `Failed to find user by referral code: ${String(error)}`,
-              cause: error
-            })
-        }).pipe(Effect.map(Option.fromNullable)),
-
       findById: (id) =>
         Effect.tryPromise({
           try: () =>
@@ -76,7 +61,7 @@ export const KyselyAuthUserRepositoryLive = Layer.effect(
               .updateTable('auth_users')
               .set({
                 ...payload,
-                updated_at: new Date().toISOString()
+                updated_at: Math.round(Date.now() / 1000)
               })
               .where('id', '=', id)
               .returningAll()

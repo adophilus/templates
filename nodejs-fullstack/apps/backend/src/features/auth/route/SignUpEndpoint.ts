@@ -1,4 +1,4 @@
-import { DateTime, Duration, Effect, Option } from 'effect'
+import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/docs-openapi'
 import { SignUpSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Auth/SignUpEndpoint'
@@ -37,16 +37,14 @@ export const SignUpEndpointLive = HttpApiBuilder.handler(
         id: ulid()
       })
 
-      const tokenExpiry = DateTime.unsafeMake(new Date()).pipe(
-        DateTime.add({ minutes: 5 })
-      )
+      const tokenExpiry = Math.round(Date.now() / 1000) + 300 // add 5 mins
 
       const verificationToken = yield* tokenRepository.create({
         id: ulid(),
         user_id: user.id,
         token: '12345',
         purpose: 'SIGNUP_VERIFICATION',
-        expires_at: Math.round(tokenExpiry.epochMillis / 1000)
+        expires_at: tokenExpiry
       })
 
       yield* mailer.send({
@@ -79,22 +77,10 @@ export const SignUpEndpointLive = HttpApiBuilder.handler(
               message: error.message
             })
           ),
-        AuthUserRepositoryConstraintError: (error) =>
-          Effect.fail(
-            new UnexpectedError({
-              message: `Failed to create auth user: ${error.message}`
-            })
-          ),
         AuthTokenRepositoryError: (error) =>
           Effect.fail(
             new UnexpectedError({
               message: `Failed to create verification token: ${error.message}`
-            })
-          ),
-        AuthTokenRepositoryConstraintError: (error) =>
-          Effect.fail(
-            new BadRequestError({
-              message: `Invalid token data: ${error.message}`
             })
           )
       })

@@ -15,13 +15,7 @@ export class AuthTokenRepositoryValidationError extends Data.TaggedError('AuthTo
   cause?: unknown
 }> { }
 
-export class AuthTokenRepositoryConstraintError extends Data.TaggedError('AuthTokenRepositoryConstraintError')<{
-  message: string
-  cause?: unknown
-}> { }
-
 export type AuthTokenRepositoryOperationError = 
   | AuthTokenRepositoryError 
   | AuthTokenRepositoryNotFoundError
   | AuthTokenRepositoryValidationError
-  | AuthTokenRepositoryConstraintError

@@ -21,10 +21,7 @@ export class AuthSessionRepository extends Context.Tag('AuthSessionRepository')<
 
     updateById: (
       id: string,
-      payload: Omit<
-        AuthSession.Updateable,
-        'id' | 'token' | 'user_id' | 'created_at' | 'updated_at'
-      >
+      payload: Omit<AuthSession.Updateable, 'user_id'>
     ) => Effect.Effect<AuthSession.Selectable, AuthSessionRepositoryError>
 
     deleteById: (
