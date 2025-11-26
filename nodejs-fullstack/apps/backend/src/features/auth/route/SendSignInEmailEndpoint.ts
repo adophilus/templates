@@ -8,6 +8,7 @@ import { Mailer } from '@/features/mailer/service'
 import SignInVerificationMail from '@/emails/SignInVerificationMail'
 import {
   UserNotFoundError,
+  UserNotVerifiedError,
   UnexpectedError
 } from '@nodejs-fullstack-template/docs-openapi/common/index'
 import { ulid } from 'ulidx'
@@ -32,6 +33,13 @@ export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(
       }
 
       const user = userOption.value
+
+      // Check if user is verified
+      if (user.verified_at === null) {
+        return yield* Effect.fail(
+          new UserNotVerifiedError()
+        )
+      }
 
       // Generate a sign-in verification token
       const tokenExpiry = Math.round(Date.now() / 1000) + 300 // add 5 mins

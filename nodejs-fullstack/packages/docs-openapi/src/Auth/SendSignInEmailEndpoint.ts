@@ -1,6 +1,7 @@
 import { HttpApiEndpoint } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import UserNotFoundError from '../common/UserNotFoundError'
+import UserNotVerifiedError from '../common/UserNotVerifiedError'
 import BadRequestError from '../common/BadRequestError'
 import UnexpectedError from '../common/UnexpectedError'
 import { Schema } from 'effect'
@@ -26,6 +27,9 @@ const SendSignInEmailEndpoint = HttpApiEndpoint.post(
   .addSuccess(SendSignInEmailSuccessResponse, { status: StatusCodes.OK })
   .addError(UserNotFoundError, {
     status: StatusCodes.NOT_FOUND
+  })
+  .addError(UserNotVerifiedError, {
+    status: StatusCodes.FORBIDDEN
   })
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
