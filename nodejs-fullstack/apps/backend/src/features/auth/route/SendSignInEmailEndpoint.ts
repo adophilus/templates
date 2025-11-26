@@ -27,7 +27,7 @@ export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(
 
       if (Option.isNone(userOption)) {
         return yield* Effect.fail(
-          new UserNotFoundError({ message: 'User not found' })
+          new UserNotFoundError()
         )
       }
 
@@ -41,7 +41,7 @@ export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(
         user_id: user.id,
         token: '12345', // In reality, this would be a proper OTP/generate one
         purpose: 'SIGNIN_VERIFICATION',
-        expires_at: Math.round(tokenExpiry.epochMillis / 1000)
+        expires_at: tokenExpiry
       })
 
       // Send verification email to the user
@@ -79,12 +79,6 @@ export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(
           Effect.fail(
             new UnexpectedError({
               message: `Failed to create verification token: ${error.message}`
-            })
-          ),
-        AuthTokenRepositoryConstraintError: (error) =>
-          Effect.fail(
-            new UnexpectedError({
-              message: `Invalid token data: ${error.message}`
             })
           )
       })

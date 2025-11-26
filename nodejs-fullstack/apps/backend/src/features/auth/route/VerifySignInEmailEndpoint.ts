@@ -2,13 +2,16 @@ import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/docs-openapi'
 import { VerifySignInEmailSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Auth/VerifySignInEmailEndpoint'
-import { AuthUserRepository } from '../repository/user/interface'
-import { AuthTokenRepository } from '../repository/token/interface'
 import {
   InvalidOrExpiredTokenError,
   UnexpectedError
 } from '@nodejs-fullstack-template/docs-openapi/common/index'
 import { ulid } from 'ulidx'
+import {
+  AuthSessionRepository,
+  AuthTokenRepository,
+  AuthUserRepository
+} from '../repository'
 
 export const VerifySignInEmailEndpointLive = HttpApiBuilder.handler(
   Api,
@@ -16,8 +19,9 @@ export const VerifySignInEmailEndpointLive = HttpApiBuilder.handler(
   'verifySignInEmail',
   ({ payload }) =>
     Effect.gen(function* () {
-      const userRepository = yield* AuthUserRepository
+      const sessionRepository = yield* AuthSessionRepository
       const tokenRepository = yield* AuthTokenRepository
+      const userRepository = yield* AuthUserRepository
 
       // Find the user associated with this email
       const userOption = yield* userRepository.findByEmail(payload.email)
@@ -66,12 +70,15 @@ export const VerifySignInEmailEndpointLive = HttpApiBuilder.handler(
       // Delete the verification token as it's been used
       yield* tokenRepository.deleteById(token.id)
 
-      // In a real implementation, you would generate JWT tokens here
-      // For now, returning mock tokens
+      const session = yield* sessionRepository.create({
+        id: ulid(),
+        expires_at: Math.round(Date.now() / 1000 + 86400), // session expires in 1 day
+        user_id: user.id
+      })
+
       return VerifySignInEmailSuccessResponse.make({
         data: {
-          access_token: `mock_access_token_${ulid()}`,
-          refresh_token: `mock_refresh_token_${ulid()}`
+          access_token: session.id
         }
       })
     }).pipe(
@@ -86,6 +93,14 @@ export const VerifySignInEmailEndpointLive = HttpApiBuilder.handler(
           Effect.fail(
             new UnexpectedError({
               message: `Failed to access verification token: ${error.message}`
+            })
+          ),
+        AuthTokenRepositoryNotFoundError: () =>
+          Effect.fail(new InvalidOrExpiredTokenError()),
+        AuthSessionRepositoryError: (error) =>
+          Effect.fail(
+            new UnexpectedError({
+              message: `Failed to create session: ${error.message}`
             })
           )
       })

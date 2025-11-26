@@ -17,8 +17,9 @@ export const VerifySignUpEmailEndpointLive = HttpApiBuilder.handler(
   'verifySignUpEmail',
   ({ payload }) =>
     Effect.gen(function* () {
-      const userRepository = yield* AuthUserRepository
+      const sessionRepository = yield* AuthSessionRepository
       const tokenRepository = yield* AuthTokenRepository
+      const userRepository = yield* AuthUserRepository
 
       const user = yield* userRepository.findByEmail(payload.email).pipe(
         Effect.flatMap(
@@ -77,8 +78,6 @@ export const VerifySignUpEmailEndpointLive = HttpApiBuilder.handler(
         .pipe(
           Effect.catchTag('AuthTokenRepositoryNotFoundError', () => Effect.void)
         )
-
-      const sessionRepository = yield* AuthSessionRepository
 
       const session = yield* sessionRepository.create({
         id: ulid(),

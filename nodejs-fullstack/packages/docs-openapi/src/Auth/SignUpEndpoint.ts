@@ -20,7 +20,7 @@ export class SignUpSuccessResponse extends Schema.TaggedClass<SignUpSuccessRespo
   {}
 ) {}
 
-const SignUpEndpoint = HttpApiEndpoint.post('signUp', '/auth/sign-up')
+const SendSignUpEmailEndpoint = HttpApiEndpoint.post('signUp', '/auth/sign-up')
   .setPayload(Request)
   .addSuccess(SignUpSuccessResponse, { status: StatusCodes.OK })
   .addError(EmailAlreadyInUseError, { status: StatusCodes.CONFLICT })
@@ -28,4 +28,4 @@ const SignUpEndpoint = HttpApiEndpoint.post('signUp', '/auth/sign-up')
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   .annotate(OpenApi.Description, 'Sign up new user')
 
-export default SignUpEndpoint
+export default SendSignUpEmailEndpoint
