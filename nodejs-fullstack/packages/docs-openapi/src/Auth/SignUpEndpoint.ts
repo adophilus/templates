@@ -20,7 +20,7 @@ export class SignUpSuccessResponse extends Schema.TaggedClass<SignUpSuccessRespo
   {}
 ) {}
 
-const SendSignUpEmailEndpoint = HttpApiEndpoint.post('signUp', '/auth/sign-up')
+const SendSignUpEmailEndpoint = HttpApiEndpoint.post('sendSignUpEmail', '/auth/sign-up')
   .setPayload(Request)
   .addSuccess(SignUpSuccessResponse, { status: StatusCodes.OK })
   .addError(EmailAlreadyInUseError, { status: StatusCodes.CONFLICT })

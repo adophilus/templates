@@ -9,12 +9,12 @@ import { ResendSignUpVerificationEmailEndpointLive } from './ResendSignUpVerific
 
 const AuthApiLive = HttpApiBuilder.group(Api, 'Auth', (handlers) =>
   handlers
-    .handle('signUp', SignUpEndpointLive)
+    .handle('sendSignUpEmail', SignUpEndpointLive)
+    .handle('resendSignUpVerificationEmail', ResendSignUpVerificationEmailEndpointLive)
     .handle('verifySignUpEmail', VerifySignUpEmailEndpointLive)
     .handle('sendSignInEmail', SendSignInEmailEndpointLive)
-    .handle('verifySignInEmail', VerifySignInEmailEndpointLive)
     .handle('resendSignInVerificationEmail', ResendSignInVerificationEmailEndpointLive)
-    .handle('resendSignUpVerificationEmail', ResendSignUpVerificationEmailEndpointLive)
+    .handle('verifySignInEmail', VerifySignInEmailEndpointLive)
 )
 
 export default AuthApiLive
