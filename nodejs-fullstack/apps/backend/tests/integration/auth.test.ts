@@ -1,4 +1,4 @@
-import { it } from '@effect/vitest'
+import { it, assert } from '@effect/vitest'
 import { Effect } from 'effect'
 import { ApiClient } from '../utils'
 import { FetchHttpClient } from '@effect/platform'
@@ -14,6 +14,6 @@ it.effect('should send the sign up email', () =>
       }
     })
 
-    console.log(res)
+    assert.strictEqual(res._tag, 'SignUpResponse')
   }).pipe(Effect.provide(FetchHttpClient.layer))
 )
