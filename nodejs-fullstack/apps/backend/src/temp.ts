@@ -19,6 +19,7 @@ import { KyselyClient } from './features/database/kysely'
 import { NO_MIGRATIONS, type MigrationResultSet } from 'kysely'
 import { config } from './features/config'
 import { NodemailerMailerLive } from './features/mailer/service'
+import { AuthenticationMiddlewareLive } from './features/auth/route/AuthenticationMiddleware'
 
 class DatabaseMigrationFailedError extends Data.TaggedError(
   'DatabaseMigrationFailedError'
@@ -56,6 +57,7 @@ const DatabaseLayer = Layer.merge(DatabaseMigrationLayer, DatabaseClientLayer)
 const MailerLayer = NodemailerMailerLive
 
 const AuthLayer = AuthApiLive.pipe(
+  Layer.provide(AuthenticationMiddlewareLive),
   Layer.provide(KyselyAuthUserRepositoryLive),
   Layer.provide(KyselyAuthTokenRepositoryLive),
   Layer.provide(KyselyAuthSessionRepositoryLive)

@@ -3,12 +3,10 @@ import { Context, Effect, Layer, Option } from 'effect'
 import { Storage } from './interface'
 import { StorageServiceError, StorageServiceNotFoundError } from './error'
 import { validateFile } from './validation'
-import type { StorageFile } from '@/types'
 
 export const MockStorage: Context.Tag.Service<Storage> = {
   upload: (payload) =>
     Effect.gen(function* () {
-      // Use the shared validation function
       const validationInfo = yield* validateFile(payload)
 
       const id = ulid()
@@ -16,17 +14,16 @@ export const MockStorage: Context.Tag.Service<Storage> = {
       return {
         id,
         mime_type: validationInfo.mimeType,
-        original_name: payload.name || 'unnamed',
-        file_data: Buffer.from([]), // mock file data
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        original_name: payload.name,
+        file_data: Buffer.from([]),
+        created_at: Math.round(Date.now() / 1000),
+        updated_at: null
       }
     }),
 
   uploadMany: (payloads) =>
     Effect.forEach(payloads, (payload) =>
       Effect.gen(function* () {
-        // Use the shared validation function
         const validationInfo = yield* validateFile(payload)
 
         const id = ulid()
@@ -34,17 +31,16 @@ export const MockStorage: Context.Tag.Service<Storage> = {
         return {
           id,
           mime_type: validationInfo.mimeType,
-          original_name: payload.name || 'unnamed',
-          file_data: Buffer.from([]), // mock file data
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
+          original_name: payload.name,
+          file_data: Buffer.from([]),
+          created_at: Math.round(Date.now() / 1000),
+          updated_at: null
         }
       })
     ),
 
   get: (id) =>
     Effect.sync(() => {
-      // For mock, we'll just return a mock StorageFile if id exists
       const exists = id && id.length > 0 // simple check
 
       if (exists) {
@@ -53,8 +49,8 @@ export const MockStorage: Context.Tag.Service<Storage> = {
           mime_type: 'application/octet-stream',
           original_name: 'mock-file',
           file_data: Buffer.from([]), // mock file data
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
+          created_at: Math.round(Date.now() / 1000),
+          updated_at: null
         })
       }
 

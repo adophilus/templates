@@ -8,7 +8,7 @@ type Id = ColumnType<string, string, never>
 
 type TimestampModel = {
   created_at: ColumnType<number, never, never>
-  updated_at: ColumnType<number, never, number>
+  updated_at: ColumnType<number | null, never, number>
 }
 
 type AuthUsersTable = TimestampModel & {

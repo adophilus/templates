@@ -36,8 +36,9 @@
   "include": [
     "scripts/**/*.ts",
     "src/**/*.ts",
-    // "tests/**/*.ts",
+    "tests/**/*.ts",
     "migrations/**/*.ts",
+    "vitest.config.ts",
     "kysely.config.ts"
   ]
 }
