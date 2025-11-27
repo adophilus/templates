@@ -16,7 +16,7 @@ import { ulid } from 'ulidx'
 export const SignUpEndpointLive = HttpApiBuilder.handler(
   Api,
   'Auth',
-  'signUp',
+  'sendSignUpEmail',
   ({ payload }) =>
     Effect.gen(function* () {
       const userRepository = yield* AuthUserRepository
