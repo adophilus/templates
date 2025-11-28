@@ -7,7 +7,7 @@ export type MediaDescription =
 type Id = ColumnType<string, string, never>
 
 type TimestampModel = {
-  created_at: ColumnType<number, never, never>
+  created_at: ColumnType<number, number, never>
   updated_at: ColumnType<number | null, never, number>
 }
 

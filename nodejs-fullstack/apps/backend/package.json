@@ -64,6 +64,7 @@
     "@effect/platform": "^0.82.8",
     "@effect/platform-node": "^0.81.5",
     "@effect/vitest": "^0.27.0",
+    "@faker-js/faker": "^10.1.0",
     "@types/base64-url": "^2.2.2",
     "@types/better-sqlite3": "^7.6.13",
     "@types/lodash": "^4.17.20",

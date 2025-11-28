@@ -1,7 +1,4 @@
 export * from './error'
 export * from './interface'
-export * from './mock'
+export * from './in-memory'
 export * from './sqlite'
-
-export { MockStorage, MockStorageLive } from './mock'
-export { SqliteStorageLive } from './sqlite'
