@@ -6,6 +6,7 @@ import { FetchHttpClient } from '@effect/platform'
 describe('Auth API', () => {
   const userDetails = createMockUserSignUpDetails()
   let otp: string
+  let accessToken: string
 
   it.effect('should send the sign up email', () =>
     Effect.gen(function* () {
@@ -15,20 +16,8 @@ describe('Auth API', () => {
         payload: userDetails
       })
 
-      assert.strictEqual(res._tag, 'SignUpResponse')
-    }).pipe(Effect.provide(FetchHttpClient.layer))
-  )
-
-  it.effect('should send the sign in email', () =>
-    Effect.gen(function* () {
-      const client = yield* ApiClient
-
-      const res = yield* client.Auth.sendSignInEmail({
-        payload: { email: userDetails.email }
-      })
-
       otp = '12345'
-      assert.strictEqual(res._tag, 'SendSignInEmailResponse')
+      assert.strictEqual(res._tag, 'SignUpResponse')
     }).pipe(Effect.provide(FetchHttpClient.layer))
   )
 
@@ -47,6 +36,18 @@ describe('Auth API', () => {
     }).pipe(Effect.provide(FetchHttpClient.layer))
   )
 
+  it.effect('should send the sign in email', () =>
+    Effect.gen(function* () {
+      const client = yield* ApiClient
+
+      const res = yield* client.Auth.sendSignInEmail({
+        payload: { email: userDetails.email }
+      })
+
+      assert.strictEqual(res._tag, 'SendSignInEmailResponse')
+    }).pipe(Effect.provide(FetchHttpClient.layer))
+  )
+
   it.effect('should verify the sign in email', () =>
     Effect.gen(function* () {
       const client = yield* ApiClient
@@ -59,6 +60,8 @@ describe('Auth API', () => {
       })
 
       assert.strictEqual(res._tag, 'VerifySignInEmailResponse')
+
+      accessToken = res.data.access_token
     }).pipe(Effect.provide(FetchHttpClient.layer))
   )
 

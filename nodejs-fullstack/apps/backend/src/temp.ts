@@ -19,7 +19,7 @@ import { KyselyClient } from './features/database/kysely'
 import { NO_MIGRATIONS, type MigrationResultSet } from 'kysely'
 import { config } from './features/config'
 import { NodemailerMailerLive } from './features/mailer/service'
-import { AuthenticationMiddlewareLive } from './features/auth/route/AuthenticationMiddleware'
+import { AuthenticationMiddlewareLive } from './features/auth/middleware/AuthenticationMiddleware'
 
 class DatabaseMigrationFailedError extends Data.TaggedError(
   'DatabaseMigrationFailedError'
