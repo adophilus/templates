@@ -15,8 +15,6 @@ export const AuthenticationMiddlewareLive = Layer.effect(
         Effect.gen(function* () {
           const _token = Redacted.value(token)
 
-          console.log(_token)
-
           const res = yield* sessionRepository.findById(_token).pipe(
             Effect.map(Option.getOrThrow),
             Effect.flatMap((session) =>

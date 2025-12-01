@@ -49,7 +49,8 @@ export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(
         user_id: user.id,
         token: '12345', // In reality, this would be a proper OTP/generate one
         purpose: 'SIGNIN_VERIFICATION',
-        expires_at: tokenExpiry
+        expires_at: tokenExpiry,
+        created_at: Math.round(Date.now() / 1000)
       })
 
       // Send verification email to the user

@@ -12,12 +12,12 @@ import { validateFile } from './validation'
 
 export const SqliteStorageLive = Layer.effect(
   Storage,
-  Effect.gen(function*() {
+  Effect.gen(function* () {
     const repository = yield* StorageRepository
 
     return Storage.of({
       upload: (payload) =>
-        Effect.gen(function*() {
+        Effect.gen(function* () {
           // Use the shared validation function which returns ValidationInfo with mimeType
           const validationInfo = yield* validateFile(payload)
 
@@ -38,9 +38,10 @@ export const SqliteStorageLive = Layer.effect(
           const uploadedFile = yield* repository
             .create({
               id: ulid(),
-              mime_type: validationInfo.mimeType, // Use the validated MIME type
+              mime_type: validationInfo.mimeType,
               original_name: payload.name,
-              file_data: fileBuffer
+              file_data: fileBuffer,
+              created_at: Math.round(Date.now() / 1000)
             })
             .pipe(
               Effect.mapError(
@@ -57,7 +58,7 @@ export const SqliteStorageLive = Layer.effect(
 
       uploadMany: (payloads) =>
         Effect.forEach(payloads, (payload) =>
-          Effect.gen(function*() {
+          Effect.gen(function* () {
             // Use the shared validation function which returns ValidationInfo with mimeType
             const validationInfo = yield* validateFile(payload)
 
@@ -78,9 +79,10 @@ export const SqliteStorageLive = Layer.effect(
             const uploadedFile = yield* repository
               .create({
                 id: ulid(),
-                mime_type: validationInfo.mimeType, // Use the validated MIME type
+                mime_type: validationInfo.mimeType,
                 original_name: payload.name,
-                file_data: fileBuffer
+                file_data: fileBuffer,
+                created_at: Math.round(Date.now() / 1000)
               })
               .pipe(
                 Effect.mapError(

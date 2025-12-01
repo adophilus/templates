@@ -34,7 +34,8 @@ export const SignUpEndpointLive = HttpApiBuilder.handler(
 
       const user = yield* userRepository.create({
         ...payload,
-        id: ulid()
+        id: ulid(),
+        created_at: Math.round(Date.now() / 1000),
       })
 
       const tokenExpiry = Math.round(Date.now() / 1000) + 300 // add 5 mins
@@ -44,7 +45,8 @@ export const SignUpEndpointLive = HttpApiBuilder.handler(
         user_id: user.id,
         token: '12345',
         purpose: 'SIGNUP_VERIFICATION',
-        expires_at: tokenExpiry
+        expires_at: tokenExpiry,
+        created_at: Math.round(Date.now() / 1000),
       })
 
       yield* mailer.send({

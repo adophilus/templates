@@ -1,18 +1,10 @@
 import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/docs-openapi'
-import { 
-  ResendSignUpVerificationEmailSuccessResponse 
-} from '@nodejs-fullstack-template/docs-openapi/Auth/ResendSignUpVerificationEmailEndpoint'
-import { 
-  AuthUserRepository 
-} from '../repository/user/interface'
-import { 
-  AuthTokenRepository 
-} from '../repository/token/interface'
-import { 
-  Mailer 
-} from '@/features/mailer/service'
+import { ResendSignUpVerificationEmailSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Auth/ResendSignUpVerificationEmailEndpoint'
+import { AuthUserRepository } from '../repository/user/interface'
+import { AuthTokenRepository } from '../repository/token/interface'
+import { Mailer } from '@/features/mailer/service'
 import SignUpVerificationMail from '@/emails/SignUpVerificationMail'
 import {
   UserNotFoundError,
@@ -37,37 +29,37 @@ export const ResendSignUpVerificationEmailEndpointLive = HttpApiBuilder.handler(
       const userOption = yield* userRepository.findByEmail(payload.email)
 
       if (Option.isNone(userOption)) {
-        return yield* Effect.fail(
-          new UserNotFoundError()
-        )
+        return yield* Effect.fail(new UserNotFoundError())
       }
 
       const user = userOption.value
-      
+
       // Check if user is already verified
       if (user.verified_at !== null) {
-        return yield* Effect.fail(
-          new UserAlreadyVerifiedError()
-        )
+        return yield* Effect.fail(new UserAlreadyVerifiedError())
       }
 
       // Check if a verification token already exists for this user and purpose
-      const existingTokenOption = yield* tokenRepository.findByUserIdAndPurpose({
-        user_id: user.id,
-        purpose: 'SIGNUP_VERIFICATION'
-      })
+      const existingTokenOption = yield* tokenRepository.findByUserIdAndPurpose(
+        {
+          user_id: user.id,
+          purpose: 'SIGNUP_VERIFICATION'
+        }
+      )
 
       if (Option.isSome(existingTokenOption)) {
         const existingToken = existingTokenOption.value
-        
+
         // Check if the existing token hasn't expired yet (e.g., hasn't been more than 5 minutes)
         const currentTime = Math.round(Date.now() / 1000)
         if (currentTime < existingToken.expires_at) {
           return yield* Effect.fail(
-            new VerificationEmailAlreadySentError()
+            new VerificationEmailAlreadySentError({
+              expires_at: existingToken.expires_at
+            })
           )
         }
-        
+
         // If the token has expired, delete it so we can create a new one
         yield* tokenRepository.deleteById(existingToken.id)
       }
@@ -80,7 +72,8 @@ export const ResendSignUpVerificationEmailEndpointLive = HttpApiBuilder.handler(
         user_id: user.id,
         token: '12345', // In reality, this would be a proper OTP
         purpose: 'SIGNUP_VERIFICATION',
-        expires_at: tokenExpiry
+        expires_at: tokenExpiry,
+        created_at: Math.round(Date.now() / 1000)
       })
 
       // Send verification email to the user
@@ -120,12 +113,8 @@ export const ResendSignUpVerificationEmailEndpointLive = HttpApiBuilder.handler(
               message: `Failed to create verification token: ${error.message}`
             })
           ),
-        AuthTokenRepositoryConstraintError: (error) =>
-          Effect.fail(
-            new UnexpectedError({
-              message: `Token constraint violation: ${error.message}`
-            })
-          )
+        AuthTokenRepositoryNotFoundError: () =>
+          Effect.succeed(new ResendSignUpVerificationEmailSuccessResponse())
       })
     )
 )

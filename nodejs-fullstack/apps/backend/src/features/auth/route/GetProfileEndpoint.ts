@@ -2,7 +2,10 @@ import { Effect } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/docs-openapi'
 import { GetProfileSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Auth/GetProfileEndpoint'
-import { CurrentUser } from '@nodejs-fullstack-template/docs-openapi/common/index'
+import {
+  CurrentUser,
+  User
+} from '@nodejs-fullstack-template/docs-openapi/common/index'
 
 export const GetProfileEndpointLive = HttpApiBuilder.handler(
   Api,
@@ -13,7 +16,7 @@ export const GetProfileEndpointLive = HttpApiBuilder.handler(
       const user = yield* CurrentUser
 
       return GetProfileSuccessResponse.make({
-        data: user
+        data: User.make(user)
       })
     })
 )

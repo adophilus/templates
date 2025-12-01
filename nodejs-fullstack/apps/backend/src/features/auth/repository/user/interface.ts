@@ -1,4 +1,4 @@
-import { Context, Option, type Effect } from 'effect'
+import { Context, type Option, type Effect } from 'effect'
 import type { AuthUser } from '@/types'
 import type {
   AuthUserRepositoryError,

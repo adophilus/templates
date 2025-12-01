@@ -1,16 +1,26 @@
-import { it, assert, describe } from '@effect/vitest'
+import { it, assert, describe, beforeAll } from '@effect/vitest'
 import { Effect } from 'effect'
-import { ApiClient, createMockUserSignUpDetails } from '../utils'
+import {
+  type ApiClient,
+  createMockUserSignUpDetails,
+  makeApiClient
+} from '../utils'
 import { FetchHttpClient } from '@effect/platform'
+import BearerToken from '@nodejs-fullstack-template/docs-openapi/common/BearerToken'
 
 describe('Auth API', () => {
   const userDetails = createMockUserSignUpDetails()
   let otp: string
   let accessToken: string
+  let Client: ApiClient
+
+  beforeAll(() => {
+    Client = makeApiClient()
+  })
 
   it.effect('should send the sign up email', () =>
     Effect.gen(function* () {
-      const client = yield* ApiClient
+      const client = yield* Client
 
       const res = yield* client.Auth.sendSignUpEmail({
         payload: userDetails
@@ -23,7 +33,7 @@ describe('Auth API', () => {
 
   it.effect('should verify the sign up email', () =>
     Effect.gen(function* () {
-      const client = yield* ApiClient
+      const client = yield* Client
 
       const res = yield* client.Auth.verifySignUpEmail({
         payload: {
@@ -38,7 +48,7 @@ describe('Auth API', () => {
 
   it.effect('should send the sign in email', () =>
     Effect.gen(function* () {
-      const client = yield* ApiClient
+      const client = yield* Client
 
       const res = yield* client.Auth.sendSignInEmail({
         payload: { email: userDetails.email }
@@ -50,7 +60,7 @@ describe('Auth API', () => {
 
   it.effect('should verify the sign in email', () =>
     Effect.gen(function* () {
-      const client = yield* ApiClient
+      const client = yield* Client
 
       const res = yield* client.Auth.verifySignInEmail({
         payload: {
@@ -62,12 +72,13 @@ describe('Auth API', () => {
       assert.strictEqual(res._tag, 'VerifySignInEmailResponse')
 
       accessToken = res.data.access_token
+      Client = makeApiClient(accessToken)
     }).pipe(Effect.provide(FetchHttpClient.layer))
   )
 
   it.effect('should get user profile', () =>
     Effect.gen(function* () {
-      const client = yield* ApiClient
+      const client = yield* Client
 
       const res = yield* client.Auth.getProfile()
 
