@@ -6,7 +6,6 @@ import {
   makeApiClient
 } from '../utils'
 import { FetchHttpClient } from '@effect/platform'
-import BearerToken from '@nodejs-fullstack-template/docs-openapi/common/BearerToken'
 
 describe('Auth API', () => {
   const userDetails = createMockUserSignUpDetails()

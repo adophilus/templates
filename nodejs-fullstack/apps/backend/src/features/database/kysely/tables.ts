@@ -37,6 +37,7 @@ type StorageFilesTable = TimestampModel & {
   original_name: string
   file_data: Buffer
   mime_type: string
+  user_id: string
 }
 
 export type KyselyDatabaseTables = {
