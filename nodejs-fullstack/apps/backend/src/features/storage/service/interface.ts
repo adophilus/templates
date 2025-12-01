@@ -11,13 +11,15 @@ export class Storage extends Context.Tag('StorageService')<
   Storage,
   {
     upload: (
-      payload: File
+      payload: File,
+      userId: string
     ) => Effect.Effect<
       StorageFile.Selectable,
       StorageServiceValidationError | StorageServiceUploadError
     >
     uploadMany: (
-      payload: Array<File>
+      payload: Array<File>,
+      userId: string
     ) => Effect.Effect<
       Array<StorageFile.Selectable>,
       StorageServiceValidationError | StorageServiceUploadError

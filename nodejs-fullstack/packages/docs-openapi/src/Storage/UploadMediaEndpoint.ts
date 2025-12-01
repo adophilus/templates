@@ -6,6 +6,7 @@ import UnexpectedError from '../common/UnexpectedError'
 import { Schema } from 'effect'
 import ImageFiles from '../common/ImageFiles'
 import MediaDescription from '../common/MediaDescription'
+import AuthenticationMiddleware from '../Auth/AuthenticationMiddleware'
 
 const Request = HttpApiSchema.Multipart(
   Schema.Struct({
@@ -30,6 +31,7 @@ const UploadMediaEndpoint = HttpApiEndpoint.post(
   .addSuccess(UploadMediaSuccessResponse, { status: StatusCodes.OK })
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
+  .middleware(AuthenticationMiddleware)
   .annotate(OpenApi.Description, 'Upload multiple media files')
 
 export default UploadMediaEndpoint

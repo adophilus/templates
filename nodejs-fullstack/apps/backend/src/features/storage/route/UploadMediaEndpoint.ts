@@ -5,6 +5,7 @@ import { UploadMediaSuccessResponse } from '@nodejs-fullstack-template/docs-open
 import MediaDescription from '@nodejs-fullstack-template/docs-openapi/common/MediaDescription'
 import { Storage } from '../service'
 import UnexpectedError from '@nodejs-fullstack-template/docs-openapi/common/UnexpectedError'
+import { CurrentUser } from '@nodejs-fullstack-template/docs-openapi/common/index'
 import { basename } from 'node:path'
 
 export const UploadMediaEndpointLive = HttpApiBuilder.handler(
@@ -15,6 +16,7 @@ export const UploadMediaEndpointLive = HttpApiBuilder.handler(
     Effect.gen(function* () {
       const storage = yield* Storage
       const fs = yield* FileSystem.FileSystem
+      const currentUser = yield* CurrentUser
 
       const convertedFiles = yield* Effect.forEach(payload.files, (file) =>
         Effect.gen(function* () {
@@ -24,7 +26,7 @@ export const UploadMediaEndpointLive = HttpApiBuilder.handler(
       )
 
       const files = yield* Effect.forEach(convertedFiles, (file) =>
-        storage.upload(file).pipe(
+        storage.upload(file, currentUser.id).pipe(  // Pass user ID from current user context
           Effect.mapError(() => {
             return new UnexpectedError()
           })

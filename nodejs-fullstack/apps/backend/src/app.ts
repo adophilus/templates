@@ -1,5 +1,5 @@
 import { HttpApiBuilder, HttpMiddleware, HttpServer } from '@effect/platform'
-import { NodeHttpServer, NodeRuntime } from '@effect/platform-node'
+import { NodeHttpServer } from '@effect/platform-node'
 import { Api } from '@nodejs-fullstack-template/docs-openapi'
 import { createServer } from 'node:http'
 import StorageApiLive from './features/storage/route'
@@ -56,6 +56,11 @@ const DatabaseLayer = Layer.merge(DatabaseMigrationLayer, DatabaseClientLayer)
 
 const MailerLayer = NodemailerMailerLive
 
+const AuthMiddlewareLayer = AuthenticationMiddlewareLive.pipe(
+  Layer.provide(KyselyAuthUserRepositoryLive),
+  Layer.provide(KyselyAuthSessionRepositoryLive)
+)
+
 const AuthLayer = AuthApiLive.pipe(
   Layer.provide(AuthenticationMiddlewareLive),
   Layer.provide(KyselyAuthUserRepositoryLive),
@@ -71,6 +76,7 @@ const StorageLayer = StorageApiLive.pipe(
 const ApiLive = HttpApiBuilder.api(Api).pipe(
   Layer.provide(AuthLayer),
   Layer.provide(StorageLayer),
+  Layer.provide(AuthMiddlewareLayer),
   Layer.provide(MailerLayer),
   Layer.provide(DatabaseLayer)
 )
@@ -84,6 +90,4 @@ const HttpLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
 
 const DevToolsLive = DevTools.layer()
 
-const AppLive = HttpLive.pipe(Layer.provide(DevToolsLive))
-
-NodeRuntime.runMain(Layer.launch(AppLive))
+export const AppLive = HttpLive.pipe(Layer.provide(DevToolsLive))

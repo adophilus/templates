@@ -16,7 +16,7 @@ export const SqliteStorageLive = Layer.effect(
     const repository = yield* StorageRepository
 
     return Storage.of({
-      upload: (payload) =>
+      upload: (payload, userId) =>
         Effect.gen(function* () {
           // Use the shared validation function which returns ValidationInfo with mimeType
           const validationInfo = yield* validateFile(payload)
@@ -41,6 +41,7 @@ export const SqliteStorageLive = Layer.effect(
               mime_type: validationInfo.mimeType,
               original_name: payload.name,
               file_data: fileBuffer,
+              user_id: userId, // Include the user ID
               created_at: Math.round(Date.now() / 1000)
             })
             .pipe(
@@ -56,7 +57,7 @@ export const SqliteStorageLive = Layer.effect(
           return uploadedFile
         }),
 
-      uploadMany: (payloads) =>
+      uploadMany: (payloads, userId) =>
         Effect.forEach(payloads, (payload) =>
           Effect.gen(function* () {
             // Use the shared validation function which returns ValidationInfo with mimeType
@@ -82,6 +83,7 @@ export const SqliteStorageLive = Layer.effect(
                 mime_type: validationInfo.mimeType,
                 original_name: payload.name,
                 file_data: fileBuffer,
+                user_id: userId, // Include the user ID
                 created_at: Math.round(Date.now() / 1000)
               })
               .pipe(

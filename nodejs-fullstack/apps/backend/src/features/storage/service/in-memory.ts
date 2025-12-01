@@ -8,7 +8,7 @@ import type { StorageFile } from '@/types'
 const inMemoryStore = new Map<string, StorageFile.Selectable>()
 
 export const InMemoryStorage: Context.Tag.Service<Storage> = {
-  upload: (payload) =>
+  upload: (payload, userId) =>
     Effect.gen(function* () {
       const validationInfo = yield* validateFile(payload)
 
@@ -19,6 +19,7 @@ export const InMemoryStorage: Context.Tag.Service<Storage> = {
         mime_type: validationInfo.mimeType,
         original_name: payload.name,
         file_data: Buffer.from([]), // In-memory implementation doesn't store real data for demo
+        user_id: userId, // Add user_id field
         created_at: Math.round(Date.now() / 1000),
         updated_at: null
       }
@@ -28,7 +29,7 @@ export const InMemoryStorage: Context.Tag.Service<Storage> = {
       return fileRecord
     }),
 
-  uploadMany: (payloads) =>
+  uploadMany: (payloads, userId) =>
     Effect.forEach(payloads, (payload) =>
       Effect.gen(function* () {
         // Use the shared validation function
@@ -41,6 +42,7 @@ export const InMemoryStorage: Context.Tag.Service<Storage> = {
           mime_type: validationInfo.mimeType,
           original_name: payload.name,
           file_data: Buffer.from([]), // In-memory implementation doesn't store real data for demo
+          user_id: userId, // Add user_id field
           created_at: Math.round(Date.now() / 1000),
           updated_at: null
         }

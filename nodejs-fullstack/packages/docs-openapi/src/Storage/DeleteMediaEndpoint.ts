@@ -6,6 +6,7 @@ import UnauthorizedError from '../common/UnauthorizedError'
 import UnexpectedError from '../common/UnexpectedError'
 import { Schema } from 'effect'
 import Id from '../common/Id'
+import AuthenticationMiddleware from '../Auth/AuthenticationMiddleware'
 
 const Request = Schema.Struct({
   fileId: Id
@@ -18,7 +19,10 @@ export class DeleteMediaSuccessResponse extends Schema.TaggedClass<DeleteMediaSu
   {}
 ) {}
 
-const DeleteMediaEndpoint = HttpApiEndpoint.del('deleteMedia', '/storage/:fileId')
+const DeleteMediaEndpoint = HttpApiEndpoint.del(
+  'deleteMedia',
+  '/storage/:fileId'
+)
   .setPath(Request)
   .addSuccess(DeleteMediaSuccessResponse, { status: StatusCodes.OK })
   .addError(FileNotFoundError, {
@@ -26,6 +30,7 @@ const DeleteMediaEndpoint = HttpApiEndpoint.del('deleteMedia', '/storage/:fileId
   })
   .addError(UnauthorizedError, { status: StatusCodes.UNAUTHORIZED })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
+  .middleware(AuthenticationMiddleware)
   .annotate(OpenApi.Description, 'Delete a media file by ID')
 
 export default DeleteMediaEndpoint

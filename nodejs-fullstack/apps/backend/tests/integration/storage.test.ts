@@ -7,6 +7,7 @@ describe('Storage API', () => {
   let Client: ApiClient
 
   beforeAll(() => {
+    const user = createMockUser()
     Client = makeApiClient()
   })
 
@@ -66,4 +67,3 @@ describe('Storage API', () => {
     }).pipe(Effect.provide(FetchHttpClient.layer))
   )
 })
-
