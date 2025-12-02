@@ -1,13 +1,13 @@
-import { AppLive } from '@/app'
 import { createMockUserSignUpDetails } from './generator'
-import { NodeRuntime } from '@effect/platform-node'
 import { Effect, Layer } from 'effect'
 import {
   AuthSessionRepository,
-  AuthUserRepository
+  AuthUserRepository,
+  KyselyAuthSessionRepositoryLive,
+  KyselyAuthUserRepositoryLive
 } from '@/features/auth/repository'
 import { ulid } from 'ulidx'
-import type { AuthSession, AuthUser } from '@/types'
+import { SqliteKyselyClientLive } from '@/features/database/kysely/db/sqlite'
 
 const createMockUserEffect = Effect.gen(function* () {
   const authUserRepo = yield* AuthUserRepository
@@ -24,21 +24,23 @@ const createMockUserEffect = Effect.gen(function* () {
 
   const sessionExpiry = Math.round(Date.now() / 1000 + 86400)
 
-  yield* authSessionRepo.create({
+  const session = yield* authSessionRepo.create({
     id: ulid(),
     expires_at: sessionExpiry,
     user_id: user.id,
     created_at: Math.round(Date.now() / 1000)
   })
+
+  return { user, session }
 })
 
-export const createMockUserWithSession = (): {
-  user: AuthUser.Selectable
-  session: AuthSession.Selectable
-} => {
-  const layer = AppLive.pipe(
-    Layer.provide(Layer.effectDiscard(createMockUserEffect))
+export const createMockUserWithSession = async () => {
+  const layer = KyselyAuthSessionRepositoryLive.pipe(
+    Layer.provideMerge(KyselyAuthUserRepositoryLive),
+    Layer.provide(SqliteKyselyClientLive)
   )
 
-  NodeRuntime.runMain(Layer.launch(layer))
+  const program = createMockUserEffect.pipe(Effect.provide(layer))
+
+  return Effect.runPromise(program)
 }

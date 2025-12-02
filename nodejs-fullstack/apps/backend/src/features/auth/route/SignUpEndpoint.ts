@@ -8,7 +8,6 @@ import { Mailer } from '@/features/mailer/service'
 import SignUpVerificationMail from '@/emails/SignUpVerificationMail'
 import {
   EmailAlreadyInUseError,
-  BadRequestError,
   UnexpectedError
 } from '@nodejs-fullstack-template/api/common/index'
 import { ulid } from 'ulidx'

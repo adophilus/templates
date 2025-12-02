@@ -21,18 +21,18 @@ import { config } from './features/config'
 import { NodemailerMailerLive } from './features/mailer/service'
 import { AuthenticationMiddlewareLive } from './features/auth/middleware/AuthenticationMiddleware'
 
-class DatabaseMigrationFailedError extends Data.TaggedError(
+export class DatabaseMigrationFailedError extends Data.TaggedError(
   'DatabaseMigrationFailedError'
 )<{
   cause: unknown
 }> {}
 
-const DatabaseClientLayer = SqliteKyselyClientLive
+export const DatabaseClientLayer = SqliteKyselyClientLive
 
 const checkMigrationResultSet = (rs: MigrationResultSet) =>
   rs.error ? Effect.fail(rs.error) : Effect.void
 
-const DatabaseMigrationLayer = Layer.effectDiscard(
+export const DatabaseMigrationLayer = Layer.effectDiscard(
   Effect.gen(function* () {
     const client = yield* KyselyClient
 
@@ -52,28 +52,31 @@ const DatabaseMigrationLayer = Layer.effectDiscard(
   })
 ).pipe(Layer.provide(DatabaseClientLayer))
 
-const DatabaseLayer = Layer.merge(DatabaseMigrationLayer, DatabaseClientLayer)
+export const DatabaseLayer = Layer.merge(
+  DatabaseMigrationLayer,
+  DatabaseClientLayer
+)
 
-const MailerLayer = NodemailerMailerLive
+export const MailerLayer = NodemailerMailerLive
 
-const AuthMiddlewareLayer = AuthenticationMiddlewareLive.pipe(
+export const AuthMiddlewareLayer = AuthenticationMiddlewareLive.pipe(
   Layer.provide(KyselyAuthUserRepositoryLive),
   Layer.provide(KyselyAuthSessionRepositoryLive)
 )
 
-const AuthLayer = AuthApiLive.pipe(
+export const AuthLayer = AuthApiLive.pipe(
   Layer.provide(AuthenticationMiddlewareLive),
   Layer.provide(KyselyAuthUserRepositoryLive),
   Layer.provide(KyselyAuthTokenRepositoryLive),
   Layer.provide(KyselyAuthSessionRepositoryLive)
 )
 
-const StorageLayer = StorageApiLive.pipe(
+export const StorageLayer = StorageApiLive.pipe(
   Layer.provide(SqliteStorageLive),
   Layer.provide(KyselyStorageRepositoryLive)
 )
 
-const ApiLive = HttpApiBuilder.api(Api).pipe(
+export const ApiLive = HttpApiBuilder.api(Api).pipe(
   Layer.provide(AuthLayer),
   Layer.provide(StorageLayer),
   Layer.provide(AuthMiddlewareLayer),
@@ -81,13 +84,13 @@ const ApiLive = HttpApiBuilder.api(Api).pipe(
   Layer.provide(DatabaseLayer)
 )
 
-const HttpLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
+export const HttpLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
   Layer.provide(HttpApiBuilder.middlewareCors()),
   Layer.provide(ApiLive),
   HttpServer.withLogAddress,
   Layer.provide(NodeHttpServer.layer(createServer, { port: 5000 }))
 )
 
-const DevToolsLive = DevTools.layer()
+export const DevToolsLive = DevTools.layer()
 
 export const AppLive = HttpLive.pipe(Layer.provide(DevToolsLive))

@@ -21,7 +21,6 @@
     "@hono/zod-validator": "^0.4.3",
     "@n8n/di": "^0.2.0",
     "@nodejs-fullstack-template/api": "workspace:^",
-    "@nodejs-fullstack-template/api": "workspace:^",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/auto-instrumentations-node": "^0.62.0",
     "@opentelemetry/exporter-logs-otlp-http": "^0.203.0",

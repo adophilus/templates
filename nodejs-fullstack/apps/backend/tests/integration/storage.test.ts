@@ -2,13 +2,20 @@ import { it, assert, describe, beforeAll } from '@effect/vitest'
 import { Effect } from 'effect'
 import { type ApiClient, makeApiClient } from '../utils'
 import { FetchHttpClient } from '@effect/platform'
+import type { AuthSession, AuthUser } from '@/types'
+import { createMockUserWithSession } from '../utils/helpers'
 
 describe('Storage API', () => {
   let Client: ApiClient
+  let user: AuthUser.Selectable
+  let session: AuthSession.Selectable
 
-  beforeAll(() => {
-    const user = createMockUser()
-    Client = makeApiClient()
+  beforeAll(async () => {
+    const res = await createMockUserWithSession()
+    user = res.user
+    session = res.session
+
+    Client = makeApiClient(session.id)
   })
 
   it.effect('should upload a file', () =>
@@ -31,7 +38,13 @@ describe('Storage API', () => {
       assert.property(res, 'code')
       assert.property(res, 'data')
       assert.isArray(res.data)
-    }).pipe(Effect.provide(FetchHttpClient.layer))
+    }).pipe(
+      Effect.tapErrorTag('UnexpectedError', (err) => {
+        console.log(err)
+        return err
+      }),
+      Effect.provide(FetchHttpClient.layer)
+    )
   )
 
   it.effect('should get a file by ID', () =>

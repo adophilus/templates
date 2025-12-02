@@ -22,13 +22,22 @@ export const UploadMediaEndpointLive = HttpApiBuilder.handler(
         Effect.gen(function* () {
           const bytes = yield* fs.readFile(file.path)
           return new File([Buffer.from(bytes)], basename(file.path))
-        }).pipe(Effect.mapError(() => new UnexpectedError()))
+        }).pipe(
+          Effect.mapError(
+            (err) =>
+              new UnexpectedError({
+                message: err.message
+              })
+          )
+        )
       )
 
       const files = yield* Effect.forEach(convertedFiles, (file) =>
-        storage.upload(file, currentUser.id).pipe(  // Pass user ID from current user context
-          Effect.mapError(() => {
-            return new UnexpectedError()
+        storage.upload(file, currentUser.id).pipe(
+          Effect.mapError((err) => {
+            return new UnexpectedError({
+              message: err.message
+            })
           })
         )
       )
