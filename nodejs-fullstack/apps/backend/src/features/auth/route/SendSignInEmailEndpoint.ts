@@ -1,7 +1,7 @@
 import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
-import { Api } from '@nodejs-fullstack-template/docs-openapi'
-import { SendSignInEmailSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Auth/SendSignInEmailEndpoint'
+import { Api } from '@nodejs-fullstack-template/api'
+import { SendSignInEmailSuccessResponse } from '@nodejs-fullstack-template/api/Auth/SendSignInEmailEndpoint'
 import { AuthUserRepository } from '../repository/user/interface'
 import { AuthTokenRepository } from '../repository/token/interface'
 import { Mailer } from '@/features/mailer/service'
@@ -10,7 +10,7 @@ import {
   UserNotFoundError,
   UserNotVerifiedError,
   UnexpectedError
-} from '@nodejs-fullstack-template/docs-openapi/common/index'
+} from '@nodejs-fullstack-template/api/common/index'
 import { ulid } from 'ulidx'
 
 export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(

@@ -1,8 +1,8 @@
 import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
-import { Api } from '@nodejs-fullstack-template/docs-openapi'
-import FileNotFoundError from '@nodejs-fullstack-template/docs-openapi/common/FileNotFoundError'
-import UnexpectedError from '@nodejs-fullstack-template/docs-openapi/common/UnexpectedError'
+import { Api } from '@nodejs-fullstack-template/api'
+import FileNotFoundError from '@nodejs-fullstack-template/api/common/FileNotFoundError'
+import UnexpectedError from '@nodejs-fullstack-template/api/common/UnexpectedError'
 import { Storage } from '../service'
 
 export const GetMediaEndpointLive = HttpApiBuilder.handler(

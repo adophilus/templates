@@ -1,11 +1,11 @@
 import { Effect } from 'effect'
 import { HttpApiBuilder, FileSystem } from '@effect/platform'
-import { Api } from '@nodejs-fullstack-template/docs-openapi'
-import { UploadMediaSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Storage/UploadMediaEndpoint'
-import MediaDescription from '@nodejs-fullstack-template/docs-openapi/common/MediaDescription'
+import { Api } from '@nodejs-fullstack-template/api'
+import { UploadMediaSuccessResponse } from '@nodejs-fullstack-template/api/Storage/UploadMediaEndpoint'
+import MediaDescription from '@nodejs-fullstack-template/api/common/MediaDescription'
 import { Storage } from '../service'
-import UnexpectedError from '@nodejs-fullstack-template/docs-openapi/common/UnexpectedError'
-import { CurrentUser } from '@nodejs-fullstack-template/docs-openapi/common/index'
+import UnexpectedError from '@nodejs-fullstack-template/api/common/UnexpectedError'
+import { CurrentUser } from '@nodejs-fullstack-template/api/common/index'
 import { basename } from 'node:path'
 
 export const UploadMediaEndpointLive = HttpApiBuilder.handler(

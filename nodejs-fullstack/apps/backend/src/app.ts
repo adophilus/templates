@@ -1,6 +1,6 @@
 import { HttpApiBuilder, HttpMiddleware, HttpServer } from '@effect/platform'
 import { NodeHttpServer } from '@effect/platform-node'
-import { Api } from '@nodejs-fullstack-template/docs-openapi'
+import { Api } from '@nodejs-fullstack-template/api'
 import { createServer } from 'node:http'
 import StorageApiLive from './features/storage/route'
 import { Console, Data, Effect, Layer } from 'effect'

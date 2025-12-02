@@ -1,11 +1,11 @@
 import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
-import { Api } from '@nodejs-fullstack-template/docs-openapi'
-import { VerifySignInEmailSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Auth/VerifySignInEmailEndpoint'
+import { Api } from '@nodejs-fullstack-template/api'
+import { VerifySignInEmailSuccessResponse } from '@nodejs-fullstack-template/api/Auth/VerifySignInEmailEndpoint'
 import {
   InvalidOrExpiredTokenError,
   UnexpectedError
-} from '@nodejs-fullstack-template/docs-openapi/common/index'
+} from '@nodejs-fullstack-template/api/common/index'
 import { ulid } from 'ulidx'
 import {
   AuthSessionRepository,

@@ -5,7 +5,7 @@ layout: false
 <script setup>
 import { ApiReference } from '@scalar/api-reference'
 import '@scalar/api-reference/style.css'
-import { Api } from "@nodejs-fullstack-template/docs-openapi"
+import { Api } from "@nodejs-fullstack-template/api"
 import { env } from "../src/env.ts"
 import { OpenApi } from "@effect/platform"
 

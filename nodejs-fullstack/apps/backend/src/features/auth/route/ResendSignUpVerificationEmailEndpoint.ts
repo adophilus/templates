@@ -1,7 +1,7 @@
 import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
-import { Api } from '@nodejs-fullstack-template/docs-openapi'
-import { ResendSignUpVerificationEmailSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Auth/ResendSignUpVerificationEmailEndpoint'
+import { Api } from '@nodejs-fullstack-template/api'
+import { ResendSignUpVerificationEmailSuccessResponse } from '@nodejs-fullstack-template/api/Auth/ResendSignUpVerificationEmailEndpoint'
 import { AuthUserRepository } from '../repository/user/interface'
 import { AuthTokenRepository } from '../repository/token/interface'
 import { Mailer } from '@/features/mailer/service'
@@ -12,7 +12,7 @@ import {
   UserAlreadyVerifiedError,
   VerificationEmailAlreadySentError,
   UnexpectedError
-} from '@nodejs-fullstack-template/docs-openapi/common/index'
+} from '@nodejs-fullstack-template/api/common/index'
 import { ulid } from 'ulidx'
 
 export const ResendSignUpVerificationEmailEndpointLive = HttpApiBuilder.handler(

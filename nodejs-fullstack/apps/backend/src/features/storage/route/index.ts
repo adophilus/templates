@@ -1,5 +1,5 @@
 import { HttpApiBuilder } from '@effect/platform'
-import { Api } from '@nodejs-fullstack-template/docs-openapi'
+import { Api } from '@nodejs-fullstack-template/api'
 import { UploadMediaEndpointLive } from './UploadMediaEndpoint'
 import { DeleteMediaEndpointLive } from './DeleteMediaEndpoint'
 import { GetMediaEndpointLive } from './GetMediaEndpoint'

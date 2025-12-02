@@ -1,13 +1,13 @@
 import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
-import { Api } from '@nodejs-fullstack-template/docs-openapi'
-import { VerifySignUpEmailSuccessResponse } from '@nodejs-fullstack-template/docs-openapi/Auth/VerifySignUpEmailEndpoint'
+import { Api } from '@nodejs-fullstack-template/api'
+import { VerifySignUpEmailSuccessResponse } from '@nodejs-fullstack-template/api/Auth/VerifySignUpEmailEndpoint'
 import { AuthUserRepository } from '../repository/user/interface'
 import { AuthTokenRepository } from '../repository/token/interface'
 import {
   InvalidOrExpiredTokenError,
   UnexpectedError
-} from '@nodejs-fullstack-template/docs-openapi/common/index'
+} from '@nodejs-fullstack-template/api/common/index'
 import { ulid } from 'ulidx'
 import { AuthSessionRepository } from '../repository/session'
 

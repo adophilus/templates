@@ -1,5 +1,5 @@
 import { HttpApiBuilder } from '@effect/platform'
-import { Api } from '@nodejs-fullstack-template/docs-openapi'
+import { Api } from '@nodejs-fullstack-template/api'
 import { SignUpEndpointLive } from './SignUpEndpoint'
 import { VerifySignUpEmailEndpointLive } from './VerifySignUpEmailEndpoint'
 import { SendSignInEmailEndpointLive } from './SendSignInEmailEndpoint'

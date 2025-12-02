@@ -14,7 +14,7 @@
     "@scalar/api-reference": "^1.25.21"
   },
   "devDependencies": {
-    "@nodejs-fullstack-template/docs-openapi": "workspace:^",
+    "@nodejs-fullstack-template/api": "workspace:^",
     "@t3-oss/env-core": "^0.12.0",
     "@types/node": "^22.7.2",
     "@types/react": "^18.3.9",

@@ -1,8 +1,8 @@
-import AuthenticationMiddleware from '@nodejs-fullstack-template/docs-openapi/Auth/AuthenticationMiddleware'
+import AuthenticationMiddleware from '@nodejs-fullstack-template/api/Auth/AuthenticationMiddleware'
 import { Effect, Layer, Option, Redacted } from 'effect'
 import { AuthSessionRepository, AuthUserRepository } from '../repository'
-import UnauthorizedError from '@nodejs-fullstack-template/docs-openapi/common/UnauthorizedError'
-import UnexpectedError from '@nodejs-fullstack-template/docs-openapi/common/UnexpectedError'
+import UnauthorizedError from '@nodejs-fullstack-template/api/common/UnauthorizedError'
+import UnexpectedError from '@nodejs-fullstack-template/api/common/UnexpectedError'
 
 export const AuthenticationMiddlewareLive = Layer.effect(
   AuthenticationMiddleware,

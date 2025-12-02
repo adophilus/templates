@@ -1,5 +1,5 @@
 import { HttpApiClient, HttpClient, HttpClientRequest } from '@effect/platform'
-import { Api } from '@nodejs-fullstack-template/docs-openapi'
+import { Api } from '@nodejs-fullstack-template/api'
 import { Option } from 'effect'
 
 export const makeApiClient = (accessToken?: string) =>
