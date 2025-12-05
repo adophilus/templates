@@ -6,6 +6,11 @@
         "@niklaserik/effect-mcp"
       ],
       "trust": true
+    },
+    "motion": {
+      "command": "pnpx",
+      "args": ["motion-ai"],
+      "trust": true
     }
   },
   "$version": 2

@@ -1,12 +1,14 @@
 {
-	"servers": {
-		"effect-mcp": {
-			"type": "stdio",
-			"command": "pnpx",
-			"args": [
-				"@niklaserik/effect-mcp"
-			]
-		}
-	},
-	"inputs": []
+  "servers": {
+    "effect-mcp": {
+      "type": "stdio",
+      "command": "pnpx",
+      "args": ["@niklaserik/effect-mcp"]
+    },
+    "motion": {
+      "command": "pnpx",
+      "args": ["motion-ai"]
+    }
+  },
+  "inputs": []
 }

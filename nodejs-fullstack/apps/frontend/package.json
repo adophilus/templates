@@ -1,0 +1,44 @@
+{
+  "name": "@nodejs-fullstack-template/frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port $VITE_PORT",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@stylexjs/stylex": "^0.9.3",
+    "@tanstack/react-router": "^1.139.14",
+    "@tanstack/react-router-devtools": "^1.139.15",
+    "motion": "^12.23.25",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
+  },
+  "devDependencies": {
+    "@stylexjs/babel-plugin": "^0.17.2",
+    "@stylexjs/postcss-plugin": "^0.17.2",
+    "@tailwindcss/vite": "^4.1.17",
+    "@tanstack/router-plugin": "^1.139.14",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^18.3.7",
+    "@unocss/reset": "^66.5.10",
+    "@vitejs/plugin-react": "^5.1.1",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "globals": "^16.5.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
+    "typescript": "~5.9.3",
+    "unocss": "^66.5.10",
+    "vite": "npm:rolldown-vite@7.2.5",
+    "vite-plugin-stylex": "^0.13.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "vite": "npm:rolldown-vite@7.2.5"
+    }
+  }
+}

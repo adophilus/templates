@@ -3,7 +3,7 @@ import { Effect } from 'effect'
 import { type ApiClient, makeApiClient } from '../utils'
 import { FetchHttpClient } from '@effect/platform'
 import type { AuthSession, AuthUser } from '@/types'
-import MediaDescription from '@nodejs-fullstack-template/api/common/MediaDescription'
+import type MediaDescription from '@nodejs-fullstack-template/api/common/MediaDescription'
 import { createMockUserWithSession } from '../utils/helpers'
 import { readFile } from 'node:fs/promises'
 
