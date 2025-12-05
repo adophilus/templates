@@ -9,6 +9,7 @@ import { Effect, Layer } from 'effect'
 import { Storage } from './interface'
 import { config } from '@/features/config'
 import { validateFile } from './validation'
+import MediaDescription from '@nodejs-fullstack-template/api/common/MediaDescription'
 
 export const SqliteStorageLive = Layer.effect(
   Storage,
@@ -127,11 +128,12 @@ export const SqliteStorageLive = Layer.effect(
           })
         ),
 
-      convertToMediaDescription: (payload) => ({
-        id: payload.id,
-        source: 'cloud',
-        url: `${config.server.url}/storage/${payload.id}`
-      })
+      convertToMediaDescription: (payload) =>
+        new MediaDescription({
+          id: payload.id,
+          source: 'cloud',
+          url: `${config.server.url}/storage/${payload.id}`
+        })
     })
   })
 )

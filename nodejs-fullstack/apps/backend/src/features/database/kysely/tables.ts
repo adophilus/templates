@@ -1,8 +1,4 @@
 import type { ColumnType } from 'kysely'
-import type { types } from '@nodejs-fullstack-template/api'
-
-export type MediaDescription =
-  types.components['schemas']['Api.MediaDescription']
 
 type Id = ColumnType<string, string, never>
 

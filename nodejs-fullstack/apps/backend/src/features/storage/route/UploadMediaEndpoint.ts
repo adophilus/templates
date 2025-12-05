@@ -43,9 +43,7 @@ export const UploadMediaEndpointLive = HttpApiBuilder.handler(
       )
 
       return new UploadMediaSuccessResponse({
-        data: files.map((file) =>
-          MediaDescription.make(storage.convertToMediaDescription(file))
-        )
+        data: files.map(storage.convertToMediaDescription)
       })
     })
 )

@@ -1,11 +1,12 @@
 import { Context, type Effect, type Option } from 'effect'
-import type { MediaDescription, StorageFile } from '@/types'
+import type { StorageFile } from '@/types'
 import type {
   StorageServiceError,
   StorageServiceNotFoundError,
   StorageServiceUploadError,
   StorageServiceValidationError
 } from './error'
+import type MediaDescription from '@nodejs-fullstack-template/api/common/MediaDescription'
 
 export class Storage extends Context.Tag('StorageService')<
   Storage,

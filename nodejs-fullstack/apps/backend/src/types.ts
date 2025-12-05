@@ -1,6 +1,5 @@
 import type { Insertable, Selectable, Updateable } from 'kysely'
 import type { KyselyDatabaseTables } from '@/features/database/kysely'
-export type { MediaDescription } from '@/features/database/kysely/tables'
 
 type ApiCompatibility<T> = T
 type KSelectable<T> = Selectable<T>
