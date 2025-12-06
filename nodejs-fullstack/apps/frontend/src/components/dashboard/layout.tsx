@@ -7,8 +7,7 @@ const styles = stylex.create({
     display: 'grid',
     gridTemplateColumns: '300px 1fr',
     height: '100vh',
-    padding: '1.5rem',
-    gap: '1rem'
+    padding: '1.5rem'
   }
 })
 
