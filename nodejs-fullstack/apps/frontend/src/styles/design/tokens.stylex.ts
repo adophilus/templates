@@ -1,0 +1,11 @@
+import * as stylex from '@stylexjs/stylex'
+
+export const color = stylex.defineVars({
+  primary: '#0F1626',
+  secondary: '#FEFFF0'
+})
+
+export const fontFamily = stylex.defineVars({
+  plusJakartaSans: '"Plus Jakarta Sans", sans-serif',
+  germaniaOne: '"Germania One", system-ui'
+})

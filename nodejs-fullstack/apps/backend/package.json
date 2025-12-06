@@ -15,10 +15,6 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@effect/experimental": "^0.57.4",
-    "@hono/node-server": "^1.14.4",
-    "@hono/otel": "^0.4.0",
-    "@hono/zod-validator": "^0.4.3",
     "@n8n/di": "^0.2.0",
     "@nodejs-fullstack-template/api": "workspace:^",
     "@opentelemetry/api": "^1.9.0",
@@ -33,10 +29,10 @@
     "better-sqlite3": "^12.2.0",
     "date-fns": "^4.1.0",
     "file-type": "^21.0.0",
-    "hono": "^4.7.11",
     "http-status-codes": "^2.3.0",
     "jose": "^6.0.11",
     "jsx-email": "^2.7.2",
+    "zod": "^4.1.13",
     "kysely": "^0.28.3",
     "kysely-pglite": "^0.6.1",
     "kysely-plugin-prefix": "^1.2.2",
@@ -54,14 +50,16 @@
     "tsyringe": "^4.10.0",
     "type-fest": "^5.1.0",
     "ulidx": "^2.4.1",
-    "viem": "^2.38.5"
-  },
-  "devDependencies": {
-    "@effect/cli": "^0.61.8",
-    "@effect/language-service": "^0.56.0",
+    "viem": "^2.38.5",
     "@effect/platform": "^0.82.8",
     "@effect/platform-node": "^0.81.5",
     "@effect/vitest": "^0.27.0",
+    "@effect/cli": "^0.61.8",
+    "@effect/experimental": "^0.57.4",
+    "effect": "^3.16.5"
+  },
+  "devDependencies": {
+    "@effect/language-service": "^0.56.0",
     "@faker-js/faker": "^10.1.0",
     "@types/base64-url": "^2.2.2",
     "@types/better-sqlite3": "^7.6.13",
@@ -71,7 +69,6 @@
     "@types/pg": "^8.15.4",
     "@types/react": "^18.3.23",
     "@types/web-push": "^3.6.4",
-    "effect": "^3.16.5",
     "kysely-ctl": "^0.13.1",
     "tsx": "^4.20.2",
     "typescript": "^5.8.3",

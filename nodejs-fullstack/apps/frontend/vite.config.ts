@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import styleX from 'vite-plugin-stylex'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
+import path from 'node:path'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -15,6 +16,13 @@ export default defineConfig({
         plugins: [['babel-plugin-react-compiler']]
       }
     }),
-    styleX()
-  ]
+    styleX({
+      useCSSLayers: false
+    })
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    }
+  }
 })

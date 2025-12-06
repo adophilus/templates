@@ -6,12 +6,13 @@
   "type": "module",
   "scripts": {
     "build": "./scripts/build.sh",
-    "dev": "vitepress dev docs",
+    "dev": "vitepress dev docs --port $DOCS_PORT",
     "lint": "biome lint . && tsc",
     "preview": "vitepress preview docs"
   },
   "dependencies": {
-    "@scalar/api-reference": "^1.25.21"
+    "@scalar/api-reference": "^1.25.21",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@nodejs-fullstack-template/api": "workspace:^",
