@@ -11,11 +11,16 @@ const styles = stylex.create({
   }
 })
 
-export const Button = forwardRef<
-  HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    stylexStyles?: stylex.StyleXStyles
-  }
->(({ stylexStyles, ...props }, ref) => (
-  <button {...props} {...stylex.props(styles.button, stylexStyles)} ref={ref} />
-))
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  stylexStyles?: stylex.StyleXStyles
+}
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ stylexStyles, ...props }, ref) => (
+    <button
+      {...props}
+      {...stylex.props(styles.button, stylexStyles)}
+      ref={ref}
+    />
+  )
+)
