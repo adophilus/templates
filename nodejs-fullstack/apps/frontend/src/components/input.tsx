@@ -1,12 +1,21 @@
 import { forwardRef } from 'react'
 import * as stylex from '@stylexjs/stylex'
+import { color, fontFamily } from '@/styles/design/tokens.stylex'
 
 const styles = stylex.create({
   input: {
     border: '2px solid #0F1626',
     borderRadius: '0.5rem',
     backgroundColor: '#FEFFED',
-    padding: '0.5rem 1rem'
+    padding: '0.5rem 1rem',
+    fontSize: '0.875rem',
+    fontFamily: fontFamily.plusJakartaSans,
+    ':focus': {
+      outlineColor: color.primary,
+      outlineWidth: '2px',
+      outlineStyle: 'solid',
+      outlineOffset: '2px'
+    }
   }
 })
 

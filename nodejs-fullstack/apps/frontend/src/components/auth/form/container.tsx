@@ -2,20 +2,24 @@ import { forwardRef } from 'react'
 import * as stylex from '@stylexjs/stylex'
 
 const styles = stylex.create({
-  control: {
+  container: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.25rem'
+    gap: '1rem'
   }
 })
 
-export const Control = forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & {
+export const Container = forwardRef<
+  HTMLFormElement,
+  React.HTMLAttributes<HTMLFormElement> & {
     stylexStyles?: stylex.StyleXStyles
   }
 >(({ stylexStyles, ...props }, ref) => {
   return (
-    <div {...props} ref={ref} {...stylex.props(styles.control, stylexStyles)} />
+    <form
+      {...props}
+      {...stylex.props(styles.container, stylexStyles)}
+      ref={ref}
+    />
   )
 })

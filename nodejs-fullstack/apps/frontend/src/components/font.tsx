@@ -11,29 +11,32 @@ const styles = stylex.create({
   }
 })
 
+export type FontVariant = keyof typeof styles
+
 export type FontProps = ComponentProps<'span'> & {
-  as?: keyof JSX.IntrinsicElements
+  stylexStyles?: stylex.StyleX
 }
 
-function createFontComponent<T extends keyof typeof styles>(
-  variant: T
-) {
-  return forwardRef<HTMLElement, FontProps>(({ as: Component = 'span', className, ...props }, ref) => {
-    return (
-      <Component
-        ref={ref}
-        {...props}
-        className={stylex(styles[variant], className)}
-      />
+const createFontComponent = (variant: FontVariant) =>
+  forwardRef<HTMLSpanElement, FontProps>(
+    ({ stylexStyles, ...props }, ref) => (
+      <span {...props} {...stylex.props(styles[variant], stylexStyles)} ref={ref} />
     )
-  })
-}
+  )
 
-export const Font = new Proxy({} as Record<string, any>, {
-  get: (_, prop: string) => {
-    if (prop in styles) {
-      return createFontComponent(prop as keyof typeof styles)
+type FontComponent = ReturnType<typeof createFontComponent>
+
+const Font = new Proxy(
+  {} as Record<FontVariant, FontComponent>,
+  {
+    get: (_, prop: string) => {
+      if (!(prop in styles)) throw new Error(`Invalid Font: ${prop}`)
+
+      const variant = prop as FontVariant
+
+      return createFontComponent(variant)
     }
-    return undefined
   }
-})
+)
+
+export { Font }

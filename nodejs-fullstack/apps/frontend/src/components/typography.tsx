@@ -85,9 +85,33 @@ const styles = stylex.create({
     fontWeight: 'normal',
     fontSize: '1.125rem' // 18px
   },
-  RegularType32: {
+  RegularType20: {
     fontWeight: 'normal',
-    fontSize: '2rem' // 32px
+    fontSize: '1.25rem' // 20px
+  },
+  RegularType24: {
+    fontWeight: 'normal',
+    fontSize: '1.5rem' // 24px
+  },
+  RegularType36: {
+    fontWeight: 'normal',
+    fontSize: '2.25rem' // 36px
+  },
+  RegularType40: {
+    fontWeight: 'normal',
+    fontSize: '2.5rem' // 40px
+  },
+  RegularType48: {
+    fontWeight: 'normal',
+    fontSize: '3rem' // 48px
+  },
+  RegularType56: {
+    fontWeight: 'normal',
+    fontSize: '3.5rem' // 56px
+  },
+  RegularType64: {
+    fontWeight: 'normal',
+    fontSize: '4rem' // 64px
   }
 })
 

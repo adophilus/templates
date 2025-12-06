@@ -13,6 +13,7 @@
     "@stylexjs/stylex": "^0.9.3",
     "@tanstack/react-router": "^1.139.14",
     "@tanstack/react-router-devtools": "^1.139.15",
+    "lucide-react": "^0.556.0",
     "motion": "^12.23.25",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"

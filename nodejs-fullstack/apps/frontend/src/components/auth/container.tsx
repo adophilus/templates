@@ -2,6 +2,7 @@ import type { FunctionComponent, ReactNode } from 'react'
 import * as stylex from '@stylexjs/stylex'
 import { color } from '@/styles/design/tokens.stylex'
 import { Typography } from '../typography'
+import { Font } from '../font'
 
 export const styles = stylex.create({
   container: {
@@ -47,9 +48,14 @@ export const Container: FunctionComponent<{ children: ReactNode }> = ({
   <div {...stylex.props(styles.container)}>
     <div {...stylex.props(styles.banner)}>
       <header {...stylex.props(styles.bannerQuoteText)}>
-        <Typography.BoldType32>You can just do things</Typography.BoldType32>
+        <Typography.BoldType32>
+          <Font.Aesthetic>
+            Do the best you can until you know better. Then when you know
+            better, do better.
+          </Font.Aesthetic>
+        </Typography.BoldType32>
       </header>
-      <p {...stylex.props(styles.bannerQuoteAuthor)}>~ Anonymous</p>
+      <p {...stylex.props(styles.bannerQuoteAuthor)}>~ Maya Angelou</p>
     </div>
     <div {...stylex.props(styles.content)}>
       <div {...stylex.props(styles.contentInner)}>{children}</div>
