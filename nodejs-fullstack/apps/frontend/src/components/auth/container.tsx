@@ -20,12 +20,12 @@ export const styles = stylex.create({
     justifyContent: 'space-between'
   },
   bannerQuoteText: {
-    color: '#FEFFF0',
+    color: color.secondary,
     fontSize: '2rem',
     fontWeight: 'bold'
   },
   bannerQuoteAuthor: {
-    color: '#FEFFF0',
+    color: color.secondary,
     fontSize: '1rem',
     textAlign: 'right'
   },
@@ -47,7 +47,7 @@ export const Container: FunctionComponent<{ children: ReactNode }> = ({
   <div {...stylex.props(styles.container)}>
     <div {...stylex.props(styles.banner)}>
       <header {...stylex.props(styles.bannerQuoteText)}>
-        <Typography.BoldType12>You can just do things</Typography.BoldType12>
+        <Typography.BoldType32>You can just do things</Typography.BoldType32>
       </header>
       <p {...stylex.props(styles.bannerQuoteAuthor)}>~ Anonymous</p>
     </div>
