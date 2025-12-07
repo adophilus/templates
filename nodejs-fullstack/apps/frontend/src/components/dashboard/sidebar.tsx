@@ -4,7 +4,7 @@ import * as stylex from '@stylexjs/stylex'
 import type { FunctionComponent, ReactNode } from 'react'
 import { Typography } from '../typography'
 import { Font } from '../font'
-import { LayoutDashboardIcon } from 'lucide-react'
+import { LayoutDashboardIcon, LogOutIcon } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 
 const styles = stylex.create({
@@ -12,8 +12,19 @@ const styles = stylex.create({
     padding: '1rem',
     backgroundColor: color.primary,
     display: 'flex',
-    borderRadius: '1rem',
     flexDirection: 'column',
+    gap: '1rem',
+    borderRadius: '1rem'
+  },
+  header: {
+    color: color.secondary,
+    paddingInline: '1rem'
+  },
+  innerContainer: {
+    flexGrow: '1',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     gap: '1rem'
   },
   button: {
@@ -38,13 +49,32 @@ const Button: FunctionComponent<{ children: ReactNode }> = ({ children }) => (
 
 export const Sidebar = () => (
   <div {...stylex.props(styles.container)}>
-    <Link to="/dashboard">
-      <Button>
-        <LayoutDashboardIcon />
-        <Typography.SemiboldType16>
-          <Font.Body>Overview</Font.Body>
-        </Typography.SemiboldType16>
-      </Button>
-    </Link>
+    <header {...stylex.props(styles.header)}>
+      <Typography.SemiboldType32>
+        <Font.Body>IMAGY</Font.Body>
+      </Typography.SemiboldType32>
+    </header>
+    <div {...stylex.props(styles.innerContainer)}>
+      <div>
+        <Link to="/dashboard">
+          <Button>
+            <LayoutDashboardIcon />
+            <Typography.SemiboldType16>
+              <Font.Body>Overview</Font.Body>
+            </Typography.SemiboldType16>
+          </Button>
+        </Link>
+      </div>
+      <div>
+        <Link to="/dashboard">
+          <Button>
+            <LogOutIcon />
+            <Typography.SemiboldType16>
+              <Font.Body>Logout</Font.Body>
+            </Typography.SemiboldType16>
+          </Button>
+        </Link>
+      </div>
+    </div>
   </div>
 )
