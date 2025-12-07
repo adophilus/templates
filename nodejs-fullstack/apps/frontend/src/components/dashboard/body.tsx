@@ -10,6 +10,6 @@ const styles = stylex.create({
   }
 })
 
-export const Content: FunctionComponent<{ children: ReactNode }> = ({
+export const Body: FunctionComponent<{ children: ReactNode }> = ({
   children
 }) => <div {...stylex.props(styles.container)}>{children}</div>

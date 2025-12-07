@@ -250,6 +250,9 @@ importers:
       '@tanstack/react-router-devtools':
         specifier: ^1.139.15
         version: 1.139.15(@tanstack/react-router@1.139.14(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(@tanstack/router-core@1.139.14)(csstype@3.2.3)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(solid-js@1.9.10)
+      assertate:
+        specifier: ^2.4.0
+        version: 2.4.0
       lucide-react:
         specifier: ^0.556.0
         version: 0.556.0(react@19.2.1)
@@ -4619,6 +4622,9 @@ packages:
 
   asn1.js@5.4.1:
     resolution: {integrity: sha512-+I//4cYPccV8LdmBLiX8CYvf9Sp3vQsrqu2QNXRcrbiWvcx/UdlFiqUJJzxRQxgsZmvhXhn4cSKeSmoFjVdupA==}
+
+  assertate@2.4.0:
+    resolution: {integrity: sha512-t3+jNfAgLrKLAq7ftFC6QCB7vBZMvmwGtUXqaq5C3b+9Agv5B84usnDORLwcV98HtKXyKaoU2/hNuRd2ZSX6dQ==}
 
   assertion-error@2.0.1:
     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
@@ -13345,6 +13351,8 @@ snapshots:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
       safer-buffer: 2.1.2
+
+  assertate@2.4.0: {}
 
   assertion-error@2.0.1: {}
 
