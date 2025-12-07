@@ -1,17 +1,15 @@
 import { Card } from './card'
-import { Body } from './body'
+import { Content } from './content'
 import { Header } from './header'
 import { Image } from './image'
 import { Layout } from './layout'
-import { UploadButton } from './upload-button'
+import { Upload } from './upload'
 
 export const Dashboard = {
   Card,
-  Content: Body,
+  Content,
   Header,
   Image,
   Layout,
-  Upload: {
-    Button: UploadButton
-  }
+  Upload
 }

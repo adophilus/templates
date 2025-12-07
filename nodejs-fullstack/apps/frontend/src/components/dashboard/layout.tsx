@@ -4,8 +4,8 @@ import * as stylex from '@stylexjs/stylex'
 
 const styles = stylex.create({
   container: {
-    display: 'grid',
-    gridTemplateColumns: '300px 1fr',
+    display: 'flex',
+    // gridAutoColumns: '300px 1fr',
     height: '100vh',
     padding: '1.5rem'
   }

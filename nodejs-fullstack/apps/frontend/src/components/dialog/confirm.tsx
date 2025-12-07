@@ -10,6 +10,7 @@ export const Confirm = forwardRef<HTMLButtonElement, DialogConfirmProps>(
 
     return (
       <button
+        type="button"
         {...props}
         ref={ref}
         onClick={(e) => {

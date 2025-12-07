@@ -6,10 +6,11 @@ const styles = stylex.create({
     paddingInline: '5rem',
     display: 'flex',
     flexDirection: 'column',
+    flexGrow: 1,
     gap: '2rem'
   }
 })
 
-export const Body: FunctionComponent<{ children: ReactNode }> = ({
+export const Content: FunctionComponent<{ children: ReactNode }> = ({
   children
 }) => <div {...stylex.props(styles.container)}>{children}</div>

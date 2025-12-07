@@ -10,3 +10,7 @@ export const fontFamily = stylex.defineVars({
   plusJakartaSans: '"Plus Jakarta Sans", sans-serif',
   germaniaOne: '"Germania One", system-ui'
 })
+
+export const breakpoint = stylex.defineVars({
+  sm: '@media (width >= 375px)'
+})
