@@ -4,7 +4,7 @@ import { UploadIcon } from 'lucide-react'
 import { Button, type ButtonProps } from '@/components/button'
 import { forwardRef } from 'react'
 
-export const DashboardUploadButton = forwardRef<HTMLButtonElement, ButtonProps>(
+export const UploadButton = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ stylexStyles, ...props }, ref) => (
     <Button ref={ref} stylexStyles={stylexStyles} {...props}>
       <UploadIcon />

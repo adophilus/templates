@@ -19,9 +19,37 @@ const styles = stylex.create({
     fontWeight: 'bold',
     fontSize: '1.125rem' // 18px
   },
+  BoldType20: {
+    fontWeight: 'bold',
+    fontSize: '1.25rem' // 20px
+  },
+  BoldType24: {
+    fontWeight: 'bold',
+    fontSize: '1.5rem' // 24px
+  },
   BoldType32: {
     fontWeight: 'bold',
     fontSize: '2rem' // 32px
+  },
+  BoldType36: {
+    fontWeight: 'bold',
+    fontSize: '2.25rem' // 36px
+  },
+  BoldType40: {
+    fontWeight: 'bold',
+    fontSize: '2.5rem' // 40px
+  },
+  BoldType48: {
+    fontWeight: 'bold',
+    fontSize: '3rem' // 48px
+  },
+  BoldType56: {
+    fontWeight: 'bold',
+    fontSize: '3.5rem' // 56px
+  },
+  BoldType64: {
+    fontWeight: 'bold',
+    fontSize: '4rem' // 64px
   },
 
   // Semibold variants
@@ -41,9 +69,37 @@ const styles = stylex.create({
     fontWeight: '600',
     fontSize: '1.125rem' // 18px
   },
+  SemiboldType20: {
+    fontWeight: '600',
+    fontSize: '1.25rem' // 20px
+  },
+  SemiboldType24: {
+    fontWeight: '600',
+    fontSize: '1.5rem' // 24px
+  },
   SemiboldType32: {
     fontWeight: '600',
     fontSize: '2rem' // 32px
+  },
+  SemiboldType36: {
+    fontWeight: '600',
+    fontSize: '2.25rem' // 36px
+  },
+  SemiboldType40: {
+    fontWeight: '600',
+    fontSize: '2.5rem' // 40px
+  },
+  SemiboldType48: {
+    fontWeight: '600',
+    fontSize: '3rem' // 48px
+  },
+  SemiboldType56: {
+    fontWeight: '600',
+    fontSize: '3.5rem' // 56px
+  },
+  SemiboldType64: {
+    fontWeight: '600',
+    fontSize: '4rem' // 64px
   },
 
   // Medium variants
@@ -63,9 +119,37 @@ const styles = stylex.create({
     fontWeight: '500',
     fontSize: '1.125rem' // 18px
   },
+  MediumType20: {
+    fontWeight: '500',
+    fontSize: '1.25rem' // 20px
+  },
+  MediumType24: {
+    fontWeight: '500',
+    fontSize: '1.5rem' // 24px
+  },
   MediumType32: {
     fontWeight: '500',
     fontSize: '2rem' // 32px
+  },
+  MediumType36: {
+    fontWeight: '500',
+    fontSize: '2.25rem' // 36px
+  },
+  MediumType40: {
+    fontWeight: '500',
+    fontSize: '2.5rem' // 40px
+  },
+  MediumType48: {
+    fontWeight: '500',
+    fontSize: '3rem' // 48px
+  },
+  MediumType56: {
+    fontWeight: '500',
+    fontSize: '3.5rem' // 56px
+  },
+  MediumType64: {
+    fontWeight: '500',
+    fontSize: '4rem' // 64px
   },
 
   // Regular variants
@@ -92,6 +176,10 @@ const styles = stylex.create({
   RegularType24: {
     fontWeight: 'normal',
     fontSize: '1.5rem' // 24px
+  },
+  RegularType32: {
+    fontWeight: 'normal',
+    fontSize: '2rem' // 32px
   },
   RegularType36: {
     fontWeight: 'normal',

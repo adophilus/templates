@@ -1,6 +1,6 @@
 import { color } from '@/styles/design/tokens.stylex'
 import * as stylex from '@stylexjs/stylex'
-import { Trash2Icon, TrashIcon } from 'lucide-react'
+import { Trash2Icon } from 'lucide-react'
 
 const styles = stylex.create({
   container: {
@@ -19,9 +19,10 @@ const styles = stylex.create({
     gridRow: '1 / 2'
   },
   deleteButtonContainer: {
+    display: 'none',
     gridColumn: '1 / 2',
     gridRow: '1 / 2',
-    display: 'flex',
+    // display: 'flex',
     padding: '1rem',
     alignItems: 'start',
     backgroundColor: 'hsl(0deg 0% 0% / 0.1)',

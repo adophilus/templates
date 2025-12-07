@@ -4,7 +4,6 @@ import { Typography } from '@/components/typography'
 import { createFileRoute } from '@tanstack/react-router'
 import * as stylex from '@stylexjs/stylex'
 import { ImagesIcon } from 'lucide-react'
-import { DashboardUploadButton } from '@/components/dashboard/upload-button'
 
 export const Route = createFileRoute('/dashboard/')({
   component: DashboardOverviewPage
@@ -38,7 +37,7 @@ function DashboardOverviewPage() {
           </Typography.SemiboldType32>
         </Dashboard.Header>
         <div {...stylex.props(styles.dashboardActionsRow)}>
-          <DashboardUploadButton stylexStyles={styles.dashboardActionsButton} />
+          <Dashboard.Upload.Button stylexStyles={styles.dashboardActionsButton} />
         </div>
         <Dashboard.Image.Gallery />
       </Dashboard.Content>
