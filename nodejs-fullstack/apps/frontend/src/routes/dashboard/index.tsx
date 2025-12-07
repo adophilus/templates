@@ -3,8 +3,8 @@ import { Font } from '@/components/font'
 import { Typography } from '@/components/typography'
 import { createFileRoute } from '@tanstack/react-router'
 import * as stylex from '@stylexjs/stylex'
-import { ImagesIcon, UploadIcon, UsersIcon } from 'lucide-react'
-import { Button } from '@/components/button'
+import { ImagesIcon } from 'lucide-react'
+import { DashboardUploadButton } from '@/components/dashboard/upload-button'
 
 export const Route = createFileRoute('/dashboard/')({
   component: DashboardOverviewPage
@@ -38,13 +38,9 @@ function DashboardOverviewPage() {
           </Typography.SemiboldType32>
         </Dashboard.Header>
         <div {...stylex.props(styles.dashboardActionsRow)}>
-          <Button stylexStyles={styles.dashboardActionsButton}>
-            <UploadIcon />
-            <Typography.SemiboldType16>
-              <Font.Body>Upload</Font.Body>
-            </Typography.SemiboldType16>
-          </Button>
+          <DashboardUploadButton stylexStyles={styles.dashboardActionsButton} />
         </div>
+        <Dashboard.Image.Gallery />
       </Dashboard.Content>
     </Dashboard.Layout>
   )

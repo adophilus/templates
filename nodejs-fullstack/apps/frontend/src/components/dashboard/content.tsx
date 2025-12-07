@@ -3,7 +3,10 @@ import * as stylex from '@stylexjs/stylex'
 
 const styles = stylex.create({
   container: {
-    paddingInline: '2.5rem'
+    paddingInline: '5rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2rem'
   }
 })
 

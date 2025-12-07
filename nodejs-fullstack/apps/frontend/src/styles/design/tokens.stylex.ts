@@ -2,7 +2,8 @@ import * as stylex from '@stylexjs/stylex'
 
 export const color = stylex.defineVars({
   primary: '#0F1626',
-  secondary: '#FEFFF0'
+  secondary: '#FEFFF0',
+  danger: '#FF6363'
 })
 
 export const fontFamily = stylex.defineVars({
