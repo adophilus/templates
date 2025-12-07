@@ -14,19 +14,25 @@ const styles = stylex.create({
       outlineWidth: '2px'
     }
   },
-  image: {
+  imageContainer: {
     gridColumn: '1 / 2',
     gridRow: '1 / 2'
   },
+  image: {
+    width: '100%',
+    height: '100%'
+  },
   deleteButtonContainer: {
-    display: 'none',
     gridColumn: '1 / 2',
     gridRow: '1 / 2',
-    // display: 'flex',
     padding: '1rem',
     alignItems: 'start',
     backgroundColor: 'hsl(0deg 0% 0% / 0.1)',
-    justifyContent: 'end'
+    justifyContent: 'end',
+    display: 'none',
+    ':is(.group:hover span)': {
+      display: 'flex'
+    }
   },
   deleteButton: {
     backgroundColor: color.secondary,
@@ -43,16 +49,21 @@ const styles = stylex.create({
 })
 
 export const Tile = () => (
-  <button type="button" {...stylex.props(styles.container)}>
-    <img
-      src="https://placehold.co/300"
-      alt="title"
-      {...stylex.props(styles.image)}
-    />
-    <div {...stylex.props(styles.deleteButtonContainer)}>
+  <span
+    className={`group ${stylex.props(styles.container).className}`}
+    style={stylex.props(styles.container).style}
+  >
+    <span {...stylex.props(styles.imageContainer)}>
+      <img
+        src="https://placehold.co/300"
+        alt="title"
+        {...stylex.props(styles.image)}
+      />
+    </span>
+    <span {...stylex.props(styles.deleteButtonContainer)}>
       <button type="button" {...stylex.props(styles.deleteButton)}>
         <Trash2Icon {...stylex.props(styles.deleteButtonIcon)} />
       </button>
-    </div>
-  </button>
+    </span>
+  </span>
 )

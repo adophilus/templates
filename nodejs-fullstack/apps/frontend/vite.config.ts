@@ -16,9 +16,7 @@ export default defineConfig({
         plugins: [['babel-plugin-react-compiler']]
       }
     }),
-    styleX({
-      useCSSLayers: false
-    })
+    styleX()
   ],
   resolve: {
     alias: {

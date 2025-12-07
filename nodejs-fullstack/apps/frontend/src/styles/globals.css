@@ -1,4 +1,4 @@
-@import "@unocss/reset/tailwind.css";
+@layer reset;
+@import "@unocss/reset/tailwind.css" layer(reset);
 @import url('https://fonts.googleapis.com/css2?family=Germania+One&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-
 @stylex stylesheet;
