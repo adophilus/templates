@@ -1,3 +1,4 @@
+import { Breakpoint } from '@/components/breakpoint'
 import { Button } from '@/components/button'
 import { Dialog } from '@/components/dialog'
 import { Font } from '@/components/font'
@@ -80,22 +81,49 @@ export const Tile = () => {
         </span>
         <Dialog.Shell>
           <Dialog.Title>
-            <Typography.MediumType24>
-              <Font.Body>Confirm</Font.Body>
-            </Typography.MediumType24>
+            <Breakpoint
+              lg={
+                <Typography.MediumType20>
+                  <Font.Body>Confirm</Font.Body>
+                </Typography.MediumType20>
+              }
+            >
+              <Typography.MediumType18>
+                <Font.Body>Confirm</Font.Body>
+              </Typography.MediumType18>
+            </Breakpoint>
           </Dialog.Title>
           <Dialog.Body>
-            <Typography.MediumType16>
-              <Font.Body>
-                Are you sure you want to delete this image? Once deleted, it can{' '}
-                <strong>never</strong> be recovered
-              </Font.Body>
-            </Typography.MediumType16>
+            <Breakpoint
+              lg={
+                <Typography.MediumType16>
+                  <Font.Body>
+                    Are you sure you want to delete this image? Once deleted, it
+                    can <strong>never</strong> be recovered
+                  </Font.Body>
+                </Typography.MediumType16>
+              }
+            >
+              <Typography.MediumType12>
+                <Font.Body>
+                  Are you sure you want to delete this image? Once deleted, it
+                  can <strong>never</strong> be recovered
+                </Font.Body>
+              </Typography.MediumType12>
+            </Breakpoint>
           </Dialog.Body>
           <Dialog.Footer>
-            <Dialog.Cancel>Cancel</Dialog.Cancel>
+            <Dialog.Cancel>
+              <Typography.MediumType14>
+                <Font.Body>Cancel</Font.Body>
+              </Typography.MediumType14>
+            </Dialog.Cancel>
             <Dialog.Confirm>
-              <Button>Confirm</Button>
+              <Button>
+                <Typography.MediumType14>
+                  <Font.Body>Confirm</Font.Body>
+                </Typography.MediumType14>
+              </Button>
             </Dialog.Confirm>
           </Dialog.Footer>
         </Dialog.Shell>

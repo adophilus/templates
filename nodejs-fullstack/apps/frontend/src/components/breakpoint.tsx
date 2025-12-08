@@ -49,18 +49,12 @@ export const Breakpoint: FunctionComponent<BreakpointProps> = ({
   // Otherwise show children (the default content)
 
   if (currentBreakpoint === 'lg' && lg !== undefined) {
-    return <span {...stylex.props(styles.container)}>{lg}</span>
+    return lg
   } else if (currentBreakpoint === 'md' && md !== undefined) {
-    return <span {...stylex.props(styles.container)}>{md}</span>
+    return md
   } else if (currentBreakpoint === 'sm' && sm !== undefined) {
-    return <span {...stylex.props(styles.container)}>{sm}</span>
+    return sm
   } else {
-    return <span {...stylex.props(styles.container)}>{children}</span>
+    return children
   }
 }
-
-const styles = stylex.create({
-  container: {
-    display: 'block'
-  }
-})

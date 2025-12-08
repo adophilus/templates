@@ -7,7 +7,7 @@ import {
 import * as stylex from '@stylexjs/stylex'
 import { Context } from './context'
 import { Title } from './title'
-import { color } from '@/styles/design/tokens.stylex'
+import { breakpoint, color } from '@/styles/design/tokens.stylex'
 import { Body } from './body'
 import { Footer } from './footer'
 
@@ -25,7 +25,7 @@ const styles = stylex.create({
   },
   innerContainer: {
     display: 'grid',
-    gap: '1rem'
+    gap: '0.5rem'
   }
 })
 

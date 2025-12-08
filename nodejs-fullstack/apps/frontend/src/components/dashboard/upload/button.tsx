@@ -22,16 +22,6 @@ const styles = stylex.create({
     width: { default: '1rem', [breakpoint.lg]: '1.5rem' },
     height: { default: '1rem', [breakpoint.lg]: '1.5rem' }
   },
-  buttonText: {
-    color: 'white',
-    display: {
-      default: 'block',
-      [breakpoint.lg]: 'none'
-    }
-  },
-  buttonTextLg: {
-    display: { default: 'none', [breakpoint.lg]: 'block' }
-  },
   input: {
     width: '100%'
   }
@@ -82,9 +72,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           </Dialog.Trigger>
           <Dialog.Shell>
             <Dialog.Title>
-              <Typography.MediumType24>
-                <Font.Body>Upload Image</Font.Body>
-              </Typography.MediumType24>
+              <Breakpoint
+                lg={
+                  <Typography.MediumType20>
+                    <Font.Body>Upload Image</Font.Body>
+                  </Typography.MediumType20>
+                }
+              >
+                <Typography.MediumType18>
+                  <Font.Body>Upload Image</Font.Body>
+                </Typography.MediumType18>
+              </Breakpoint>
             </Dialog.Title>
             <Dialog.Body>
               <form.Field name="files">
@@ -110,9 +108,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               </form.Field>
             </Dialog.Body>
             <Dialog.Footer>
-              <Dialog.Cancel>Cancel</Dialog.Cancel>
+              <Dialog.Cancel>
+                <Typography.MediumType14>
+                  <Font.Body>Cancel</Font.Body>
+                </Typography.MediumType14>
+              </Dialog.Cancel>
               <Dialog.Confirm>
-                <CButton type="submit">Upload</CButton>
+                <CButton type="submit">
+                  <Typography.MediumType14>
+                    <Font.Body>Upload</Font.Body>
+                  </Typography.MediumType14>
+                </CButton>
               </Dialog.Confirm>
             </Dialog.Footer>
           </Dialog.Shell>
