@@ -1,0 +1,55 @@
+{
+  "name": "vite-plugin-stylex",
+  "version": "0.13.0",
+  "description": "Vite Plugin for StyleX",
+  "author": "Horus Lugo <hola@horus.dev>",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "vite",
+    "stylex",
+    "css-in-js",
+    "plugin"
+  ],
+  "repository": "https://www.github.com/HorusGoul/vite-plugin-stylex",
+  "sideEffects": false,
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/main.d.mts",
+      "import": "./dist/main.mjs",
+      "default": "./dist/main.mjs"
+    }
+  },
+  "scripts": {
+    "cleanup": "rm -rf dist",
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "@types/node": "20",
+    "typescript": "5.2.2",
+    "vite": "^5.2.7"
+  },
+  "dependencies": {
+    "@babel/core": "^7.26.8",
+    "@babel/plugin-syntax-flow": "^7.24.7",
+    "@babel/plugin-syntax-jsx": "^7.24.7",
+    "@babel/plugin-syntax-typescript": "^7.24.7",
+    "@stylexjs/babel-plugin": "^0.17.2",
+    "compare-versions": "^6.1.0"
+  },
+  "peerDependencies": {
+    "@stylexjs/stylex": "^0.17.2",
+    "vite": "^5.2.7"
+  },
+  "peerDependenciesMeta": {
+    "react-strict-dom": {
+      "optional": true
+    }
+  }
+}

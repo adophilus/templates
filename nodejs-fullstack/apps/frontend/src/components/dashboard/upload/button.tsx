@@ -9,10 +9,32 @@ import { forwardRef, useRef } from 'react'
 import { Dialog } from '@/components/dialog'
 import { useForm } from '@tanstack/react-form'
 import { toast } from 'sonner'
+import * as stylex from '@stylexjs/stylex'
+import { breakpoint } from '@/styles/design/tokens.stylex'
 
 export type ButtonProps = Omit<CButtonProps, 'children'>
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+const styles = stylex.create({
+  buttonIcon: {
+    width: { default: '1rem', [breakpoint.lg]: '1.5rem' },
+    height: { default: '1rem', [breakpoint.lg]: '1.5rem' }
+  },
+  buttonText: {
+    color: 'white',
+    display: {
+      default: 'block',
+      [breakpoint.lg]: 'none'
+    }
+  },
+  buttonTextLg: {
+    display: { default: 'none', [breakpoint.lg]: 'block' }
+  },
+  input: {
+    width: '100%'
+  }
+})
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (props, ref) => {
@@ -43,19 +65,27 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <Dialog.Provider>
           <Dialog.Trigger>
             <CButton {...props} ref={ref}>
-              <UploadIcon />
-              <Typography.SemiboldType16>
+              <UploadIcon {...stylex.props(styles.buttonIcon)} />
+              <Typography.SemiboldType12 stylexStyles={styles.buttonText}>
+                <Font.Body>Upload</Font.Body>
+              </Typography.SemiboldType12>
+              <Typography.SemiboldType16 stylexStyles={styles.buttonTextLg}>
                 <Font.Body>Upload</Font.Body>
               </Typography.SemiboldType16>
             </CButton>
           </Dialog.Trigger>
           <Dialog.Shell>
-            <Dialog.Title>Upload Image</Dialog.Title>
+            <Dialog.Title>
+              <Typography.MediumType24>
+                <Font.Body>Upload Image</Font.Body>
+              </Typography.MediumType24>
+            </Dialog.Title>
             <Dialog.Body>
               <form.Field name="files">
                 {(field) => (
                   <input
                     type="file"
+                    {...stylex.props(styles.input)}
                     id={field.name}
                     name={field.name}
                     onBlur={field.handleBlur}

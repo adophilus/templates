@@ -1,47 +1,86 @@
 import { color } from '@/styles/design/tokens.stylex'
-import { Button as CButton } from '../button'
+import { Button } from '../button'
 import * as stylex from '@stylexjs/stylex'
-import type { FunctionComponent, ReactNode } from 'react'
 import { Typography } from '../typography'
 import { Font } from '../font'
-import { LayoutDashboardIcon, LogOutIcon } from 'lucide-react'
+import { LayoutDashboardIcon, LogOutIcon, WarehouseIcon } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
-import { BREAKPOINT_SM } from '@/styles/design/tokens.stylex'
+import { breakpoint } from '@/styles/design/tokens.stylex'
 
 const styles = stylex.create({
   container: {
+    containerType: 'inline-size',
+    top: '0.25rem',
+    height: 'calc(100vh - 0.25rem * 2)',
+    position: 'sticky',
     width: {
-      default: '100px',
-      '@media (width >= 375px)': '300px'
-      // [BREAKPOINT_SM]: '300px'
+      default: '60px',
+      [breakpoint.lg]: '300px'
     },
     overflow: 'hidden',
-    padding: '1rem',
+    padding: { default: '0.5rem', [breakpoint.lg]: '1rem' },
     backgroundColor: color.primary,
     display: 'flex',
     flexDirection: 'column',
-    gap: '1rem',
-    borderRadius: '1rem'
+    gap: '2rem',
+    borderRadius: '1rem',
+    flexGrow: 0,
+    flexShrink: 0
   },
   header: {
+    display: 'flex',
+    gap: '0.5rem',
+    alignItems: 'center',
+    justifyContent: {
+      default: 'center',
+      '@container (width > 100px)': 'start'
+    },
     color: color.secondary,
-    paddingInline: '1rem'
+    aspectRatio: {
+      default: '1 / 1',
+      '@container (width > 100px)': 'auto'
+    },
+    paddingInline: {
+      default: '0rem',
+      '@container (width > 100px)': '1rem'
+    }
+  },
+  headerText: {
+    display: {
+      default: 'none',
+      '@container (width > 100px)': 'block'
+    }
   },
   innerContainer: {
     flexGrow: '1',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    gap: '1rem'
+    gap: '1.5rem'
   },
   button: {
     width: '100%',
-    textAlign: 'left',
     display: 'flex',
+    alignItems: 'center',
+    justifyContent: {
+      default: 'center',
+      '@container (width > 100px)': 'start'
+    },
+    padding: {
+      default: '0rem',
+      '@container (width > 100px)': '0.5rem 1rem'
+    },
+    aspectRatio: { default: '1 / 1', '@container (width > 100px)': 'auto' },
     gap: '0.5rem',
     ':hover': {
       color: color.primary,
       backgroundColor: `color-mix(in srgb, ${color.primary}, ${color.secondary} 80%)`
+    }
+  },
+  buttonText: {
+    display: {
+      default: 'none',
+      '@container (width > 100px)': 'block'
     }
   },
   buttonActive: {
@@ -50,23 +89,20 @@ const styles = stylex.create({
   }
 })
 
-const Button: FunctionComponent<{ children: ReactNode }> = ({ children }) => (
-  <CButton stylexStyles={styles.button}>{children}</CButton>
-)
-
 export const Sidebar = () => (
   <div {...stylex.props(styles.container)}>
     <header {...stylex.props(styles.header)}>
-      <Typography.SemiboldType32>
+      <WarehouseIcon />
+      <Typography.SemiboldType32 stylexStyles={styles.headerText}>
         <Font.Body>IMAGY</Font.Body>
       </Typography.SemiboldType32>
     </header>
     <div {...stylex.props(styles.innerContainer)}>
       <div>
         <Link to="/dashboard">
-          <Button>
+          <Button stylexStyles={styles.button}>
             <LayoutDashboardIcon />
-            <Typography.SemiboldType16>
+            <Typography.SemiboldType16 stylexStyles={styles.buttonText}>
               <Font.Body>Overview</Font.Body>
             </Typography.SemiboldType16>
           </Button>
@@ -74,9 +110,9 @@ export const Sidebar = () => (
       </div>
       <div>
         <Link to="/dashboard">
-          <Button>
+          <Button stylexStyles={styles.button}>
             <LogOutIcon />
-            <Typography.SemiboldType16>
+            <Typography.SemiboldType16 stylexStyles={styles.buttonText}>
               <Font.Body>Logout</Font.Body>
             </Typography.SemiboldType16>
           </Button>

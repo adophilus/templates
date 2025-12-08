@@ -1,13 +1,12 @@
 import type { FunctionComponent, ReactNode } from 'react'
 import { Sidebar } from './sidebar'
 import * as stylex from '@stylexjs/stylex'
+import { breakpoint } from '@/styles/design/tokens.stylex'
 
 const styles = stylex.create({
   container: {
     display: 'flex',
-    // gridAutoColumns: '300px 1fr',
-    height: '100vh',
-    padding: { default: '0.25rem', '@media (width >= 375px)': '1.5rem' }
+    padding: { default: '0.25rem', [breakpoint.lg]: '1.5rem' }
   }
 })
 

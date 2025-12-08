@@ -4,6 +4,7 @@ import { Typography } from '@/components/typography'
 import { createFileRoute } from '@tanstack/react-router'
 import * as stylex from '@stylexjs/stylex'
 import { ImagesIcon } from 'lucide-react'
+import { breakpoint } from '@/styles/design/tokens.stylex'
 
 export const Route = createFileRoute('/dashboard/')({
   component: DashboardOverviewPage
@@ -22,7 +23,7 @@ const styles = stylex.create({
     display: 'flex',
     alignItems: 'center',
     gap: '0.5rem',
-    padding: '1rem 1.5rem'
+    padding: { default: '1rem 1.5rem', [breakpoint.lg]: '1rem 1.5rem' }
   }
 })
 
@@ -37,7 +38,9 @@ function DashboardOverviewPage() {
           </Typography.SemiboldType32>
         </Dashboard.Header>
         <div {...stylex.props(styles.dashboardActionsRow)}>
-          <Dashboard.Upload.Button stylexStyles={styles.dashboardActionsButton} />
+          <Dashboard.Upload.Button
+            stylexStyles={styles.dashboardActionsButton}
+          />
         </div>
         <Dashboard.Image.Gallery />
       </Dashboard.Content>

@@ -212,7 +212,11 @@ export type TypographyProps = ComponentProps<'span'> & {
 const createTypographyComponent = (variant: TypographyVariant) =>
   forwardRef<HTMLSpanElement, TypographyProps>(
     ({ stylexStyles, ...props }, ref) => (
-      <span {...props} {...stylex.props(styles[variant])} ref={ref} />
+      <span
+        {...props}
+        {...stylex.props(styles[variant], stylexStyles)}
+        ref={ref}
+      />
     )
   )
 

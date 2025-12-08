@@ -4,9 +4,11 @@ import { color, fontFamily } from '@/styles/design/tokens.stylex'
 
 const styles = stylex.create({
   input: {
-    border: '2px solid #0F1626',
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    borderColor: color.primary,
     borderRadius: '0.5rem',
-    backgroundColor: '#FEFFED',
+    backgroundColor: color.secondary,
     padding: '0.5rem 1rem',
     fontSize: '0.875rem',
     fontFamily: fontFamily.plusJakartaSans,

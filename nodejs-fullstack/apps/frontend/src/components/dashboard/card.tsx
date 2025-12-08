@@ -1,6 +1,6 @@
 import type { FunctionComponent, ReactNode } from 'react'
 import { Typography } from '../typography'
-import { UsersIcon, type LucideIcon } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { Font } from '../font'
 import * as stylex from '@stylexjs/stylex'
 import { color } from '@/styles/design/tokens.stylex'
@@ -8,7 +8,7 @@ import { color } from '@/styles/design/tokens.stylex'
 const styles = stylex.create({
   container: {
     padding: '1.5rem',
-    border: color.primary,
+    borderColor: color.primary,
     borderStyle: 'solid',
     borderWidth: '2px',
     borderRadius: '1rem',
