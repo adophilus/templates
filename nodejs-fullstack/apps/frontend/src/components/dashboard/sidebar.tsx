@@ -6,11 +6,16 @@ import { Typography } from '../typography'
 import { Font } from '../font'
 import { LayoutDashboardIcon, LogOutIcon } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
-import { breakpoint } from '@/styles/design/tokens.stylex'
+import { BREAKPOINT_SM } from '@/styles/design/tokens.stylex'
 
 const styles = stylex.create({
   container: {
-    width: { default: '100px', [breakpoint.sm]: '300px' },
+    width: {
+      default: '100px',
+      '@media (width >= 375px)': '300px'
+      // [BREAKPOINT_SM]: '300px'
+    },
+    overflow: 'hidden',
     padding: '1rem',
     backgroundColor: color.primary,
     display: 'flex',

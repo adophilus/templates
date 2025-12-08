@@ -11,6 +11,4 @@ export const fontFamily = stylex.defineVars({
   germaniaOne: '"Germania One", system-ui'
 })
 
-export const breakpoint = stylex.defineVars({
-  sm: '@media (width >= 375px)'
-})
+export const BREAKPOINT_SM = '@media (width >= 375px)'

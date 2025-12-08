@@ -7,7 +7,7 @@ const styles = stylex.create({
     display: 'flex',
     // gridAutoColumns: '300px 1fr',
     height: '100vh',
-    padding: '1.5rem'
+    padding: { default: '0.25rem', '@media (width >= 375px)': '1.5rem' }
   }
 })
 
