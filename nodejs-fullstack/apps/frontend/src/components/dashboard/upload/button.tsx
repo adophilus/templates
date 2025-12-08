@@ -11,6 +11,7 @@ import { useForm } from '@tanstack/react-form'
 import { toast } from 'sonner'
 import * as stylex from '@stylexjs/stylex'
 import { breakpoint } from '@/styles/design/tokens.stylex'
+import { Breakpoint } from '@/components/breakpoint'
 
 export type ButtonProps = Omit<CButtonProps, 'children'>
 
@@ -66,12 +67,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           <Dialog.Trigger>
             <CButton {...props} ref={ref}>
               <UploadIcon {...stylex.props(styles.buttonIcon)} />
-              <Typography.SemiboldType12 stylexStyles={styles.buttonText}>
-                <Font.Body>Upload</Font.Body>
-              </Typography.SemiboldType12>
-              <Typography.SemiboldType16 stylexStyles={styles.buttonTextLg}>
-                <Font.Body>Upload</Font.Body>
-              </Typography.SemiboldType16>
+              <Breakpoint
+                lg={
+                  <Typography.SemiboldType16>
+                    <Font.Body>Upload</Font.Body>
+                  </Typography.SemiboldType16>
+                }
+              >
+                <Typography.SemiboldType12>
+                  <Font.Body>Upload</Font.Body>
+                </Typography.SemiboldType12>
+              </Breakpoint>
             </CButton>
           </Dialog.Trigger>
           <Dialog.Shell>

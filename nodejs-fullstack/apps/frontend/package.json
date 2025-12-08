@@ -19,7 +19,8 @@
     "motion": "^12.23.25",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
-    "sonner": "^2.0.7"
+    "sonner": "^2.0.7",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@stylexjs/babel-plugin": "^0.17.2",
