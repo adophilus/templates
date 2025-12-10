@@ -1,13 +1,13 @@
 import type { FunctionComponent, ReactNode } from 'react'
 import * as stylex from '@stylexjs/stylex'
-import { color } from '@/styles/design/tokens.stylex'
+import { breakpoint, color } from '@/styles/design/tokens.stylex'
 import { Typography } from '../typography'
 import { Font } from '../font'
 
 export const styles = stylex.create({
   container: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: { default: '1fr', [breakpoint.lg]: '1fr 1fr' },
     height: '100vh',
     backgroundColor: color.secondary
   },
@@ -16,9 +16,9 @@ export const styles = stylex.create({
     margin: '1rem',
     padding: '1.5rem',
     borderRadius: '1rem',
-    display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    display: { default: 'none', [breakpoint.lg]: 'flex' }
   },
   bannerQuoteText: {
     color: color.secondary,
@@ -35,10 +35,8 @@ export const styles = stylex.create({
     padding: '1.5rem',
     borderRadius: '1rem',
     display: 'grid',
-    placeContent: 'center'
-  },
-  contentInner: {
-    // backgroundColor: 'red'
+    alignContent: 'center',
+    maxWidth: '26rem'
   }
 })
 
@@ -57,8 +55,6 @@ export const Container: FunctionComponent<{ children: ReactNode }> = ({
       </header>
       <p {...stylex.props(styles.bannerQuoteAuthor)}>~ Maya Angelou</p>
     </div>
-    <div {...stylex.props(styles.content)}>
-      <div {...stylex.props(styles.contentInner)}>{children}</div>
-    </div>
+    <div {...stylex.props(styles.content)}>{children}</div>
   </div>
 )

@@ -1,5 +1,4 @@
 import { Auth } from '@/components/auth'
-import { Input } from '@/components/input'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/auth/')({
@@ -10,10 +9,12 @@ function RouteComponent() {
   return (
     <Auth.Container>
       <Auth.LoginHeader />
-      <Auth.Form.Container>
-        <Auth.Form.Email />
-        <Auth.Form.Submit />
-      </Auth.Form.Container>
+      <Auth.Form.LoginProvider>
+        <Auth.Form.Container>
+          <Auth.Form.Email />
+          <Auth.Form.Submit />
+        </Auth.Form.Container>
+      </Auth.Form.LoginProvider>
     </Auth.Container>
   )
 }

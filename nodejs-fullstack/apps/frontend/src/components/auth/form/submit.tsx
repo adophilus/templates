@@ -16,13 +16,11 @@ const styles = stylex.create({
 
 export const Submit = () => (
   <Control>
-    <Link to="/dashboard">
-      <Button type="submit" stylexStyles={styles.submit}>
-        <Typography.SemiboldType14>
-          <Font.Body>Continue</Font.Body>
-        </Typography.SemiboldType14>
-        <ArrowRightIcon />
-      </Button>
-    </Link>
+    <Button type="submit" stylexStyles={styles.submit}>
+      <Typography.SemiboldType14>
+        <Font.Body>Continue</Font.Body>
+      </Typography.SemiboldType14>
+      <ArrowRightIcon />
+    </Button>
   </Control>
 )

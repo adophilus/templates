@@ -1,5 +1,6 @@
-import { forwardRef } from 'react'
+import { forwardRef, useContext } from 'react'
 import * as stylex from '@stylexjs/stylex'
+import { Context } from './context'
 
 const styles = stylex.create({
   container: {
@@ -15,10 +16,17 @@ export const Container = forwardRef<
     stylexStyles?: stylex.StyleXStyles
   }
 >(({ stylexStyles, ...props }, ref) => {
+  const { form } = useContext(Context)
+
   return (
     <form
       {...props}
       {...stylex.props(styles.container, stylexStyles)}
+      onSubmit={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
+      }}
       ref={ref}
     />
   )

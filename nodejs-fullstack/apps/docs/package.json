@@ -11,8 +11,9 @@
     "preview": "vitepress preview docs"
   },
   "dependencies": {
-    "@scalar/api-reference": "^1.25.21",
-    "zod": "^4.1.13"
+    "@scalar/api-reference": "1.34.6",
+    "zod": "^4.1.13",
+    "@effect/platform": "^0.82.8"
   },
   "devDependencies": {
     "@nodejs-fullstack-template/api": "workspace:^",

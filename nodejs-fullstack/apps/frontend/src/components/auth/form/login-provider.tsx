@@ -1,12 +1,10 @@
 import type { FunctionComponent, ReactNode } from 'react'
-import { FormContext, useForm } from './context'
+import { Context, useForm } from './context'
 
-export const LoginProvier: FunctionComponent<{ children: ReactNode }> = ({
+export const LoginProvider: FunctionComponent<{ children: ReactNode }> = ({
   children
 }) => {
   const form = useForm()
 
-  return (
-    <FormContext.Provider value={{ form }}>{children}</FormContext.Provider>
-  )
+  return <Context.Provider value={{ form }}>{children}</Context.Provider>
 }

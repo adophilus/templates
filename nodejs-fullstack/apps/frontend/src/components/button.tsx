@@ -7,7 +7,13 @@ const styles = stylex.create({
     backgroundColor: color.primary,
     color: color.secondary,
     borderRadius: '0.5rem',
-    padding: '0.5rem 1rem'
+    padding: '0.5rem 1rem',
+    ':focus': {
+      outlineColor: color.primary,
+      outlineWidth: '2px',
+      outlineStyle: 'solid',
+      outlineOffset: '2px'
+    }
   }
 })
 
