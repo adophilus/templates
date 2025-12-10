@@ -1,8 +1,14 @@
-import type { FunctionComponent, ReactNode } from 'react'
+import {
+  useEffect,
+  useState,
+  type FunctionComponent,
+  type ReactNode
+} from 'react'
 import * as stylex from '@stylexjs/stylex'
 import { breakpoint, color } from '@/styles/design/tokens.stylex'
 import { Typography } from '../typography'
 import { Font } from '../font'
+import { getRandomQuote, type TQuote } from '@/utils/quotes'
 
 export const styles = stylex.create({
   container: {
@@ -40,21 +46,26 @@ export const styles = stylex.create({
   }
 })
 
+const quote = getRandomQuote()
+
 export const Container: FunctionComponent<{ children: ReactNode }> = ({
   children
-}) => (
-  <div {...stylex.props(styles.container)}>
-    <div {...stylex.props(styles.banner)}>
-      <header {...stylex.props(styles.bannerQuoteText)}>
-        <Typography.BoldType32>
-          <Font.Aesthetic>
-            Do the best you can until you know better. Then when you know
-            better, do better.
-          </Font.Aesthetic>
-        </Typography.BoldType32>
-      </header>
-      <p {...stylex.props(styles.bannerQuoteAuthor)}>~ Maya Angelou</p>
+}) => {
+  return (
+    <div {...stylex.props(styles.container)}>
+      <div {...stylex.props(styles.banner)}>
+        <header {...stylex.props(styles.bannerQuoteText)}>
+          <Typography.BoldType64>
+            <Font.Aesthetic>{quote.content}</Font.Aesthetic>
+          </Typography.BoldType64>
+        </header>
+        <p {...stylex.props(styles.bannerQuoteAuthor)}>
+          <Typography.SemiboldType24>
+            <Font.Body>~ {quote.author}</Font.Body>
+          </Typography.SemiboldType24>
+        </p>
+      </div>
+      <div {...stylex.props(styles.content)}>{children}</div>
     </div>
-    <div {...stylex.props(styles.content)}>{children}</div>
-  </div>
-)
+  )
+}
