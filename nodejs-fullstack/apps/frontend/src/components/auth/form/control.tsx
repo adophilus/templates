@@ -4,8 +4,7 @@ import * as stylex from '@stylexjs/stylex'
 const styles = stylex.create({
   control: {
     display: 'flex',
-    flexDirection: 'column',
-    gap: '0.25rem'
+    flexDirection: 'column'
   }
 })
 

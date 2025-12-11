@@ -4,17 +4,17 @@ import { Label } from '@/components/label'
 import { Control } from './control'
 import { useContext } from 'react'
 
-export const Email = () => {
+export const FullName = () => {
   const { form } = useContext(Context)
 
   return (
-    <form.Field name="email">
+    <form.Field name="full_name">
       {(field) => (
         <Control>
-          <Label>Email</Label>
+          <Label>Full name</Label>
           <Input
-            placeholder="mary.slessor@mail.com"
-            type="email"
+            placeholder="Mary Slessor"
+            type="text"
             id={field.name}
             name={field.name}
             value={field.state.value}

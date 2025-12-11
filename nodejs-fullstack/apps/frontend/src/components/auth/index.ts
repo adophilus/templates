@@ -1,9 +1,11 @@
 import { Container } from './container'
-import { LoginHeader } from './login-header'
 import { Form } from './form'
+import { SignInHeader } from './sign-in-header'
+import { VerifyEmailHeader } from './verify-email-header'
 
 export const Auth = {
   Container,
-  LoginHeader,
+  SignInHeader,
+  VerifyEmailHeader,
   Form
 }

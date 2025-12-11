@@ -1,12 +1,10 @@
-import { useForm as useTanstackForm } from '@tanstack/react-form'
+import {
+  useForm as useTanstackForm,
+  type AnyFormOptions
+} from '@tanstack/react-form'
 import { createContext } from 'react'
 
-export const useForm = () =>
-  useTanstackForm({
-    onSubmit: ({ value }) => {
-      console.log(value)
-    }
-  })
+export const useForm = (opts: AnyFormOptions) => useTanstackForm(opts)
 
 export type TForm = ReturnType<typeof useForm>
 

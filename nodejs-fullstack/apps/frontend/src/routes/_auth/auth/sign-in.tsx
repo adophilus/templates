@@ -1,20 +1,20 @@
 import { Auth } from '@/components/auth'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/auth/')({
-  component: RouteComponent
+export const Route = createFileRoute('/_auth/auth/sign-in')({
+  component: AuthSignInPage
 })
 
-function RouteComponent() {
+function AuthSignInPage() {
   return (
-    <Auth.Container>
+    <>
       <Auth.LoginHeader />
-      <Auth.Form.LoginProvider>
+      <Auth.Form.SignInProvider>
         <Auth.Form.Container>
           <Auth.Form.Email />
           <Auth.Form.Submit />
         </Auth.Form.Container>
-      </Auth.Form.LoginProvider>
-    </Auth.Container>
+      </Auth.Form.SignInProvider>
+    </>
   )
 }

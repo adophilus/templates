@@ -8,20 +8,28 @@ import { Schema } from 'effect'
 import Email from '../common/Email'
 import FullName from '../common/FullName'
 
-const Request = Schema.Struct({
-  full_name: FullName,
-  email: Email
-}).annotations({
-  description: 'Sign up request body'
-})
+export class SignUpRequestBody extends Schema.Class<SignUpRequestBody>(
+  'SignUpRequestBody'
+)(
+  {
+    full_name: FullName,
+    email: Email
+  },
+  {
+    description: 'Sign up request body'
+  }
+) {}
 
 export class SignUpSuccessResponse extends Schema.TaggedClass<SignUpSuccessResponse>()(
   'SignUpResponse',
   {}
 ) {}
 
-const SendSignUpEmailEndpoint = HttpApiEndpoint.post('sendSignUpEmail', '/auth/sign-up')
-  .setPayload(Request)
+const SendSignUpEmailEndpoint = HttpApiEndpoint.post(
+  'sendSignUpEmail',
+  '/auth/sign-up'
+)
+  .setPayload(SignUpRequestBody)
   .addSuccess(SignUpSuccessResponse, { status: StatusCodes.OK })
   .addError(EmailAlreadyInUseError, { status: StatusCodes.CONFLICT })
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })

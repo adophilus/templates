@@ -17,16 +17,18 @@ const styles = stylex.create({
   }
 })
 
-export const LoginHeader = () => (
+export const VerifyEmailHeader = () => (
   <hgroup {...stylex.props(styles.container)}>
     <header>
       <Typography.SemiboldType32 stylexStyles={styles.header}>
-        <Font.Body>Welcome back</Font.Body>
+        <Font.Body>Verification Required</Font.Body>
       </Typography.SemiboldType32>
     </header>
     <p>
       <Typography.RegularType14 stylexStyles={styles.leading}>
-        <Font.Body>Enter your details to login</Font.Body>
+        <Font.Body>
+          Please check your mailbox for a verification email
+        </Font.Body>
       </Typography.RegularType14>
     </p>
   </hgroup>
