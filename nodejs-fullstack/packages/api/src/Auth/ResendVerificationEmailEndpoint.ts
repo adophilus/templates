@@ -16,17 +16,17 @@ const Request = Schema.Struct({
   description: 'Send verification email request body'
 })
 
-export class ResendSignUpVerificationEmailSuccessResponse extends Schema.TaggedClass<ResendSignUpVerificationEmailSuccessResponse>()(
-  'ResendSignUpVerificationEmailResponse',
+export class ResendVerificationEmailSuccessResponse extends Schema.TaggedClass<ResendVerificationEmailSuccessResponse>()(
+  'ResendVerificationEmailResponse',
   {}
 ) {}
 
-const ResendSignUpVerificationEmailEndpoint = HttpApiEndpoint.post(
-  'resendSignUpVerificationEmail',
-  '/auth/sign-up/verification/resend'
+const _ResendVerificationEmailEndpoint = HttpApiEndpoint.post(
+  'resendVerificationEmail',
+  '/auth/verify/resend'
 )
   .setPayload(Request)
-  .addSuccess(ResendSignUpVerificationEmailSuccessResponse, {
+  .addSuccess(ResendSignInVerificationEmailSuccessResponse, {
     status: StatusCodes.OK
   })
   .addError(TokenNotExpiredError, { status: StatusCodes.BAD_REQUEST })
@@ -41,4 +41,4 @@ const ResendSignUpVerificationEmailEndpoint = HttpApiEndpoint.post(
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   .annotate(OpenApi.Description, 'Resend verification email')
 
-export default ResendSignUpVerificationEmailEndpoint
+export default ResendSignInVerificationEmailEndpoint

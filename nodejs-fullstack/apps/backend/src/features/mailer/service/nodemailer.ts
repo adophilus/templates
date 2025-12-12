@@ -1,13 +1,13 @@
 import { render, renderPlainText } from 'jsx-email'
 import nodemailer from 'nodemailer'
 import { config } from '@/features/config'
-import { 
-  Context, 
-  Effect, 
-  Layer 
-} from 'effect'
+import { Context, Effect, Layer } from 'effect'
 import { Mailer } from './interface'
-import { MailerRenderingError, MailerTransportError, MailerValidationError } from './error'
+import {
+  MailerRenderingError,
+  MailerTransportError,
+  MailerValidationError
+} from './error'
 import type { SendMailError } from './error'
 
 // Define types for better type safety
@@ -26,26 +26,34 @@ type MailOptions = {
 }
 
 // Validation utilities
-const validateEmail = (email: string): Effect.Effect<true, MailerValidationError> => 
+const validateEmail = (
+  email: string
+): Effect.Effect<true, MailerValidationError> =>
   Effect.succeed(email.includes('@') && email.includes('.')).pipe(
-    Effect.flatMap(valid => 
-      valid 
-        ? Effect.succeed(true as const) 
-        : Effect.fail(new MailerValidationError({ message: `Invalid email address: ${email}` }))
+    Effect.flatMap((valid) =>
+      valid
+        ? Effect.succeed(true as const)
+        : Effect.fail(
+            new MailerValidationError({
+              message: `Invalid email address: ${email}`
+            })
+          )
     )
   )
 
-const validateRecipients = (recipients: readonly string[]): Effect.Effect<readonly string[], MailerValidationError> =>
-  Effect.forEach(recipients, validateEmail).pipe(
-    Effect.as(recipients)
-  )
+const validateRecipients = (
+  recipients: readonly string[]
+): Effect.Effect<readonly string[], MailerValidationError> =>
+  Effect.forEach(recipients, validateEmail).pipe(Effect.as(recipients))
 
 export class NodemailerTransporter extends Context.Tag('NodemailerTransporter')<
   NodemailerTransporter,
   {
-    readonly sendMail: (options: MailOptions) => Effect.Effect<void, MailerTransportError>
+    readonly sendMail: (
+      options: MailOptions
+    ) => Effect.Effect<void, MailerTransportError>
   }
->() { }
+>() {}
 
 const createTransporter = Effect.sync(() => {
   const transporter = nodemailer.createTransport({
@@ -57,12 +65,12 @@ const createTransporter = Effect.sync(() => {
     console.error('Nodemailer transporter error:', err)
   })
 
-  return { 
-    sendMail: (options: MailOptions) => 
+  return {
+    sendMail: (options: MailOptions) =>
       Effect.tryPromise({
         try: () => transporter.sendMail(options),
-        catch: (error) => 
-          new MailerTransportError({ 
+        catch: (error) =>
+          new MailerTransportError({
             message: `Transporter failed to send email: ${String(error)}`,
             cause: error
           })
@@ -72,50 +80,51 @@ const createTransporter = Effect.sync(() => {
 
 export const NodemailerMailer: Layer.Layer<Mailer, never, never> = Layer.effect(
   Mailer,
-  Effect.gen(function*(_) {
+  Effect.gen(function* (_) {
     const transporter = yield* createTransporter
-    
+
     return Mailer.of({
       send: (payload: EmailPayload) =>
-        Effect.gen(function*(_) {
+        Effect.gen(function* (_) {
           // Validate recipients
           yield* validateRecipients(payload.recipients).pipe(
-            Effect.mapError(error => error as SendMailError)
-          )
-          
-          const recipients = payload.recipients.join(', ')
-          
-          // Render email concurrently for better performance
-          const [plainText, htmlText] = yield* Effect.all([
-            Effect.tryPromise({
-              try: () => renderPlainText(payload.email),
-              catch: (error) => 
-                new MailerRenderingError({ 
-                  message: `Failed to render plain text: ${String(error)}`,
-                  cause: error
-                })
-            }),
-            Effect.tryPromise({
-              try: () => render(payload.email),
-              catch: (error) => 
-                new MailerRenderingError({ 
-                  message: `Failed to render HTML: ${String(error)}`,
-                  cause: error
-                })
-            })
-          ], { concurrency: 2 }).pipe(
-            Effect.mapError(error => error as SendMailError)
+            Effect.mapError((error) => error as SendMailError)
           )
 
-          yield* transporter.sendMail({
-            from: `"${config.mail.sender.name}" <${config.mail.sender.email}>`,
-            to: recipients,
-            subject: payload.subject,
-            text: plainText,
-            html: htmlText
-          }).pipe(
-            Effect.mapError(error => error as SendMailError)
-          )
+          const recipients = payload.recipients.join(', ')
+
+          // Render email concurrently for better performance
+          const [plainText, htmlText] = yield* Effect.all(
+            [
+              Effect.tryPromise({
+                try: () => renderPlainText(payload.email),
+                catch: (error) =>
+                  new MailerRenderingError({
+                    message: `Failed to render plain text: ${String(error)}`,
+                    cause: error
+                  })
+              }),
+              Effect.tryPromise({
+                try: () => render(payload.email),
+                catch: (error) =>
+                  new MailerRenderingError({
+                    message: `Failed to render HTML: ${String(error)}`,
+                    cause: error
+                  })
+              })
+            ],
+            { concurrency: 2 }
+          ).pipe(Effect.mapError((error) => error as SendMailError))
+
+          yield* transporter
+            .sendMail({
+              from: `"${config.mail.sender.name}" <${config.mail.sender.email}>`,
+              to: recipients,
+              subject: payload.subject,
+              text: plainText,
+              html: htmlText
+            })
+            .pipe(Effect.mapError((error) => error as SendMailError))
         })
     })
   })

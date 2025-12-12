@@ -5,17 +5,15 @@ export class StorageRepositoryError extends Data.TaggedError(
 )<{
   message: string
   cause?: unknown
-}> { }
+}> {}
 
 export class StorageRepositoryNotFoundError extends Data.TaggedError(
   'StorageRepositoryNotFoundError'
 )<{
   message: string
   cause?: unknown
-}> { }
+}> {}
 
 export type StorageRepositoryOperationError =
   | StorageRepositoryError
   | StorageRepositoryNotFoundError
-
-

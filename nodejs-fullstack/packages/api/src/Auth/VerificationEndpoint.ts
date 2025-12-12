@@ -15,8 +15,8 @@ const Request = Schema.Struct({
   description: 'Verify email request body'
 })
 
-export class VerifySignInEmailSuccessResponse extends Schema.TaggedClass<VerifySignInEmailSuccessResponse>()(
-  'VerifySignInEmailResponse',
+export class VerificationSuccessResponse extends Schema.TaggedClass<VerificationSuccessResponse>()(
+  'VerificationResponse',
   {
     data: Schema.Struct({
       access_token: SessionToken
@@ -24,10 +24,7 @@ export class VerifySignInEmailSuccessResponse extends Schema.TaggedClass<VerifyS
   }
 ) {}
 
-const VerifySignInEmailEndpoint = HttpApiEndpoint.post(
-  'verifySignInEmail',
-  '/auth/sign-in/verification'
-)
+const _VerificationEndpoint = HttpApiEndpoint.post('verify', '/auth/verify')
   .setPayload(Request)
   .addSuccess(VerifySignInEmailSuccessResponse, { status: StatusCodes.OK })
   .addError(InvalidOrExpiredTokenError, { status: StatusCodes.BAD_REQUEST })

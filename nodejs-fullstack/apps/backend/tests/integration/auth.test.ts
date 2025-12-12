@@ -18,7 +18,7 @@ describe('Auth API', () => {
   })
 
   it.effect('should send the sign up email', () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const client = yield* Client
 
       const res = yield* client.Auth.sendSignUpEmail({
@@ -31,7 +31,7 @@ describe('Auth API', () => {
   )
 
   it.effect('should verify the sign up email', () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const client = yield* Client
 
       const res = yield* client.Auth.verifySignUpEmail({
@@ -46,7 +46,7 @@ describe('Auth API', () => {
   )
 
   it.effect('should send the sign in email', () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const client = yield* Client
 
       const res = yield* client.Auth.sendSignInEmail({
@@ -58,7 +58,7 @@ describe('Auth API', () => {
   )
 
   it.effect('should verify the sign in email', () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const client = yield* Client
 
       const res = yield* client.Auth.verifySignInEmail({
@@ -76,7 +76,7 @@ describe('Auth API', () => {
   )
 
   it.effect('should get user profile', () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const client = yield* Client
 
       const res = yield* client.Auth.getProfile()

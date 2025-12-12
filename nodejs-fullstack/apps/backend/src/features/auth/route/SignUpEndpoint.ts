@@ -5,7 +5,7 @@ import { SignUpSuccessResponse } from '@nodejs-fullstack-template/api/Auth/SignU
 import { AuthUserRepository } from '../repository/user/interface'
 import { AuthTokenRepository } from '../repository/token/interface'
 import { Mailer } from '@/features/mailer/service'
-import SignUpVerificationMail from '@/emails/SignUpVerificationMail'
+import SignInVerificationMail from '@/emails/SignInVerificationMail'
 import {
   EmailAlreadyInUseError,
   UnexpectedError
@@ -15,7 +15,7 @@ import { ulid } from 'ulidx'
 export const SignUpEndpointLive = HttpApiBuilder.handler(
   Api,
   'Auth',
-  'sendSignUpEmail',
+  'sendVerificationEmail',
   ({ payload }) =>
     Effect.gen(function* () {
       const userRepository = yield* AuthUserRepository
@@ -34,7 +34,7 @@ export const SignUpEndpointLive = HttpApiBuilder.handler(
       const user = yield* userRepository.create({
         ...payload,
         id: ulid(),
-        created_at: Math.round(Date.now() / 1000),
+        created_at: Math.round(Date.now() / 1000)
       })
 
       const tokenExpiry = Math.round(Date.now() / 1000) + 300 // add 5 mins
@@ -43,15 +43,15 @@ export const SignUpEndpointLive = HttpApiBuilder.handler(
         id: ulid(),
         user_id: user.id,
         token: '12345',
-        purpose: 'SIGNUP_VERIFICATION',
+        purpose: 'VERIFICATION',
         expires_at: tokenExpiry,
-        created_at: Math.round(Date.now() / 1000),
+        created_at: Math.round(Date.now() / 1000)
       })
 
       yield* mailer.send({
         recipients: [payload.email],
-        subject: 'Verify your email address',
-        email: SignUpVerificationMail({
+        subject: 'Your verification code',
+        email: SignInVerificationMail({
           token: verificationToken
         })
       })

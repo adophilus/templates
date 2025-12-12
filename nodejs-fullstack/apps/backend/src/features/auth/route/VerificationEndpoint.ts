@@ -1,7 +1,7 @@
 import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/api'
-import { VerifySignInEmailSuccessResponse } from '@nodejs-fullstack-template/api/Auth/VerifySignInEmailEndpoint'
+import { VerificationSuccessResponse } from '@nodejs-fullstack-template/api/Auth/VerificationEndpoint'
 import {
   InvalidOrExpiredTokenError,
   UnexpectedError
@@ -13,10 +13,10 @@ import {
   AuthUserRepository
 } from '../repository'
 
-export const VerifySignInEmailEndpointLive = HttpApiBuilder.handler(
+export const VerificationEndpointLive = HttpApiBuilder.handler(
   Api,
   'Auth',
-  'verifySignInEmail',
+  'verify',
   ({ payload }) =>
     Effect.gen(function* () {
       const sessionRepository = yield* AuthSessionRepository
@@ -37,7 +37,7 @@ export const VerifySignInEmailEndpointLive = HttpApiBuilder.handler(
       // Find the verification token associated with this user ID and purpose
       const tokenOption = yield* tokenRepository.findByUserIdAndPurpose({
         user_id: user.id,
-        purpose: 'SIGNIN_VERIFICATION'
+        purpose: 'VERIFICATION'
       })
 
       if (Option.isNone(tokenOption)) {
@@ -70,14 +70,21 @@ export const VerifySignInEmailEndpointLive = HttpApiBuilder.handler(
       // Delete the verification token as it's been used
       yield* tokenRepository.deleteById(token.id)
 
+      // If the user is not yet verified, mark them as verified
+      if (user.verified_at === null) {
+        yield* userRepository.updateById(user.id, {
+          verified_at: Math.round(Date.now() / 1000)
+        })
+      }
+
       const session = yield* sessionRepository.create({
         id: ulid(),
         expires_at: Math.round(Date.now() / 1000 + 86400), // session expires in 1 day
         user_id: user.id,
-        created_at: Math.round(Date.now() / 1000),
+        created_at: Math.round(Date.now() / 1000)
       })
 
-      return VerifySignInEmailSuccessResponse.make({
+      return VerificationSuccessResponse.make({
         data: {
           access_token: session.id
         }
@@ -87,7 +94,7 @@ export const VerifySignInEmailEndpointLive = HttpApiBuilder.handler(
         AuthUserRepositoryError: (error) =>
           Effect.fail(
             new UnexpectedError({
-              message: `Failed to verify sign in: ${error.message}`
+              message: `Failed to verify: ${error.message}`
             })
           ),
         AuthTokenRepositoryError: (error) =>

@@ -9,5 +9,5 @@ export default {
   db: DatabaseConfig,
   environment: EnvironmentConfig,
   mail: MailConfig,
-  server: ServerConfig,
+  server: ServerConfig
 }

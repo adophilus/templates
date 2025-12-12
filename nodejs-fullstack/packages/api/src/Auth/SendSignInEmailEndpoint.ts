@@ -14,14 +14,14 @@ const Request = Schema.Struct({
   description: 'Send sign in email request body'
 })
 
-export class SendSignInEmailSuccessResponse extends Schema.TaggedClass<SendSignInEmailSuccessResponse>()(
-  'SendSignInEmailResponse',
+export class SendVerificationEmailSuccessResponse extends Schema.TaggedClass<SendVerificationEmailSuccessResponse>()(
+  'SendVerificationEmailResponse',
   {}
 ) {}
 
-const SendSignInEmailEndpoint = HttpApiEndpoint.post(
-  'sendSignInEmail',
-  '/auth/sign-in'
+const _SendVerificationEmailEndpoint = HttpApiEndpoint.post(
+  'sendVerificationEmail',
+  '/auth/send-otp'
 )
   .setPayload(Request)
   .addSuccess(SendSignInEmailSuccessResponse, { status: StatusCodes.OK })

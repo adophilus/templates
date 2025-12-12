@@ -9,14 +9,14 @@ import { readFile } from 'node:fs/promises'
 
 describe('Storage API', () => {
   let Client: ApiClient
-  let user: AuthUser.Selectable
+  let _user: AuthUser.Selectable
   let session: AuthSession.Selectable
   let file: File
   let uploadedFile: MediaDescription
 
   beforeAll(async () => {
     const res = await createMockUserWithSession()
-    user = res.user
+    _user = res.user
     session = res.session
 
     const fileData = await readFile('tests/assets/cube.png')

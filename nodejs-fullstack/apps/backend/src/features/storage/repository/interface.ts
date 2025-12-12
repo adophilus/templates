@@ -28,4 +28,4 @@ export class StorageRepository extends Context.Tag('StorageRepository')<
       StorageRepositoryError | StorageRepositoryNotFoundError
     >
   }
->() { }
+>() {}

@@ -1,9 +1,8 @@
-import { ulid } from 'ulidx'
-import { Context, Effect, Layer, Option } from 'effect'
+
+import { type Context, Effect, Layer, Option } from 'effect'
 import { AuthSessionRepository } from './interface'
 import {
   AuthSessionRepositoryError,
-  AuthSessionRepositoryNotFoundError
 } from './error'
 import type { AuthSession } from '@/types'
 
