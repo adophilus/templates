@@ -47,6 +47,9 @@ pnpm dev
 NOTE:
 - webapp runs on port `3000`
 - docs runs on port `3001`
+- backend runs on port `5000`
+
+These are configured in `.env.${ENVIRONMENT}` (which should be `.env.development` on your local machine)
 
 ## Contribution
 
