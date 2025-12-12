@@ -1,7 +1,7 @@
 import { rxRuntime } from '@/services/rx'
 import { Effect } from 'effect'
 import { BackendClient } from '@/services/backend'
-import { useRx, useRxSet } from '@effect-rx/rx-react'
+import { useRxSet } from '@effect-rx/rx-react'
 import type { SendSignInEmailRequestBody } from '@nodejs-fullstack-template/api/Auth/SendSignInEmailEndpoint'
 import type { SendSignUpEmailRequestBody } from '@nodejs-fullstack-template/api/Auth/SendSignUpEmailEndpoint'
 import type { VerifyEmailRequestBody } from '@nodejs-fullstack-template/api/Auth/VerifyEmailEndpoint'
