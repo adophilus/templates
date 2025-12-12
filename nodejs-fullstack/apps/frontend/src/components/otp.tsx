@@ -65,6 +65,9 @@ export const Otp: FunctionComponent<OtpProps> = ({
               ref.current.els[i] = el
             }
           }}
+          onClick={() => {
+            ref.current.currentIndex = i
+          }}
           onKeyUp={(e) => {
             const key = e.key
             let nextIndex: number
@@ -73,7 +76,11 @@ export const Otp: FunctionComponent<OtpProps> = ({
             } else if (key === 'Delete') {
               nextIndex = ref.current.currentIndex
             } else {
-              nextIndex = (ref.current.currentIndex + 1) % length
+              if (ref.current.currentIndex === length - 1) {
+                nextIndex = ref.current.currentIndex
+              } else {
+                nextIndex = (ref.current.currentIndex + 1) % length
+              }
             }
 
             ref.current.currentIndex = nextIndex

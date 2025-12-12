@@ -1,17 +1,22 @@
 import type { FunctionComponent, ReactNode } from 'react'
 import { Context, useForm } from './context'
-import { useSendSignUpEmail } from './hooks'
+import { useVerifyEmail } from './hooks'
 import { toast } from 'sonner'
+import { useNavigate } from '@tanstack/react-router'
 
 export const VerificationProvider: FunctionComponent<{
   children: ReactNode
 }> = ({ children }) => {
-  const sendSignUpEmail = useSendSignUpEmail()
+  const navigate = useNavigate()
+  const verifyEmail = useVerifyEmail()
 
   const form = useForm({
     onSubmit: async ({ value }) => {
-      await sendSignUpEmail(value)
-      toast.success('Sign up successful')
+      await verifyEmail(value)
+      toast.success('Sign in successful')
+      navigate({
+        to: '/dashboard'
+      })
     }
   })
 

@@ -1,4 +1,4 @@
-
+import React from 'react'
 import {
   Body,
   Container,
@@ -13,7 +13,7 @@ import {
 import { config } from '../features/config'
 import type { AuthToken } from '../types'
 
-export type SignUpVerificationMailProps = {
+export type SignInVerificationMailProps = {
   token: AuthToken.Selectable
 }
 
@@ -101,9 +101,9 @@ const link = {
   textDecoration: 'underline'
 }
 
-export default function SignUpVerificationMail({
+export default function SignInVerificationMail({
   token
-}: SignUpVerificationMailProps) {
+}: SignInVerificationMailProps) {
   return (
     <Html>
       <Head />

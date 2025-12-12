@@ -8,7 +8,7 @@ export const Route = createFileRoute('/_auth/auth/sign-up')({
 function AuthSignUpPage() {
   return (
     <>
-      <Auth.VerifyEmailHeader />
+      <Auth.SignUpHeader />
       <Auth.Form.SignUpProvider>
         <Auth.Form.Container>
           <Auth.Form.FullName />

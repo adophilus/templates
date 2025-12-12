@@ -8,11 +8,10 @@ export const Route = createFileRoute('/_auth/auth/sign-in')({
 function AuthSignInPage() {
   return (
     <>
-      <Auth.LoginHeader />
+      <Auth.SignInHeader />
       <Auth.Form.SignInProvider>
         <Auth.Form.Container>
           <Auth.Form.Email />
-          <Auth.Form.Submit />
         </Auth.Form.Container>
       </Auth.Form.SignInProvider>
     </>
