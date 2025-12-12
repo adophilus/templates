@@ -10,11 +10,16 @@ import { Schema } from 'effect'
 import { OpenApi } from '@effect/platform'
 import Email from '../common/Email'
 
-const Request = Schema.Struct({
-  email: Email
-}).annotations({
-  description: 'Send verification email request body'
-})
+export class ResendVerificationEmailRequestBody extends Schema.Class<ResendVerificationEmailRequestBody>(
+  'ResendVerificationEmailRequestBody'
+)(
+  {
+    email: Email
+  },
+  {
+    description: 'Resend verification email request body'
+  }
+) {}
 
 export class ResendVerificationEmailSuccessResponse extends Schema.TaggedClass<ResendVerificationEmailSuccessResponse>()(
   'ResendVerificationEmailResponse',
@@ -25,7 +30,7 @@ const ResendVerificationEmailEndpoint = HttpApiEndpoint.post(
   'resendVerificationEmail',
   '/auth/verify/resend'
 )
-  .setPayload(Request)
+  .setPayload(ResendVerificationEmailRequestBody)
   .addSuccess(ResendVerificationEmailSuccessResponse, {
     status: StatusCodes.OK
   })

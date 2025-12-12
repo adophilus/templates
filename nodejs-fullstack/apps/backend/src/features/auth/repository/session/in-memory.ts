@@ -1,9 +1,6 @@
-
 import { type Context, Effect, Layer, Option } from 'effect'
 import { AuthSessionRepository } from './interface'
-import {
-  AuthSessionRepositoryError,
-} from './error'
+import { AuthSessionRepositoryError } from './error'
 import type { AuthSession } from '@/types'
 
 // In-memory storage for auth sessions

@@ -1,10 +1,10 @@
 import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/api'
-import { SendSignUpEmailEndpointLive } from './SendSignUpEmailEndpointLive'
-import { SendSignInEmailEndpointLive } from './SendSignInEmailEndpoint'
-import { VerifyEmailEndpointLive } from './VerifyEmailEndpoint'
+import { SendSignUpEmailEndpointLive } from './SendSignUpEmailEndpoint'
 import { ResendVerificationEmailEndpointLive } from './ResendVerificationEmailEndpoint'
 import { GetProfileEndpointLive } from './GetProfileEndpoint'
+import { SendSignInEmailEndpointLive } from './SendSignInEmailEnddoint'
+import { VerifyEmailEndpointLive } from './VerificationEndpoint'
 
 const AuthApiLive = HttpApiBuilder.group(Api, 'Auth', (handlers) =>
   handlers
