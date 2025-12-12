@@ -14,14 +14,14 @@ const Request = Schema.Struct({
   description: 'Send sign in email request body'
 })
 
-export class SendVerificationEmailSuccessResponse extends Schema.TaggedClass<SendVerificationEmailSuccessResponse>()(
-  'SendVerificationEmailResponse',
+export class SendSignInEmailSuccessResponse extends Schema.TaggedClass<SendSignInEmailSuccessResponse>()(
+  'SendSignInEmailSuccessResponse',
   {}
 ) {}
 
-const _SendVerificationEmailEndpoint = HttpApiEndpoint.post(
-  'sendVerificationEmail',
-  '/auth/send-otp'
+const SendSignInEmailEndpoint = HttpApiEndpoint.post(
+  'sendSignInEmail',
+  '/auth/sign-in'
 )
   .setPayload(Request)
   .addSuccess(SendSignInEmailSuccessResponse, { status: StatusCodes.OK })
@@ -33,6 +33,6 @@ const _SendVerificationEmailEndpoint = HttpApiEndpoint.post(
   })
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
-  .annotate(OpenApi.Description, 'Send email to sign in user')
+  .annotate(OpenApi.Description, 'Send sign in email to user')
 
 export default SendSignInEmailEndpoint

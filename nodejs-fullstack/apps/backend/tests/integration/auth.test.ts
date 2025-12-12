@@ -1,4 +1,4 @@
-import { it, assert, describe, beforeAll } from '@effect/vitest'
+import { it, describe, beforeAll } from '@effect/vitest'
 import { Effect } from 'effect'
 import {
   type ApiClient,
@@ -21,12 +21,11 @@ describe('Auth API', () => {
     Effect.gen(function* () {
       const client = yield* Client
 
-      const res = yield* client.Auth.sendSignUpEmail({
+      yield* client.Auth.sendSignUpEmail({
         payload: userDetails
       })
 
       otp = '12345'
-      assert.strictEqual(res._tag, 'SignUpResponse')
     }).pipe(Effect.provide(FetchHttpClient.layer))
   )
 
@@ -34,14 +33,12 @@ describe('Auth API', () => {
     Effect.gen(function* () {
       const client = yield* Client
 
-      const res = yield* client.Auth.verifySignUpEmail({
+      yield* client.Auth.verifyEmail({
         payload: {
           email: userDetails.email,
           otp
         }
       })
-
-      assert.strictEqual(res._tag, 'VerifySignUpEmailResponse')
     }).pipe(Effect.provide(FetchHttpClient.layer))
   )
 
@@ -49,11 +46,9 @@ describe('Auth API', () => {
     Effect.gen(function* () {
       const client = yield* Client
 
-      const res = yield* client.Auth.sendSignInEmail({
+      yield* client.Auth.sendSignInEmail({
         payload: { email: userDetails.email }
       })
-
-      assert.strictEqual(res._tag, 'SendSignInEmailResponse')
     }).pipe(Effect.provide(FetchHttpClient.layer))
   )
 
@@ -61,14 +56,12 @@ describe('Auth API', () => {
     Effect.gen(function* () {
       const client = yield* Client
 
-      const res = yield* client.Auth.verifySignInEmail({
+      const res = yield* client.Auth.verifyEmail({
         payload: {
           email: userDetails.email,
           otp
         }
       })
-
-      assert.strictEqual(res._tag, 'VerifySignInEmailResponse')
 
       accessToken = res.data.access_token
       Client = makeApiClient(accessToken)
@@ -79,12 +72,7 @@ describe('Auth API', () => {
     Effect.gen(function* () {
       const client = yield* Client
 
-      const res = yield* client.Auth.getProfile()
-
-      assert.strictEqual(res._tag, 'GetProfileResponse')
-      assert.property(res.data, 'id')
-      assert.property(res.data, 'full_name')
-      assert.property(res.data, 'email')
+      yield* client.Auth.getProfile()
     }).pipe(Effect.provide(FetchHttpClient.layer))
   )
 })

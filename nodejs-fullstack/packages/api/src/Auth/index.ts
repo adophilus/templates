@@ -1,15 +1,15 @@
 import { HttpApiGroup } from '@effect/platform'
 import GetProfileEndpoint from './GetProfileEndpoint'
-import SendVerificationEmailEndpoint from './SendVerificationEmailEndpoint'
-import SendSignUpEmailEndpoint from './SignUpEndpoint'
-import VerificationEndpoint from './VerificationEndpoint'
+import SendSignInEmailEndpoint from './SendSignInEmailEndpoint'
+import SendSignUpEmailEndpoint from './SendSignUpEmailEndpoint'
 import ResendVerificationEmailEndpoint from './ResendVerificationEmailEndpoint'
+import VerifyEmailEndpoint from './VerifyEmailEndpoint'
 
 const AuthApi = HttpApiGroup.make('Auth')
   .add(SendSignUpEmailEndpoint)
-  .add(SendVerificationEmailEndpoint)
+  .add(SendSignInEmailEndpoint)
   .add(ResendVerificationEmailEndpoint)
-  .add(VerificationEndpoint)
+  .add(VerifyEmailEndpoint)
   .add(GetProfileEndpoint)
 
 export default AuthApi

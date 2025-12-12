@@ -8,8 +8,8 @@ import { Schema } from 'effect'
 import Email from '../common/Email'
 import FullName from '../common/FullName'
 
-export class SignUpRequestBody extends Schema.Class<SignUpRequestBody>(
-  'SignUpRequestBody'
+export class SendSignUpEmailRequestBody extends Schema.Class<SendSignUpEmailRequestBody>(
+  'SendSignUpEmailRequestBody'
 )(
   {
     full_name: FullName,
@@ -20,8 +20,8 @@ export class SignUpRequestBody extends Schema.Class<SignUpRequestBody>(
   }
 ) {}
 
-export class SignUpSuccessResponse extends Schema.TaggedClass<SignUpSuccessResponse>()(
-  'SignUpResponse',
+export class SendSignUpEmailSuccessResponse extends Schema.TaggedClass<SendSignUpEmailSuccessResponse>()(
+  'SendSignUpEmailSuccessResponse',
   {}
 ) {}
 
@@ -29,8 +29,8 @@ const SendSignUpEmailEndpoint = HttpApiEndpoint.post(
   'sendSignUpEmail',
   '/auth/sign-up'
 )
-  .setPayload(SignUpRequestBody)
-  .addSuccess(SignUpSuccessResponse, { status: StatusCodes.OK })
+  .setPayload(SendSignUpEmailRequestBody)
+  .addSuccess(SendSignUpEmailSuccessResponse, { status: StatusCodes.OK })
   .addError(EmailAlreadyInUseError, { status: StatusCodes.CONFLICT })
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })

@@ -1,7 +1,7 @@
 import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/api'
-import { SignUpSuccessResponse } from '@nodejs-fullstack-template/api/Auth/SignUpEndpoint'
+import { SendSignUpEmailSuccessResponse } from '@nodejs-fullstack-template/api/Auth/SendSignUpEmailEndpoint'
 import { AuthUserRepository } from '../repository/user/interface'
 import { AuthTokenRepository } from '../repository/token/interface'
 import { Mailer } from '@/features/mailer/service'
@@ -12,10 +12,10 @@ import {
 } from '@nodejs-fullstack-template/api/common/index'
 import { ulid } from 'ulidx'
 
-export const SignUpEndpointLive = HttpApiBuilder.handler(
+export const SendSignUpEmailEndpointLive = HttpApiBuilder.handler(
   Api,
   'Auth',
-  'sendVerificationEmail',
+  'sendSignUpEmail',
   ({ payload }) =>
     Effect.gen(function* () {
       const userRepository = yield* AuthUserRepository
@@ -56,7 +56,7 @@ export const SignUpEndpointLive = HttpApiBuilder.handler(
         })
       })
 
-      return SignUpSuccessResponse.make()
+      return SendSignUpEmailSuccessResponse.make()
     }).pipe(
       Effect.mapError((error) => {
         if (

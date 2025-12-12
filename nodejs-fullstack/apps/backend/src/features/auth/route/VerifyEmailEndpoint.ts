@@ -1,7 +1,7 @@
 import { Effect, Option } from 'effect'
 import { HttpApiBuilder } from '@effect/platform'
 import { Api } from '@nodejs-fullstack-template/api'
-import { VerificationSuccessResponse } from '@nodejs-fullstack-template/api/Auth/VerificationEndpoint'
+import { VerifyEmailSuccessResponse } from '@nodejs-fullstack-template/api/Auth/VerifyEmailEndpoint'
 import {
   InvalidOrExpiredTokenError,
   UnexpectedError
@@ -13,10 +13,10 @@ import {
   AuthUserRepository
 } from '../repository'
 
-export const VerificationEndpointLive = HttpApiBuilder.handler(
+export const VerifyEmailEndpointLive = HttpApiBuilder.handler(
   Api,
   'Auth',
-  'verify',
+  'verifyEmail',
   ({ payload }) =>
     Effect.gen(function* () {
       const sessionRepository = yield* AuthSessionRepository
@@ -84,7 +84,7 @@ export const VerificationEndpointLive = HttpApiBuilder.handler(
         created_at: Math.round(Date.now() / 1000)
       })
 
-      return VerificationSuccessResponse.make({
+      return VerifyEmailSuccessResponse.make({
         data: {
           access_token: session.id
         }
