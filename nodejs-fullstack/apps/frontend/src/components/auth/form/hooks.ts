@@ -37,7 +37,7 @@ export const verifyEmailRx = rxRuntime.fn(
 )
 
 export const useSendSignInEmail = () =>
-  useRxSet(sendSignInEmailRx, { mode: 'promise' })
+  useRxSet(sendSignInEmailRx, { mode: 'promiseExit' })
 export const useSendSignUpEmail = () =>
   useRxSet(sendSignUpEmailRx, { mode: 'promise' })
 export const useVerifyEmail = () => useRxSet(verifyEmailRx, { mode: 'promise' })

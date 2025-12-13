@@ -41,8 +41,7 @@ export const styles = stylex.create({
     padding: '1.5rem',
     borderRadius: '1rem',
     display: 'grid',
-    alignContent: 'center',
-    maxWidth: '26rem'
+    alignContent: 'space-between'
   }
 })
 

@@ -3,6 +3,7 @@ import { Context, useForm } from './context'
 import { useSendSignInEmail } from './hooks'
 import { toast } from 'sonner'
 import { useNavigate } from '@tanstack/react-router'
+import { Cause, Exit } from 'effect'
 
 export const SignInProvider: FunctionComponent<{ children: ReactNode }> = ({
   children
@@ -13,13 +14,33 @@ export const SignInProvider: FunctionComponent<{ children: ReactNode }> = ({
   const form = useForm({
     defaultValues: { email: 'mary.slessor@mail.com' },
     onSubmit: async ({ value }) => {
-      await sendSignInEmail(value)
+      const res = await sendSignInEmail(value)
 
-      toast.success('Please check your mailbox')
+      Exit.match(res, {
+        onSuccess: () => {
+          toast.success('Please check your mailbox')
+          navigate({
+            to: '/auth/verify',
+            search: { email: value.email }
+          })
+        },
+        onFailure: (cause) => {
+          let msg = 'Sorry an error occurred'
+          if (Cause.isFailType(cause)) {
+            switch (cause.error._tag) {
+              case 'UserNotFoundError': {
+                msg = "User doesn't exist"
+                break
+              }
+              default: {
+                msg = 'Sorry an error occurred'
+                break
+              }
+            }
+          }
 
-      navigate({
-        to: '/auth/verify',
-        search: { email: value.email }
+          toast.error(msg)
+        }
       })
     }
   })
