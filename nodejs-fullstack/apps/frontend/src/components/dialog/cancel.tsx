@@ -14,8 +14,11 @@ export const Cancel = forwardRef<HTMLButtonElement, DialogCancelProps>(
         {...props}
         ref={ref}
         onClick={(e) => {
-          dialogRef.current?.close()
-          onClick?.(e)
+          if (onClick) {
+            onClick?.(e)
+          } else {
+            dialogRef.current?.close()
+          }
         }}
       />
     )

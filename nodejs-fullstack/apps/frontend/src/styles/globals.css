@@ -3,7 +3,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Germania+One&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 @stylex stylesheet;
 
-::backdrop {
-  background-color: hsl(0deg 0% 0% / 0.8);
-  backdrop-filter: "blur(4px)";
+@starting-style {
+  dialog:open {
+    opacity: 0;
+    transform: translateY(-50%);
+
+    &::backdrop {
+      background-color: hsl(0 0 0 / 0%);
+    }
+  }
 }

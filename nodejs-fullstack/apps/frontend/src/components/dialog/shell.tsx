@@ -21,7 +21,21 @@ const styles = stylex.create({
     borderRadius: '0.5rem',
     width: '100%',
     maxWidth: 'min(600px, calc(100% - 2rem))',
-    padding: '1rem'
+    padding: '1rem',
+    transform: 'translateY(50%)',
+    opacity: 0,
+    transitionProperty: 'transform opacity',
+    transitionDuration: '250ms',
+    transitionBehavior: 'allow-discrete',
+    ':open': { opacity: 1, transform: 'translateY(0)' },
+    '::backdrop': {
+      transitionProperty: 'backdrop-filter',
+      transititionDuration: '250ms',
+      backgroundColor: 'hsl(0deg 0% 0% / 0.8)'
+    },
+    ':open::backdrop': {
+      backdropFilter: 'blur(3px)'
+    }
   },
   innerContainer: {
     display: 'grid',
