@@ -38,9 +38,12 @@ const styles = stylex.create({
     backgroundImage:
       'linear-gradient(to bottom, hsl(0deg 0% 0% / 0.4), transparent)',
     justifyContent: 'end',
-    display: {
-      default: 'none',
-      ':is(.group:hover span)': 'flex'
+    display: 'flex',
+    transitionProperty: 'opacity',
+    transitionDuration: '250ms',
+    opacity: {
+      default: 0,
+      ':is(.group:hover span)': 1
     }
   },
   deleteButton: {
