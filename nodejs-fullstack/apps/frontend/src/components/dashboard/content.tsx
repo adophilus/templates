@@ -5,6 +5,7 @@ import { breakpoint } from '@/styles/design/tokens.stylex'
 const styles = stylex.create({
   container: {
     paddingInline: { default: '1.25rem', [breakpoint.lg]: '5rem' },
+    paddingBlock: { default: '1.25rem', [breakpoint.lg]: '3rem' },
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,

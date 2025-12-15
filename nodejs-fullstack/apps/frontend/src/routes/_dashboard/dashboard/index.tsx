@@ -30,29 +30,25 @@ const styles = stylex.create({
 
 function DashboardOverviewPage() {
   return (
-    <Dashboard.Layout>
-      <Dashboard.Content>
-        <Dashboard.Header>
-          <ImagesIcon {...stylex.props(styles.dashboardImage)} />
-          <Breakpoint
-            lg={
-              <Typography.SemiboldType32>
-                <Font.Body>Images</Font.Body>
-              </Typography.SemiboldType32>
-            }
-          >
-            <Typography.SemiboldType24>
+    <Dashboard.Content>
+      <Dashboard.Header>
+        <ImagesIcon {...stylex.props(styles.dashboardImage)} />
+        <Breakpoint
+          lg={
+            <Typography.SemiboldType32>
               <Font.Body>Images</Font.Body>
-            </Typography.SemiboldType24>
-          </Breakpoint>
-        </Dashboard.Header>
-        <div {...stylex.props(styles.dashboardActionsRow)}>
-          <Dashboard.Upload.Button
-            stylexStyles={styles.dashboardActionsButton}
-          />
-        </div>
-        <Dashboard.Image.Gallery />
-      </Dashboard.Content>
-    </Dashboard.Layout>
+            </Typography.SemiboldType32>
+          }
+        >
+          <Typography.SemiboldType24>
+            <Font.Body>Images</Font.Body>
+          </Typography.SemiboldType24>
+        </Breakpoint>
+      </Dashboard.Header>
+      <div {...stylex.props(styles.dashboardActionsRow)}>
+        <Dashboard.Upload.Button stylexStyles={styles.dashboardActionsButton} />
+      </div>
+      <Dashboard.Image.Gallery />
+    </Dashboard.Content>
   )
 }

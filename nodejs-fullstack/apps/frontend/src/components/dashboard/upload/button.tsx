@@ -1,6 +1,6 @@
 import { Font } from '@/components/font'
 import { Typography } from '@/components/typography'
-import { UploadIcon } from 'lucide-react'
+import { PlusIcon, UploadIcon } from 'lucide-react'
 import {
   Button as CButton,
   type ButtonProps as CButtonProps
@@ -12,12 +12,18 @@ import { toast } from 'sonner'
 import * as stylex from '@stylexjs/stylex'
 import { breakpoint } from '@/styles/design/tokens.stylex'
 import { Breakpoint } from '@/components/breakpoint'
+import { FileUploader } from '@/components/file-uploader'
 
 export type ButtonProps = Omit<CButtonProps, 'children'>
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const styles = stylex.create({
+  addFileButton: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.25rem'
+  },
   buttonIcon: {
     width: { default: '1rem', [breakpoint.lg]: '1.5rem' },
     height: { default: '1rem', [breakpoint.lg]: '1.5rem' }
@@ -53,7 +59,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           form.handleSubmit()
         }}
       >
-        <Dialog.Provider>
+        <Dialog.Provider open={true}>
           <Dialog.Trigger>
             <CButton {...props} ref={ref}>
               <UploadIcon {...stylex.props(styles.buttonIcon)} />
@@ -87,15 +93,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <Dialog.Body>
               <form.Field name="files">
                 {(field) => (
-                  <input
-                    type="file"
-                    {...stylex.props(styles.input)}
-                    id={field.name}
-                    name={field.name}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => {
-                      const files = e.target.files
-
+                  <FileUploader.Provider
+                    onChange={(files) => {
                       if (!files) {
                         field.handleChange(() => [])
                         return
@@ -103,7 +102,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
                       field.handleChange(() => [...files])
                     }}
-                  />
+                  >
+                    <FileUploader.Shell>
+                      <FileUploader.Placeholder />
+                      <FileUploader.FilesListPreview />
+                      <FileUploader.Trigger>
+                        <CButton stylexStyles={styles.addFileButton}>
+                          <PlusIcon />
+                          <Typography.MediumType14>
+                            <Font.Body>Add file</Font.Body>
+                          </Typography.MediumType14>
+                        </CButton>
+                      </FileUploader.Trigger>
+                    </FileUploader.Shell>
+                  </FileUploader.Provider>
                 )}
               </form.Field>
             </Dialog.Body>
