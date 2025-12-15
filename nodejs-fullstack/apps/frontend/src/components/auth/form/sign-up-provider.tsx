@@ -3,6 +3,8 @@ import { Context, useForm } from './context'
 import { useSendSignUpEmail } from './hooks'
 import { toast } from 'sonner'
 import { useNavigate } from '@tanstack/react-router'
+import { Cause, Exit, Schema } from 'effect'
+import { signUpSchema, type SignUpSchema } from './schema'
 
 export const SignUpProvider: FunctionComponent<{ children: ReactNode }> = ({
   children
@@ -15,15 +17,40 @@ export const SignUpProvider: FunctionComponent<{ children: ReactNode }> = ({
       full_name: 'Mary Slessor',
       email: 'mary.slessor@mail.com'
     },
+    validators: {
+      onChange: Schema.standardSchemaV1(signUpSchema)
+    },
     onSubmit: async ({ value }) => {
-      await sendSignUpEmail(value)
+      const val: SignUpSchema = value
+      const res = await sendSignUpEmail(val)
 
-      toast.success('Please check your mailbox')
+      Exit.match(res, {
+        onSuccess: () => {
+          toast.success('Please check your mailbox')
+          navigate({
+            to: '/auth/verify',
+            search: {
+              email: value.email
+            }
+          })
+        },
+        onFailure: (cause) => {
+          let msg = 'Sorry an error occurred'
 
-      navigate({
-        to: '/auth/verify',
-        search: {
-          email: value.email
+          if (Cause.isFailType(cause)) {
+            switch (cause.error._tag) {
+              case 'EmailAlreadyInUseError': {
+                msg = 'Email already in use'
+                break
+              }
+              default: {
+                msg = 'Sorry an error occurred'
+                break
+              }
+            }
+          }
+
+          toast.error(msg)
         }
       })
     }

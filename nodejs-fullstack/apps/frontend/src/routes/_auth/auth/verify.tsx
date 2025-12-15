@@ -7,6 +7,7 @@ import { Button } from '@/components/button'
 import { Font } from '@/components/font'
 import { Typography } from '@/components/typography'
 import { ArrowLeftIcon } from 'lucide-react'
+import { Input } from '@/components/input'
 
 const searchSchema = Schema.standardSchemaV1(
   Schema.Struct({
@@ -58,6 +59,8 @@ const styles = stylex.create({
 })
 
 function AuthVerifyEmailPage() {
+  const { email } = Route.useSearch()
+
   return (
     <>
       <div {...stylex.props(styles.header)}>
@@ -75,6 +78,7 @@ function AuthVerifyEmailPage() {
         <Auth.Form.VerificationProvider>
           <Auth.Form.Container>
             <Auth.Form.Otp />
+            <Auth.Form.Hidden name="email" value={email} />
           </Auth.Form.Container>
         </Auth.Form.VerificationProvider>
       </div>

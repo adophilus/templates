@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, type InputHTMLAttributes } from 'react'
 import * as stylex from '@stylexjs/stylex'
 import { color, fontFamily } from '@/styles/design/tokens.stylex'
 
@@ -21,11 +21,12 @@ const styles = stylex.create({
   }
 })
 
-export const Input = forwardRef<
-  HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement> & {
-    stylexStyles?: stylex.StyleXStyles
-  }
->(({ stylexStyles, ...props }, ref) => (
-  <input {...props} {...stylex.props(styles.input, stylexStyles)} ref={ref} />
-))
+export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+  stylexStyles?: stylex.StyleXStyles
+}
+
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ stylexStyles, ...props }, ref) => (
+    <input {...props} {...stylex.props(styles.input, stylexStyles)} ref={ref} />
+  )
+)

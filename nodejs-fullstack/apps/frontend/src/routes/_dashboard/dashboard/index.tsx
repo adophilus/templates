@@ -7,7 +7,7 @@ import { ImagesIcon } from 'lucide-react'
 import { breakpoint } from '@/styles/design/tokens.stylex'
 import { Breakpoint } from '@/components/breakpoint'
 
-export const Route = createFileRoute('/dashboard/')({
+export const Route = createFileRoute('/_dashboard/dashboard/')({
   component: DashboardOverviewPage
 })
 

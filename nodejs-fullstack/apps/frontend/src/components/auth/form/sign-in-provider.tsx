@@ -29,7 +29,7 @@ export const SignInProvider: FunctionComponent<{ children: ReactNode }> = ({
           if (Cause.isFailType(cause)) {
             switch (cause.error._tag) {
               case 'UserNotFoundError': {
-                msg = "User doesn't exist"
+                msg = "Account not found"
                 break
               }
               default: {

@@ -7,6 +7,7 @@ import { Otp } from './otp'
 import { SignInProvider } from './sign-in-provider'
 import { SignUpProvider } from './sign-up-provider'
 import { VerificationProvider } from './verification-provider'
+import { Hidden } from './hidden'
 
 export const Form = {
   Container,
@@ -14,6 +15,7 @@ export const Form = {
   Email,
   FullName,
   Otp,
+  Hidden,
   SignInProvider,
   SignUpProvider,
   Submit,

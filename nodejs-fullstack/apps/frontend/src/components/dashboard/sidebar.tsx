@@ -11,7 +11,10 @@ const styles = stylex.create({
   container: {
     containerType: 'inline-size',
     top: '0.25rem',
-    height: 'calc(100vh - 0.25rem * 2)',
+    height: {
+      default: 'calc(100vh - var(--sidebar-padding) * 2)',
+      [breakpoint.lg]: 'calc(100vh - 0.25rem * 2)'
+    },
     position: 'sticky',
     width: {
       default: '60px',
