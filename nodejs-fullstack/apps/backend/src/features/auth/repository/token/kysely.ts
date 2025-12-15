@@ -1,11 +1,14 @@
-import { Effect, Layer, Option } from 'effect'
+import { Console, Effect, Layer, Option } from 'effect'
 import { KyselyClient } from '@/features/database/kysely'
 import { AuthTokenRepository } from './interface'
-import { AuthTokenRepositoryError } from './error'
+import {
+  AuthTokenRepositoryConstraintError,
+  AuthTokenRepositoryError
+} from './error'
 
 export const KyselyAuthTokenRepositoryLive = Layer.effect(
   AuthTokenRepository,
-  Effect.gen(function* (_) {
+  Effect.gen(function*(_) {
     const db = yield* KyselyClient
 
     return AuthTokenRepository.of({
@@ -17,12 +20,26 @@ export const KyselyAuthTokenRepositoryLive = Layer.effect(
               .values(payload)
               .returningAll()
               .executeTakeFirstOrThrow(),
-          catch: (error) =>
-            new AuthTokenRepositoryError({
+          catch: (error) => {
+            const matches = [
+              ...(error as Error).message.matchAll(
+                /^SqliteError: UNIQUE constraint failed: index '(.*?)'$/g
+              )
+            ]
+
+            if (matches.length) {
+              return new AuthTokenRepositoryConstraintError({
+                message: 'Token already exists for this user',
+                cause: error
+              })
+            }
+
+            return new AuthTokenRepositoryError({
               message: `Failed to create auth token: ${String(error)}`,
               cause: error
             })
-        }),
+          }
+        }).pipe(Effect.tapError((err) => Console.log(err))),
 
       findByUserIdAndPurpose: (payload) =>
         Effect.tryPromise({

@@ -6,6 +6,7 @@ import UnexpectedError from '../common/UnexpectedError'
 import { Schema } from 'effect'
 import { OpenApi } from '@effect/platform'
 import Email from '../common/Email'
+import { TokenNotExpiredError } from '../common'
 
 export class SendSignInEmailRequestBody extends Schema.Class<SendSignInEmailRequestBody>(
   'SendSignInEmailRequestBody'
@@ -16,12 +17,12 @@ export class SendSignInEmailRequestBody extends Schema.Class<SendSignInEmailRequ
   {
     description: 'Send verification email request body'
   }
-) {}
+) { }
 
 export class SendSignInEmailSuccessResponse extends Schema.TaggedClass<SendSignInEmailSuccessResponse>()(
   'SendSignInEmailSuccessResponse',
   {}
-) {}
+) { }
 
 const SendSignInEmailEndpoint = HttpApiEndpoint.post(
   'sendSignInEmail',
@@ -32,6 +33,7 @@ const SendSignInEmailEndpoint = HttpApiEndpoint.post(
   .addError(UserNotFoundError, {
     status: StatusCodes.NOT_FOUND
   })
+  .addError(TokenNotExpiredError, { status: StatusCodes.BAD_REQUEST })
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   .annotate(OpenApi.Description, 'Send sign in verification email to user')

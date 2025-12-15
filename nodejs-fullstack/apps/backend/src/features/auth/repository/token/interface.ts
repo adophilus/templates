@@ -2,6 +2,7 @@ import { Context, type Option, type Effect } from 'effect'
 import type { AuthToken } from '@/types'
 import type {
   AuthTokenRepositoryError,
+  AuthTokenRepositoryConstraintError,
   AuthTokenRepositoryNotFoundError
 } from './error'
 
@@ -10,7 +11,10 @@ export class AuthTokenRepository extends Context.Tag('AuthTokenRepository')<
   {
     create: (
       payload: AuthToken.Insertable
-    ) => Effect.Effect<AuthToken.Selectable, AuthTokenRepositoryError>
+    ) => Effect.Effect<
+      AuthToken.Selectable,
+      AuthTokenRepositoryConstraintError | AuthTokenRepositoryError
+    >
 
     findByUserIdAndPurpose: (payload: {
       user_id: string
@@ -42,4 +46,4 @@ export class AuthTokenRepository extends Context.Tag('AuthTokenRepository')<
       AuthTokenRepositoryError | AuthTokenRepositoryNotFoundError
     >
   }
->() {}
+>() { }

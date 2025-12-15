@@ -8,7 +8,8 @@ import { Mailer } from '@/features/mailer/service'
 import SignInVerificationMail from '@/emails/SignInVerificationMail'
 import {
   UserNotFoundError,
-  UnexpectedError
+  UnexpectedError,
+  TokenNotExpiredError
 } from '@nodejs-fullstack-template/api/common/index'
 import { ulid } from 'ulidx'
 
@@ -17,7 +18,7 @@ export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(
   'Auth',
   'sendSignInEmail',
   ({ payload }) =>
-    Effect.gen(function* () {
+    Effect.gen(function*() {
       const userRepository = yield* AuthUserRepository
       const tokenRepository = yield* AuthTokenRepository
       const mailer = yield* Mailer
@@ -74,6 +75,8 @@ export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(
               message: error.message
             })
           ),
+        AuthTokenRepositoryConstraintError: () =>
+          Effect.fail(new TokenNotExpiredError()),
         AuthTokenRepositoryError: (error) =>
           Effect.fail(
             new UnexpectedError({

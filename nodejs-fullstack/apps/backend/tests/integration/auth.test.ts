@@ -1,11 +1,14 @@
 import { it, describe, beforeAll } from '@effect/vitest'
-import { Effect } from 'effect'
+import { assertFailure } from '@effect/vitest/utils'
+import { Cause, Effect } from 'effect'
 import {
   type ApiClient,
   createMockUserSignUpDetails,
   makeApiClient
 } from '../utils'
 import { FetchHttpClient } from '@effect/platform'
+import EmailAlreadyInUseError from '@nodejs-fullstack-template/api/common/EmailAlreadyInUseError'
+import TokenNotExpiredError from '@nodejs-fullstack-template/api/common/TokenNotExpiredError'
 
 describe('Auth API', () => {
   const userDetails = createMockUserSignUpDetails()
@@ -18,7 +21,7 @@ describe('Auth API', () => {
   })
 
   it.effect('should send the sign up email', () =>
-    Effect.gen(function* () {
+    Effect.gen(function*() {
       const client = yield* Client
 
       yield* client.Auth.sendSignUpEmail({
@@ -29,8 +32,19 @@ describe('Auth API', () => {
     }).pipe(Effect.provide(FetchHttpClient.layer))
   )
 
+  it('should not send sign up email email more than once', () =>
+    Effect.gen(function*() {
+      const client = yield* Client
+
+      const res = yield* client.Auth.sendSignUpEmail({
+        payload: userDetails
+      }).pipe(Effect.exit)
+
+      assertFailure(res, Cause.fail(new EmailAlreadyInUseError()))
+    }).pipe(Effect.provide(FetchHttpClient.layer)))
+
   it.effect('should verify the sign up email', () =>
-    Effect.gen(function* () {
+    Effect.gen(function*() {
       const client = yield* Client
 
       yield* client.Auth.verifyEmail({
@@ -43,7 +57,7 @@ describe('Auth API', () => {
   )
 
   it.effect('should send the sign in email', () =>
-    Effect.gen(function* () {
+    Effect.gen(function*() {
       const client = yield* Client
 
       yield* client.Auth.sendSignInEmail({
@@ -52,8 +66,22 @@ describe('Auth API', () => {
     }).pipe(Effect.provide(FetchHttpClient.layer))
   )
 
+  it.effect(
+    'should not send the sign in email more than once within a short time interval',
+    () =>
+      Effect.gen(function*() {
+        const client = yield* Client
+
+        const res = yield* client.Auth.sendSignInEmail({
+          payload: { email: userDetails.email }
+        }).pipe(Effect.exit)
+
+        assertFailure(res, Cause.fail(new TokenNotExpiredError()))
+      }).pipe(Effect.provide(FetchHttpClient.layer))
+  )
+
   it.effect('should verify the sign in email', () =>
-    Effect.gen(function* () {
+    Effect.gen(function*() {
       const client = yield* Client
 
       const res = yield* client.Auth.verifyEmail({
@@ -69,7 +97,7 @@ describe('Auth API', () => {
   )
 
   it.effect('should get user profile', () =>
-    Effect.gen(function* () {
+    Effect.gen(function*() {
       const client = yield* Client
 
       yield* client.Auth.getProfile()
