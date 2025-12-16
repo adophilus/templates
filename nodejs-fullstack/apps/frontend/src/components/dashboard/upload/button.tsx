@@ -5,7 +5,7 @@ import {
   Button as CButton,
   type ButtonProps as CButtonProps
 } from '@/components/button'
-import { forwardRef, useRef } from 'react'
+import { forwardRef, useRef, type FunctionComponent } from 'react'
 import { Dialog } from '@/components/dialog'
 import { useForm } from '@tanstack/react-form'
 import { toast } from 'sonner'
@@ -33,11 +33,34 @@ const styles = stylex.create({
   }
 })
 
+const UploadFile: FunctionComponent<{ onChange: (files: File[]) => void }> = ({
+  onChange
+}) => (
+  <FileUploader.Provider onChange={onChange}>
+    {({ files }) => (
+      <FileUploader.Shell>
+        <FileUploader.Placeholder />
+        <FileUploader.FilesListPreview />
+        {files.length > 0 && (
+          <FileUploader.Trigger>
+            <CButton type="button" stylexStyles={styles.addFileButton}>
+              <PlusIcon />
+              <Typography.MediumType14>
+                <Font.Body>Add file</Font.Body>
+              </Typography.MediumType14>
+            </CButton>
+          </FileUploader.Trigger>
+        )}
+      </FileUploader.Shell>
+    )}
+  </FileUploader.Provider>
+)
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (props, ref) => {
     const toastRef = useRef<string | number>(null)
 
-    const uploadFiles = (files: File[]) => sleep(5000)
+    const uploadFiles = (_files: File[]) => sleep(5000)
 
     const form = useForm({
       defaultValues: {
@@ -46,7 +69,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       onSubmit: async ({ value: { files } }) => {
         toast.loading('Upload files')
         await uploadFiles(files)
-        toast.dismiss(toastRef.current!)
+        if (toastRef.current) toast.dismiss(toastRef.current)
         toast.success('Files uploaded')
       }
     })
@@ -93,29 +116,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <Dialog.Body>
               <form.Field name="files">
                 {(field) => (
-                  <FileUploader.Provider
+                  <UploadFile
                     onChange={(files) => {
-                      if (!files) {
-                        field.handleChange(() => [])
-                        return
-                      }
-
-                      field.handleChange(() => [...files])
+                      field.handleChange(() => files)
                     }}
-                  >
-                    <FileUploader.Shell>
-                      <FileUploader.Placeholder />
-                      <FileUploader.FilesListPreview />
-                      <FileUploader.Trigger>
-                        <CButton stylexStyles={styles.addFileButton}>
-                          <PlusIcon />
-                          <Typography.MediumType14>
-                            <Font.Body>Add file</Font.Body>
-                          </Typography.MediumType14>
-                        </CButton>
-                      </FileUploader.Trigger>
-                    </FileUploader.Shell>
-                  </FileUploader.Provider>
+                  />
                 )}
               </form.Field>
             </Dialog.Body>

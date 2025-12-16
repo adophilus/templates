@@ -7,7 +7,7 @@ import {
 import * as stylex from '@stylexjs/stylex'
 import { Context } from './context'
 import { Title } from './title'
-import { breakpoint, color } from '@/styles/design/tokens.stylex'
+import { color } from '@/styles/design/tokens.stylex'
 import { Body } from './body'
 import { Footer } from './footer'
 

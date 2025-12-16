@@ -7,7 +7,6 @@ import { Button } from '@/components/button'
 import { Font } from '@/components/font'
 import { Typography } from '@/components/typography'
 import { ArrowLeftIcon } from 'lucide-react'
-import { Input } from '@/components/input'
 
 const searchSchema = Schema.standardSchemaV1(
   Schema.Struct({

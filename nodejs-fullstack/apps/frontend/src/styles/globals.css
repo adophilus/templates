@@ -4,12 +4,12 @@
 @stylex stylesheet;
 
 @starting-style {
-  dialog:open {
-    opacity: 0;
-    transform: translateY(-50%);
+	dialog:open {
+		opacity: 0;
+		transform: translateY(-50%);
 
-    &::backdrop {
-      background-color: hsl(0 0 0 / 0%);
-    }
-  }
+		&::backdrop {
+			background-color: hsl(0 0 0 / 0%);
+		}
+	}
 }

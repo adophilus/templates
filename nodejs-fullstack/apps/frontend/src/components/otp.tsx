@@ -1,8 +1,6 @@
 import {
-  forwardRef,
   useRef,
   type FunctionComponent,
-  type RefObject
 } from 'react'
 import * as stylex from '@stylexjs/stylex'
 import { color, fontFamily } from '@/styles/design/tokens.stylex'
@@ -57,7 +55,7 @@ export const Otp: FunctionComponent<OtpProps> = ({
       {Array.from({ length }).map((_, i) => (
         <input
           {...stylex.props(styles.input)}
-          key={i}
+          key={`otp-input-${i}`}
           maxLength={1}
           defaultValue={defaultValue?.at(i)}
           ref={(el) => {

@@ -1,4 +1,4 @@
-import * as stylex from '@stylexjs/stylex'
+
 import type { FunctionComponent, ReactNode } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import { breakpoint } from '@/styles/design/tokens.stylex'

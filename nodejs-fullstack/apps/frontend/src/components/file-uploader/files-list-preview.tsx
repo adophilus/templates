@@ -13,14 +13,16 @@ const styles = stylex.create({
 })
 
 export const FilesListPreview: FunctionComponent = () => {
-  const { files } = useContext(Context)
+  const { files, removeFile } = useContext(Context)
+
   return (
     <div {...stylex.props(styles.container)}>
       {files.map((file, index) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: using the name or webkitRelativePath would not allow multiple images of the same type to be uploaded
         <FilesListPreviewItem
           key={index}
           file={file}
-          onRemove={() => null}
+          onRemove={() => removeFile(index)}
         />
       ))}
     </div>

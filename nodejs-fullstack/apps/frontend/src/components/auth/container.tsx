@@ -1,14 +1,12 @@
-import {
-  useEffect,
-  useState,
-  type FunctionComponent,
-  type ReactNode
+import type {
+  FunctionComponent,
+  ReactNode
 } from 'react'
 import * as stylex from '@stylexjs/stylex'
 import { breakpoint, color } from '@/styles/design/tokens.stylex'
 import { Typography } from '../typography'
 import { Font } from '../font'
-import { getRandomQuote, type TQuote } from '@/utils/quotes'
+import { getRandomQuote, } from '@/utils/quotes'
 
 export const styles = stylex.create({
   container: {

@@ -9,6 +9,7 @@ export const Trigger = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         {...props}
+        type="button"
         ref={ref}
         onClick={(e) => {
           if (onClick) onClick(e)

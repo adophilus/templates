@@ -40,6 +40,7 @@ export const useSendSignInEmail = () =>
   useRxSet(sendSignInEmailRx, { mode: 'promiseExit' })
 export const useSendSignUpEmail = () =>
   useRxSet(sendSignUpEmailRx, { mode: 'promiseExit' })
-export const useVerifyEmail = () => useRxSet(verifyEmailRx, { mode: 'promiseExit' })
+export const useVerifyEmail = () =>
+  useRxSet(verifyEmailRx, { mode: 'promiseExit' })
 
 export const useAuth = () => null

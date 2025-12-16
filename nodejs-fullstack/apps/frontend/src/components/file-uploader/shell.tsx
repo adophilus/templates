@@ -22,15 +22,14 @@ const styles = stylex.create({
 export const Shell: FunctionComponent<{ children: ReactNode }> = ({
   children
 }) => {
-  const { files, fileInputRef } = useContext(Context)
+  const { fileInputRef, files } = useContext(Context)
 
   return (
     <button
       type="button"
       {...stylex.props(styles.shell)}
       onClick={() => {
-        // if (!files.length)
-          fileInputRef.current?.click()
+        if (!files.length) fileInputRef.current?.click()
       }}
     >
       {children}

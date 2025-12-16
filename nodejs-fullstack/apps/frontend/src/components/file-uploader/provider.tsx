@@ -17,7 +17,7 @@ const styles = stylex.create({
 })
 
 export type ProviderProps = {
-  children: ReactNode
+  children: ReactNode | ((context: TContext) => ReactNode)
   onChange?: (files: File[]) => void
 }
 
@@ -32,9 +32,17 @@ export const Provider: FunctionComponent<ProviderProps> = ({
     onChange?.(files)
   }, [onChange, files])
 
+  const removeFile = (index: number) => {
+    const newFiles = [...files]
+    newFiles.splice(index, 1)
+    setFiles(newFiles)
+  }
+
+  const contextValue = { files, setFiles, fileInputRef, removeFile }
+
   return (
-    <Context.Provider value={{ files, setFiles, fileInputRef }}>
-      {children}
+    <Context.Provider value={contextValue}>
+      {typeof children === 'function' ? children(contextValue) : children}
       <input
         type="file"
         multiple
@@ -45,6 +53,7 @@ export const Provider: FunctionComponent<ProviderProps> = ({
           const newFilesList = [...files, ...(filesList ?? [])]
           setFiles(newFilesList)
           onChange?.(newFilesList)
+          e.target.value = ''
         }}
       />
     </Context.Provider>
