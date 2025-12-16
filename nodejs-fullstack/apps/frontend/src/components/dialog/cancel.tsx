@@ -4,16 +4,19 @@ import type { ButtonProps } from '../button'
 import { useDialog } from './context'
 
 export type DialogCancelProps = ButtonProps & {
-  asChild?: boolean
+  asChild?: boolean;
+  disableDefaultBehavior?: boolean; // Add this prop
 }
 
 export const Cancel = forwardRef<HTMLButtonElement, DialogCancelProps>(
-  ({ asChild, onClick, ...props }, ref) => {
+  ({ asChild, onClick, disableDefaultBehavior, ...props }, ref) => { // Destructure disableDefaultBehavior
     const { onClose } = useDialog()
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      onClose() // Call onClose from context
-      onClick?.(e) // Call original onClick if it exists
+      if (!disableDefaultBehavior) { // Only call onClose if not disabled
+        onClose()
+      }
+      onClick?.(e) // Always call original onClick if it exists
     }
 
     const Component = asChild ? Slot : 'button'

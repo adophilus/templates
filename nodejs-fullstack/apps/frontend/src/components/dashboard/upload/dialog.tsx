@@ -2,7 +2,7 @@ import { Font } from '@/components/font'
 import { Typography } from '@/components/typography'
 import { PlusIcon } from 'lucide-react'
 import { Button } from '@/components/button'
-import { useRef, type FunctionComponent, type ReactNode } from 'react'
+import { useRef, useState, type FunctionComponent, type ReactNode } from 'react'
 import { Dialog } from '@/components/dialog'
 import { useForm } from '@tanstack/react-form'
 import { toast } from 'sonner'
@@ -29,7 +29,7 @@ const UploadFile: FunctionComponent<{ onChange: (files: File[]) => void }> = ({
         <FileUploader.Placeholder />
         <FileUploader.FilesListPreview />
         {files.length > 0 && (
-          <FileUploader.Trigger>
+          <FileUploader.Trigger asChild>
             <Button type="button" stylexStyles={styles.addFileButton}>
               <PlusIcon />
               <Typography.MediumType14>
@@ -47,6 +47,7 @@ export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
   children
 }) => {
   const toastRef = useRef<string | number>(null)
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
 
   const uploadMedia = useUploadMedia()
 
@@ -95,8 +96,10 @@ export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
         form.handleSubmit()
       }}
     >
-      <Dialog.Provider open={true}>
-        <Dialog.Trigger>{children}</Dialog.Trigger>
+      <Dialog.Provider open={isDialogOpen}>
+        <Dialog.Trigger asChild onClick={() => setIsDialogOpen(true)}>
+          {children}
+        </Dialog.Trigger>
         <Dialog.Shell>
           <Dialog.Title>
             <Breakpoint
@@ -128,7 +131,7 @@ export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
                 <Font.Body>Cancel</Font.Body>
               </Typography.MediumType14>
             </Dialog.Cancel>
-            <Dialog.Confirm>
+            <Dialog.Confirm asChild disableDefaultBehavior>
               <Button type="submit">
                 <Typography.MediumType14>
                   <Font.Body>Upload</Font.Body>
