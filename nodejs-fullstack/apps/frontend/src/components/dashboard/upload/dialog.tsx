@@ -9,6 +9,8 @@ import { toast } from 'sonner'
 import * as stylex from '@stylexjs/stylex'
 import { Breakpoint } from '@/components/breakpoint'
 import { FileUploader } from '@/components/file-uploader'
+import { useUploadMedia } from './hooks'
+import { Cause, Exit } from 'effect'
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -48,17 +50,42 @@ export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
 }) => {
   const toastRef = useRef<string | number>(null)
 
-  const uploadFiles = (_files: File[]) => sleep(5000)
+  const uploadMedia = useUploadMedia()
 
   const form = useForm({
     defaultValues: {
       files: [] as File[]
     },
     onSubmit: async ({ value: { files } }) => {
-      toast.loading('Upload files')
-      await uploadFiles(files)
-      if (toastRef.current) toast.dismiss(toastRef.current)
-      toast.success('Files uploaded')
+      toastRef.current = toast.loading('Uploading files...')
+
+      const res = await uploadMedia(files)
+
+      Exit.match(res, {
+        onSuccess: () => {
+          toast.dismiss(toastRef.current ?? undefined)
+          toast.success('Files uploaded')
+        },
+        onFailure: (cause) => {
+          let msg = 'Sorry an error occurred'
+
+          if (Cause.isFailType(cause)) {
+            switch (cause.error._tag) {
+              case 'UnauthorizedError': {
+                msg = 'You are not logged in'
+                break
+              }
+              default: {
+                msg = 'Sorry an error occurred'
+                break
+              }
+            }
+          }
+
+          toast.dismiss(toastRef.current ?? undefined)
+          toast.error(msg)
+        }
+      })
     }
   })
 

@@ -1,8 +1,9 @@
 import { BackendClient } from '@/services/backend'
 import { rxRuntime } from '@/services/rx'
+import { useRxSet } from '@effect-rx/rx-react'
 import { Effect } from 'effect'
 
-export const uploadFilesRx = rxRuntime.fn(
+export const uploadMediaRx = rxRuntime.fn(
   Effect.fn(function* (files: File[]) {
     const { client } = yield* BackendClient
 
@@ -14,3 +15,6 @@ export const uploadFilesRx = rxRuntime.fn(
     return yield* client.Storage.uploadMedia({ payload: formData })
   })
 )
+
+export const useUploadMedia = () =>
+  useRxSet(uploadMediaRx, { mode: 'promiseExit' })
