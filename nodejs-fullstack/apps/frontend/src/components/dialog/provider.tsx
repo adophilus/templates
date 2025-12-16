@@ -1,24 +1,39 @@
 import {
-  useEffect,
   useRef,
   type FunctionComponent,
-  type ReactNode
+  type ReactNode,
+  useCallback,
+  useEffect
 } from 'react'
 import { Context } from './context'
 
-export type DialogProviderProps = { children: ReactNode; open?: boolean }
+export type DialogProviderProps = { children: ReactNode }
 
 export const Provider: FunctionComponent<DialogProviderProps> = ({
-  children,
-  open
+  children
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null)
 
-  useEffect(() => {
-    if (open) {
-      dialogRef.current?.showModal()
-    }
-  }, [open])
+  const onOpen = useCallback(() => {
+    dialogRef.current?.showModal()
+  }, [])
 
-  return <Context.Provider value={{ dialogRef }}>{children}</Context.Provider>
+  const onClose = useCallback(() => {
+    dialogRef.current?.close()
+  }, [])
+
+  useEffect(() => {
+    const dialogElement = dialogRef.current;
+    if (!dialogElement) return;
+
+    // Attach event listener for native close event (e.g., escape key)
+    dialogElement.addEventListener('close', onClose);
+
+    return () => {
+      // Clean up event listener
+      dialogElement.removeEventListener('close', onClose);
+    };
+  }, [onClose]);
+
+  return <Context.Provider value={{ dialogRef, onOpen, onClose }}>{children}</Context.Provider>
 }

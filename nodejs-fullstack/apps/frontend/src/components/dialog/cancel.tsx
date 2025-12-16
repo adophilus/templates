@@ -1,25 +1,29 @@
-import { forwardRef, useContext } from 'react'
+import React, { forwardRef } from 'react'
+import { Slot } from '@radix-ui/react-slot'
 import type { ButtonProps } from '../button'
-import { Context } from './context'
+import { useDialog } from './context'
 
-export type DialogCancelProps = ButtonProps
+export type DialogCancelProps = ButtonProps & {
+  asChild?: boolean
+}
 
 export const Cancel = forwardRef<HTMLButtonElement, DialogCancelProps>(
-  ({ stylexStyles, onClick, ...props }, ref) => {
-    const { dialogRef } = useContext(Context)
+  ({ asChild, onClick, ...props }, ref) => {
+    const { onClose } = useDialog()
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      onClose() // Call onClose from context
+      onClick?.(e) // Call original onClick if it exists
+    }
+
+    const Component = asChild ? Slot : 'button'
 
     return (
-      <button
+      <Component
         type="button"
         {...props}
         ref={ref}
-        onClick={(e) => {
-          if (onClick) {
-            onClick?.(e)
-          } else {
-            dialogRef.current?.close()
-          }
-        }}
+        onClick={handleClick}
       />
     )
   }

@@ -1,26 +1,31 @@
-import { forwardRef, useContext } from 'react'
+import React, { forwardRef } from 'react'
+import { Slot } from '@radix-ui/react-slot'
 import type { ButtonProps } from '../button'
-import { Context } from './context'
-import { assert } from 'assertate'
+import { useDialog } from './context' // Assuming useDialog is in context.ts or a separate useDialog.ts
 
-export type DialogTriggerProps = ButtonProps
+export type DialogTriggerProps = ButtonProps & {
+  asChild?: boolean
+}
 
 export const Trigger = forwardRef<HTMLButtonElement, DialogTriggerProps>(
-  ({ stylexStyles, onClick, ...props }, ref) => {
-    const { dialogRef } = useContext(Context)
+  ({ asChild, onClick, ...props }, ref) => {
+    const { onOpen } = useDialog() // Use onOpen from the dialog context
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      onOpen() // Call onOpen from context
+      onClick?.(e) // Call original onClick if it exists
+    }
+
+    const Component = asChild ? Slot : 'button'
 
     return (
-      <button
+      <Component
         type="button"
         {...props}
         ref={ref}
-        onClick={(e) => {
-          const dialogEl = dialogRef.current
-          assert(dialogEl, 'no dialog ref')
-
-          dialogEl.showModal()
-          onClick?.(e)
-        }}
+        onClick={handleClick}
+        // Add accessibility attributes for dialog triggers
+        aria-haspopup="dialog"
       />
     )
   }
