@@ -12,8 +12,6 @@ import { FileUploader } from '@/components/file-uploader'
 import { useUploadMedia } from './hooks'
 import { Cause, Exit } from 'effect'
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
 const styles = stylex.create({
   addFileButton: {
     display: 'flex',
