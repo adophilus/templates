@@ -8,7 +8,7 @@ import ImageFiles from '../common/ImageFiles'
 import MediaDescription from '../common/MediaDescription'
 import AuthenticationMiddleware from '../Auth/AuthenticationMiddleware'
 
-const Request = HttpApiSchema.Multipart(
+export const UploadMediaRequestBody = HttpApiSchema.Multipart(
   Schema.Struct({
     files: ImageFiles
   })
@@ -27,7 +27,7 @@ const UploadMediaEndpoint = HttpApiEndpoint.post(
   'uploadMedia',
   '/storage/upload'
 )
-  .setPayload(Request)
+  .setPayload(UploadMediaRequestBody)
   .addSuccess(UploadMediaSuccessResponse, { status: StatusCodes.OK })
   .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
   .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
