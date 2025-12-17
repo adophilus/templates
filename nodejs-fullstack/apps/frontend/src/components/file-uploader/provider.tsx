@@ -12,6 +12,7 @@ const styles = stylex.create({
   input: {
     width: '0px',
     height: '0px',
+    position: 'absolute',
     visibility: 'hidden'
   }
 })

@@ -2,7 +2,7 @@ import { Font } from '@/components/font'
 import { Typography } from '@/components/typography'
 import { PlusIcon } from 'lucide-react'
 import { Button } from '@/components/button'
-import { useRef, useState, type FunctionComponent, type ReactNode } from 'react'
+import { useRef, type FunctionComponent, type ReactNode } from 'react'
 import { Dialog } from '@/components/dialog'
 import { useForm } from '@tanstack/react-form'
 import { toast } from 'sonner'
@@ -29,7 +29,7 @@ const UploadFile: FunctionComponent<{ onChange: (files: File[]) => void }> = ({
         <FileUploader.Placeholder />
         <FileUploader.FilesListPreview />
         {files.length > 0 && (
-          <FileUploader.Trigger asChild>
+          <FileUploader.Trigger>
             <Button type="button" stylexStyles={styles.addFileButton}>
               <PlusIcon />
               <Typography.MediumType14>
@@ -98,27 +98,27 @@ export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
     <Dialog.Provider>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Shell ref={dialogRef}>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            form.handleSubmit()
-          }}
-        >
-          <Dialog.Title>
-            <Breakpoint
-              lg={
-                <Typography.MediumType20>
-                  <Font.Body>Upload Image</Font.Body>
-                </Typography.MediumType20>
-              }
-            >
-              <Typography.MediumType18>
+        <Dialog.Title>
+          <Breakpoint
+            lg={
+              <Typography.MediumType20>
                 <Font.Body>Upload Image</Font.Body>
-              </Typography.MediumType18>
-            </Breakpoint>
-          </Dialog.Title>
-          <Dialog.Body>
+              </Typography.MediumType20>
+            }
+          >
+            <Typography.MediumType18>
+              <Font.Body>Upload Image</Font.Body>
+            </Typography.MediumType18>
+          </Breakpoint>
+        </Dialog.Title>
+        <Dialog.Body>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              form.handleSubmit()
+            }}
+          >
             <form.Field name="files">
               {(field) => (
                 <UploadFile
@@ -129,22 +129,27 @@ export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
                 />
               )}
             </form.Field>
-          </Dialog.Body>
-          <Dialog.Footer>
-            <Dialog.Cancel>
+          </form>
+        </Dialog.Body>
+        <Dialog.Footer>
+          <Dialog.Cancel>
+            <Typography.MediumType14>
+              <Font.Body>Cancel</Font.Body>
+            </Typography.MediumType14>
+          </Dialog.Cancel>
+          <Dialog.Confirm disableDefaultBehavior asChild>
+            <Button
+              type="button"
+              onClick={() => {
+                form.handleSubmit()
+              }}
+            >
               <Typography.MediumType14>
-                <Font.Body>Cancel</Font.Body>
+                <Font.Body>Upload</Font.Body>
               </Typography.MediumType14>
-            </Dialog.Cancel>
-            <Dialog.Confirm disableDefaultBehavior>
-              <Button type="submit">
-                <Typography.MediumType14>
-                  <Font.Body>Upload</Font.Body>
-                </Typography.MediumType14>
-              </Button>
-            </Dialog.Confirm>
-          </Dialog.Footer>
-        </form>
+            </Button>
+          </Dialog.Confirm>
+        </Dialog.Footer>
       </Dialog.Shell>
     </Dialog.Provider>
   )
