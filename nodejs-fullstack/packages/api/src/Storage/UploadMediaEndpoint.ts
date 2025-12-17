@@ -7,6 +7,7 @@ import { Schema } from 'effect'
 import ImageFiles from '../common/ImageFiles'
 import MediaDescription from '../common/MediaDescription'
 import AuthenticationMiddleware from '../Auth/AuthenticationMiddleware'
+import { UnauthorizedError } from '../common'
 
 export const UploadMediaRequestBody = HttpApiSchema.Multipart(
   Schema.Struct({
@@ -20,7 +21,8 @@ export class UploadMediaSuccessResponse extends Schema.TaggedClass<UploadMediaSu
   'UploadMediaResponse',
   {
     data: Schema.Array(MediaDescription)
-  }
+  },
+  HttpApiSchema.annotations({ status: StatusCodes.OK })
 ) {}
 
 const UploadMediaEndpoint = HttpApiEndpoint.post(
@@ -28,9 +30,9 @@ const UploadMediaEndpoint = HttpApiEndpoint.post(
   '/storage/upload'
 )
   .setPayload(UploadMediaRequestBody)
-  .addSuccess(UploadMediaSuccessResponse, { status: StatusCodes.OK })
-  .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
-  .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
+  .addSuccess(UploadMediaSuccessResponse)
+  .addError(BadRequestError)
+  .addError(UnexpectedError)
   .middleware(AuthenticationMiddleware)
   .annotate(OpenApi.Description, 'Upload multiple media files')
 
