@@ -1,4 +1,4 @@
-import { HttpApiEndpoint } from '@effect/platform'
+import { HttpApiEndpoint, HttpApiSchema } from '@effect/platform' // Added HttpApiSchema import
 import { StatusCodes } from 'http-status-codes'
 import TokenNotExpiredError from '../common/TokenNotExpiredError'
 import VerificationEmailAlreadySentError from '../common/VerificationEmailAlreadySentError'
@@ -23,7 +23,8 @@ export class ResendVerificationEmailRequestBody extends Schema.Class<ResendVerif
 
 export class ResendVerificationEmailSuccessResponse extends Schema.TaggedClass<ResendVerificationEmailSuccessResponse>()(
   'ResendVerificationEmailResponse',
-  {}
+  {},
+  HttpApiSchema.annotations({ status: StatusCodes.OK }) // Moved status here
 ) {}
 
 const ResendVerificationEmailEndpoint = HttpApiEndpoint.post(
@@ -31,19 +32,13 @@ const ResendVerificationEmailEndpoint = HttpApiEndpoint.post(
   '/auth/verify/resend'
 )
   .setPayload(ResendVerificationEmailRequestBody)
-  .addSuccess(ResendVerificationEmailSuccessResponse, {
-    status: StatusCodes.OK
-  })
-  .addError(TokenNotExpiredError, { status: StatusCodes.BAD_REQUEST })
-  .addError(VerificationEmailAlreadySentError, {
-    status: StatusCodes.BAD_REQUEST
-  })
-  .addError(UserAlreadyVerifiedError, { status: StatusCodes.BAD_REQUEST })
-  .addError(UserNotFoundError, {
-    status: StatusCodes.NOT_FOUND
-  })
-  .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
-  .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
+  .addSuccess(ResendVerificationEmailSuccessResponse) // Removed status from here
+  .addError(TokenNotExpiredError)
+  .addError(VerificationEmailAlreadySentError)
+  .addError(UserAlreadyVerifiedError)
+  .addError(UserNotFoundError)
+  .addError(BadRequestError)
+  .addError(UnexpectedError)
   .annotate(OpenApi.Description, 'Resend verification email')
 
 export default ResendVerificationEmailEndpoint

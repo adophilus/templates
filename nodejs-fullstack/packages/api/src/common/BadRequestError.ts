@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes'
 class BadRequestError extends Schema.TaggedError<BadRequestError>()(
   'BadRequestError',
   {},
-  HttpApiSchema.annotations({ status: StatusCodes.BAD_REQUEST})
+  HttpApiSchema.annotations({ status: StatusCodes.BAD_REQUEST })
 ) {}
 
 export default BadRequestError

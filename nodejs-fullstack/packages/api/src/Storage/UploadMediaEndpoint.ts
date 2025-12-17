@@ -7,7 +7,6 @@ import { Schema } from 'effect'
 import ImageFiles from '../common/ImageFiles'
 import MediaDescription from '../common/MediaDescription'
 import AuthenticationMiddleware from '../Auth/AuthenticationMiddleware'
-import { UnauthorizedError } from '../common'
 
 export const UploadMediaRequestBody = HttpApiSchema.Multipart(
   Schema.Struct({

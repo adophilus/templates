@@ -1,4 +1,4 @@
-import { HttpApiEndpoint } from '@effect/platform'
+import { HttpApiEndpoint, HttpApiSchema } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import EmailAlreadyInUseError from '../common/EmailAlreadyInUseError'
 import BadRequestError from '../common/BadRequestError'
@@ -22,7 +22,8 @@ export class SendSignUpEmailRequestBody extends Schema.Class<SendSignUpEmailRequ
 
 export class SendSignUpEmailSuccessResponse extends Schema.TaggedClass<SendSignUpEmailSuccessResponse>()(
   'SendSignUpEmailSuccessResponse',
-  {}
+  {},
+  HttpApiSchema.annotations({ status: StatusCodes.OK })
 ) {}
 
 const SendSignUpEmailEndpoint = HttpApiEndpoint.post(
@@ -30,10 +31,10 @@ const SendSignUpEmailEndpoint = HttpApiEndpoint.post(
   '/auth/sign-up'
 )
   .setPayload(SendSignUpEmailRequestBody)
-  .addSuccess(SendSignUpEmailSuccessResponse, { status: StatusCodes.OK })
-  .addError(EmailAlreadyInUseError, { status: StatusCodes.CONFLICT })
-  .addError(BadRequestError, { status: StatusCodes.BAD_REQUEST })
-  .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
+  .addSuccess(SendSignUpEmailSuccessResponse)
+  .addError(EmailAlreadyInUseError)
+  .addError(BadRequestError)
+  .addError(UnexpectedError)
   .annotate(OpenApi.Description, 'Sign up new user')
 
 export default SendSignUpEmailEndpoint

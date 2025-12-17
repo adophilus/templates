@@ -1,4 +1,4 @@
-import { HttpApiEndpoint } from '@effect/platform'
+import { HttpApiEndpoint, HttpApiSchema } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import InvalidOrExpiredTokenError from '../common/InvalidOrExpiredTokenError'
 import UnexpectedError from '../common/UnexpectedError'
@@ -26,14 +26,15 @@ export class VerifyEmailSuccessResponse extends Schema.TaggedClass<VerifyEmailSu
     data: Schema.Struct({
       access_token: SessionToken
     })
-  }
+  },
+  HttpApiSchema.annotations({ status: StatusCodes.OK })
 ) {}
 
 const VerifyEmailEndpoint = HttpApiEndpoint.post('verifyEmail', '/auth/verify')
   .setPayload(VerifyEmailRequestBody)
-  .addSuccess(VerifyEmailSuccessResponse, { status: StatusCodes.OK })
-  .addError(InvalidOrExpiredTokenError, { status: StatusCodes.BAD_REQUEST })
-  .addError(UnexpectedError, { status: StatusCodes.INTERNAL_SERVER_ERROR })
+  .addSuccess(VerifyEmailSuccessResponse)
+  .addError(InvalidOrExpiredTokenError)
+  .addError(UnexpectedError)
   .annotate(OpenApi.Description, 'Verify email')
 
 export default VerifyEmailEndpoint
