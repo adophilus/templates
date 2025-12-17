@@ -5,22 +5,20 @@ import { useDialog } from './context'
 
 export type DialogConfirmProps = ButtonProps & {
   asChild?: boolean;
-  disableDefaultBehavior?: boolean; // Add this prop
+  disableDefaultBehavior?: boolean; // Re-add this prop
 }
 
 export const Confirm = forwardRef<HTMLButtonElement, DialogConfirmProps>(
-  ({ asChild, onClick, disableDefaultBehavior, ...props }, ref) => { // Destructure disableDefaultBehavior
+  ({ asChild, onClick, disableDefaultBehavior, ...props }, ref) => {
     const { onClose } = useDialog()
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      const result = onClick?.(e) // Call original onClick, capture its result
-      
-      if (!disableDefaultBehavior) { // Only call onClose if not disabled
-        if (result !== false) { // If onClick doesn't explicitly return false, close the dialog
-          onClose() // Call onClose from context
-        }
+      onClick?.(e); // Always call provided onClick
+
+      // Only call onClose if disableDefaultBehavior is NOT present AND default was not prevented by onClick
+      if (disableDefaultBehavior === undefined && !e.defaultPrevented) {
+        onClose();
       }
-      return result // Return the result of original onClick
     }
 
     const Component = asChild ? Slot : 'button'

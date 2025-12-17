@@ -46,8 +46,12 @@ const UploadFile: FunctionComponent<{ onChange: (files: File[]) => void }> = ({
 export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
   children
 }) => {
+  const dialogRef = useRef<HTMLDialogElement>(null)
   const toastRef = useRef<string | number>(null)
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+
+  const closeDialog = () => {
+    dialogRef.current?.close()
+  }
 
   const uploadMedia = useUploadMedia()
 
@@ -56,6 +60,7 @@ export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
       files: [] as File[]
     },
     onSubmit: async ({ value: { files } }) => {
+      console.log(files)
       toastRef.current = toast.loading('Uploading files...')
 
       const res = await uploadMedia(files)
@@ -63,6 +68,7 @@ export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
       Exit.match(res, {
         onSuccess: () => {
           toast.dismiss(toastRef.current ?? undefined)
+          closeDialog()
           toast.success('Files uploaded')
         },
         onFailure: (cause) => {
@@ -89,16 +95,16 @@ export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
   })
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        form.handleSubmit()
-      }}
-    >
-      <Dialog.Provider>
-        <Dialog.Trigger asChild>{children}</Dialog.Trigger>
-        <Dialog.Shell>
+    <Dialog.Provider>
+      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
+      <Dialog.Shell ref={dialogRef}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            form.handleSubmit()
+          }}
+        >
           <Dialog.Title>
             <Breakpoint
               lg={
@@ -117,6 +123,7 @@ export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
               {(field) => (
                 <UploadFile
                   onChange={(files) => {
+                    console.log(files)
                     field.handleChange(() => files)
                   }}
                 />
@@ -129,7 +136,7 @@ export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
                 <Font.Body>Cancel</Font.Body>
               </Typography.MediumType14>
             </Dialog.Cancel>
-            <Dialog.Confirm asChild disableDefaultBehavior>
+            <Dialog.Confirm disableDefaultBehavior>
               <Button type="submit">
                 <Typography.MediumType14>
                   <Font.Body>Upload</Font.Body>
@@ -137,8 +144,8 @@ export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
               </Button>
             </Dialog.Confirm>
           </Dialog.Footer>
-        </Dialog.Shell>
-      </Dialog.Provider>
-    </form>
+        </form>
+      </Dialog.Shell>
+    </Dialog.Provider>
   )
 }

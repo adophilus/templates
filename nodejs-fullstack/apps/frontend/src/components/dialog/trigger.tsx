@@ -5,18 +5,20 @@ import { useDialog } from './context' // Assuming useDialog is in context.ts or 
 
 export type DialogTriggerProps = ButtonProps & {
   asChild?: boolean;
-  disableDefaultBehavior?: boolean; // Add this prop
+  disableDefaultBehavior?: boolean; // Re-add this prop
 }
 
-export const Trigger = forwardRef<HTMLButtonElement, DialogTriggerProps>(
-  ({ asChild, onClick, disableDefaultBehavior, ...props }, ref) => { // Destructure disableDefaultBehavior
+export const Trigger = React.forwardRef<HTMLButtonElement, DialogTriggerProps>(
+  ({ asChild, onClick, disableDefaultBehavior, ...props }, ref) => {
     const { onOpen } = useDialog()
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (!disableDefaultBehavior) { // Only call onOpen if not disabled
-        onOpen()
+      onClick?.(e); // Always call provided onClick
+
+      // Only call onOpen if disableDefaultBehavior is NOT present AND default was not prevented by onClick
+      if (disableDefaultBehavior === undefined && !e.defaultPrevented) {
+        onOpen();
       }
-      onClick?.(e) // Always call original onClick if it exists
     }
 
     const Component = asChild ? Slot : 'button'
