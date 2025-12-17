@@ -34,7 +34,7 @@ export class BackendClient extends Context.Tag('BackendClient')<
 export const BackendClientLive = Layer.effect(
   BackendClient,
   Effect.gen(function* () {
-    const client = yield* makeBackendHttpClient()
+    const client = yield* makeBackendHttpClient('')
     return { client }
   })
 )

@@ -43,7 +43,7 @@ const UploadFile: FunctionComponent<{ onChange: (files: File[]) => void }> = ({
   </FileUploader.Provider>
 )
 
-export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
+export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
   children
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null)

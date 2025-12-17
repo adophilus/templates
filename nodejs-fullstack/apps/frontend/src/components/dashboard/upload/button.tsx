@@ -9,7 +9,7 @@ import { forwardRef } from 'react'
 import * as stylex from '@stylexjs/stylex'
 import { breakpoint } from '@/styles/design/tokens.stylex'
 import { Breakpoint } from '@/components/breakpoint'
-import { UploadDialog } from './dialog'
+import { UploadFormDialog } from './form-dialog'
 
 export type ButtonProps = Omit<CButtonProps, 'children'>
 
@@ -26,7 +26,7 @@ const styles = stylex.create({
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (props, ref) => {
     return (
-      <UploadDialog>
+      <UploadFormDialog>
         <CButton {...props} ref={ref}>
           <UploadIcon {...stylex.props(styles.buttonIcon)} />
           <Breakpoint
@@ -41,7 +41,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             </Typography.SemiboldType12>
           </Breakpoint>
         </CButton>
-      </UploadDialog>
+      </UploadFormDialog>
     )
   }
 )
