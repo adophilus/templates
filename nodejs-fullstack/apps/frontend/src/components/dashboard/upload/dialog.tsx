@@ -96,10 +96,8 @@ export const UploadDialog: FunctionComponent<{ children: ReactNode }> = ({
         form.handleSubmit()
       }}
     >
-      <Dialog.Provider open={isDialogOpen}>
-        <Dialog.Trigger asChild onClick={() => setIsDialogOpen(true)}>
-          {children}
-        </Dialog.Trigger>
+      <Dialog.Provider>
+        <Dialog.Trigger asChild>{children}</Dialog.Trigger>
         <Dialog.Shell>
           <Dialog.Title>
             <Breakpoint
