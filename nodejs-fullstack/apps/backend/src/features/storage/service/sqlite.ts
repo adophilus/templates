@@ -19,10 +19,8 @@ export const SqliteStorageLive = Layer.effect(
     return Storage.of({
       upload: (payload, userId) =>
         Effect.gen(function* () {
-          // Use the shared validation function which returns ValidationInfo with mimeType
           const validationInfo = yield* validateFile(payload)
 
-          // Convert the File to ArrayBuffer and then to Buffer
           const arrayBuffer = yield* Effect.tryPromise({
             try: () => payload.arrayBuffer(),
             catch: (error) =>
@@ -32,10 +30,8 @@ export const SqliteStorageLive = Layer.effect(
               })
           })
 
-          // Convert ArrayBuffer to Buffer
           const fileBuffer = Buffer.from(arrayBuffer)
 
-          // Create the file record in the database using the repository
           const uploadedFile = yield* repository
             .create({
               id: ulid(),
@@ -61,10 +57,8 @@ export const SqliteStorageLive = Layer.effect(
       uploadMany: (payloads, userId) =>
         Effect.forEach(payloads, (payload) =>
           Effect.gen(function* () {
-            // Use the shared validation function which returns ValidationInfo with mimeType
             const validationInfo = yield* validateFile(payload)
 
-            // Convert the File to ArrayBuffer and then to Buffer
             const arrayBuffer = yield* Effect.tryPromise({
               try: () => payload.arrayBuffer(),
               catch: (error) =>
@@ -74,10 +68,8 @@ export const SqliteStorageLive = Layer.effect(
                 })
             })
 
-            // Convert ArrayBuffer to Buffer
             const fileBuffer = Buffer.from(arrayBuffer)
 
-            // Create the file record in the database using the repository
             const uploadedFile = yield* repository
               .create({
                 id: ulid(),

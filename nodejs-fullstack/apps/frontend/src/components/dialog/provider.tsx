@@ -2,9 +2,7 @@ import {
   useRef,
   type FunctionComponent,
   type ReactNode,
-  useCallback,
-  useEffect,
-  useState
+  useEffect
 } from 'react'
 import { Context } from './context'
 

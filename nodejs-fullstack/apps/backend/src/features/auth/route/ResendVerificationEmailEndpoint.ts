@@ -23,7 +23,6 @@ export const ResendVerificationEmailEndpointLive = HttpApiBuilder.handler(
       const tokenRepository = yield* AuthTokenRepository
       const mailer = yield* Mailer
 
-      // Find the user by email
       const userOption = yield* userRepository.findByEmail(payload.email)
 
       if (Option.isNone(userOption)) {
@@ -32,7 +31,6 @@ export const ResendVerificationEmailEndpointLive = HttpApiBuilder.handler(
 
       const user = userOption.value
 
-      // Check if a verification token already exists for this user and purpose
       const existingTokenOption = yield* tokenRepository.findByUserIdAndPurpose(
         {
           user_id: user.id,
@@ -43,7 +41,6 @@ export const ResendVerificationEmailEndpointLive = HttpApiBuilder.handler(
       if (Option.isSome(existingTokenOption)) {
         const existingToken = existingTokenOption.value
 
-        // Check if the existing token hasn't expired yet (e.g., hasn't been more than 5 minutes)
         const currentTime = Math.round(Date.now() / 1000)
         if (currentTime < existingToken.expires_at) {
           return yield* Effect.fail(
@@ -53,11 +50,9 @@ export const ResendVerificationEmailEndpointLive = HttpApiBuilder.handler(
           )
         }
 
-        // If the token has expired, delete it so we can create a new one
         yield* tokenRepository.deleteById(existingToken.id)
       }
 
-      // Generate a new verification token
       const tokenExpiry = Math.round(Date.now() / 1000) + 300 // 5 minutes
 
       const verificationToken = yield* tokenRepository.create({
@@ -69,7 +64,6 @@ export const ResendVerificationEmailEndpointLive = HttpApiBuilder.handler(
         created_at: Math.round(Date.now() / 1000)
       })
 
-      // Send verification email to the user
       yield* mailer.send({
         recipients: [payload.email],
         subject: 'Your verification code',

@@ -8,7 +8,6 @@ const RootLayout = () => (
   <RegistryProvider>
     <InitRuntime />
     <Outlet />
-    <Toaster />
     <Devtools />
   </RegistryProvider>
 )

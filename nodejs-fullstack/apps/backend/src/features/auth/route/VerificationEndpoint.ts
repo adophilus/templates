@@ -23,7 +23,6 @@ export const VerifyEmailEndpointLive = HttpApiBuilder.handler(
       const tokenRepository = yield* AuthTokenRepository
       const userRepository = yield* AuthUserRepository
 
-      // Find the user associated with this email
       const userOption = yield* userRepository.findByEmail(payload.email)
 
       if (Option.isNone(userOption)) {
@@ -34,7 +33,6 @@ export const VerifyEmailEndpointLive = HttpApiBuilder.handler(
 
       const user = userOption.value
 
-      // Find the verification token associated with this user ID and purpose
       const tokenOption = yield* tokenRepository.findByUserIdAndPurpose({
         user_id: user.id,
         purpose: 'VERIFICATION'
@@ -58,7 +56,6 @@ export const VerifyEmailEndpointLive = HttpApiBuilder.handler(
         )
       }
 
-      // Verify the OTP matches
       if (token.token !== payload.otp) {
         return yield* Effect.fail(
           new InvalidOrExpiredTokenError({
@@ -67,10 +64,8 @@ export const VerifyEmailEndpointLive = HttpApiBuilder.handler(
         )
       }
 
-      // Delete the verification token as it's been used
       yield* tokenRepository.deleteById(token.id)
 
-      // If the user is not yet verified, mark them as verified
       if (user.verified_at === null) {
         yield* userRepository.updateById(user.id, {
           verified_at: Math.round(Date.now() / 1000)

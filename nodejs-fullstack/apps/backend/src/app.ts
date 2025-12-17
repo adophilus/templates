@@ -38,12 +38,6 @@ export const DatabaseMigrationLayer = Layer.effectDiscard(
 
     const migrator = createKyselyMigrator(client, config.db.migrationsFolder)
 
-    // yield* Effect.tryPromise({
-    //   try: () => migrator.migrateTo(NO_MIGRATIONS),
-    //   catch: (err) => new DatabaseMigrationFailedError({ cause: err })
-    // }).pipe(Effect.flatMap(checkMigrationResultSet))
-    // yield* Console.log('Rolled back migrations')
-
     yield* Effect.tryPromise({
       try: () => migrator.migrateToLatest(),
       catch: (err) => new DatabaseMigrationFailedError({ cause: err })

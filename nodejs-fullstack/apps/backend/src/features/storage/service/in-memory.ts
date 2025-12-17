@@ -32,7 +32,6 @@ export const InMemoryStorage: Context.Tag.Service<Storage> = {
   uploadMany: (payloads, userId) =>
     Effect.forEach(payloads, (payload) =>
       Effect.gen(function* () {
-        // Use the shared validation function
         const validationInfo = yield* validateFile(payload)
 
         const id = ulid()

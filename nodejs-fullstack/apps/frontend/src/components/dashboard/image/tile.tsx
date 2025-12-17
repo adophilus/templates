@@ -76,7 +76,7 @@ export const Tile = () => {
       </span>
       <Dialog.Provider>
         <span {...stylex.props(styles.deleteButtonContainer)}>
-          <Dialog.Trigger>
+          <Dialog.Trigger asChild>
             <button type="button" {...stylex.props(styles.deleteButton)}>
               <Trash2Icon {...stylex.props(styles.deleteButtonIcon)} />
             </button>
@@ -121,7 +121,7 @@ export const Tile = () => {
                 <Font.Body>Cancel</Font.Body>
               </Typography.MediumType14>
             </Dialog.Cancel>
-            <Dialog.Confirm>
+            <Dialog.Confirm asChild>
               <Button>
                 <Typography.MediumType14>
                   <Font.Body>Confirm</Font.Body>

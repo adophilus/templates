@@ -10,7 +10,6 @@ import {
 } from './error'
 import type { SendMailError } from './error'
 
-// Define types for better type safety
 type EmailPayload = {
   readonly recipients: readonly string[]
   readonly subject: string
@@ -25,7 +24,6 @@ type MailOptions = {
   html: string
 }
 
-// Validation utilities
 const validateEmail = (
   email: string
 ): Effect.Effect<true, MailerValidationError> =>
@@ -86,14 +84,12 @@ export const NodemailerMailer: Layer.Layer<Mailer, never, never> = Layer.effect(
     return Mailer.of({
       send: (payload: EmailPayload) =>
         Effect.gen(function* (_) {
-          // Validate recipients
           yield* validateRecipients(payload.recipients).pipe(
             Effect.mapError((error) => error as SendMailError)
           )
 
           const recipients = payload.recipients.join(', ')
 
-          // Render email concurrently for better performance
           const [plainText, htmlText] = yield* Effect.all(
             [
               Effect.tryPromise({

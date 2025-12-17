@@ -11,12 +11,16 @@ import { Breakpoint } from '@/components/breakpoint'
 import { FileUploader } from '@/components/file-uploader'
 import { useUploadMedia } from './hooks'
 import { Cause, Exit } from 'effect'
+import { color } from '@/styles/design/tokens.stylex'
 
 const styles = stylex.create({
   addFileButton: {
     display: 'flex',
     alignItems: 'center',
     gap: '0.25rem'
+  },
+  fieldError: {
+    color: color.danger
   }
 })
 
@@ -60,7 +64,6 @@ export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
       files: [] as File[]
     },
     onSubmit: async ({ value: { files } }) => {
-      console.log(files)
       toastRef.current = toast.loading('Uploading files...')
 
       const res = await uploadMedia(files)
@@ -87,8 +90,18 @@ export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
             }
           }
 
-          toast.dismiss(toastRef.current ?? undefined)
-          toast.error(msg)
+          const errorMap = {
+            fields: {
+              files: msg
+            }
+          }
+
+          form.setErrorMap({
+            onBlur: errorMap,
+            onChange: errorMap,
+            onDynamic: errorMap,
+            onSubmit: errorMap
+          })
         }
       })
     }
@@ -121,12 +134,18 @@ export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
           >
             <form.Field name="files">
               {(field) => (
-                <UploadFile
-                  onChange={(files) => {
-                    console.log(files)
-                    field.handleChange(() => files)
-                  }}
-                />
+                <>
+                  <UploadFile
+                    onChange={(files) => field.handleChange(() => files)}
+                  />
+                  <span {...stylex.props(styles.fieldError)}>
+                    <Typography.MediumType12>
+                      <Font.Body>
+                        {field.state.meta.errors.join(', ')}
+                      </Font.Body>
+                    </Typography.MediumType12>
+                  </span>
+                </>
               )}
             </form.Field>
           </form>

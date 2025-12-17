@@ -23,7 +23,6 @@ export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(
       const tokenRepository = yield* AuthTokenRepository
       const mailer = yield* Mailer
 
-      // Find the user by email
       const userOption = yield* userRepository.findByEmail(payload.email)
 
       if (Option.isNone(userOption)) {
@@ -32,7 +31,6 @@ export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(
 
       const user = userOption.value
 
-      // Generate a verification token
       const tokenExpiry = Math.round(Date.now() / 1000) + 300 // add 5 mins
 
       const verificationToken = yield* tokenRepository.create({
@@ -44,7 +42,6 @@ export const SendSignInEmailEndpointLive = HttpApiBuilder.handler(
         created_at: Math.round(Date.now() / 1000)
       })
 
-      // Send verification email to the user
       yield* mailer.send({
         recipients: [payload.email],
         subject: 'Your verification code',

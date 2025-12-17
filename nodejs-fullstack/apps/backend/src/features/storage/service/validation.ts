@@ -6,12 +6,10 @@ type ValidationInfo = {
   mimeType: string
 }
 
-// Validation utilities that can be shared between implementations
 export const validateFile = (
   file: File
 ): Effect.Effect<ValidationInfo, StorageServiceValidationError> =>
   Effect.gen(function* () {
-    // Basic validation for the File object
     if (!file.name) {
       return yield* Effect.fail(
         new StorageServiceValidationError({
@@ -28,7 +26,6 @@ export const validateFile = (
       )
     }
 
-    // Check file size limit - using a reasonable default
     const maxFileSize = 10 * 1024 * 1024 // 10MB default in bytes
     if (file.size > maxFileSize) {
       return yield* Effect.fail(
@@ -38,7 +35,6 @@ export const validateFile = (
       )
     }
 
-    // For file type validation, convert the File to ArrayBuffer to detect type
     const arrayBuffer = yield* Effect.tryPromise({
       try: () => file.arrayBuffer(),
       catch: (error) =>
@@ -47,10 +43,8 @@ export const validateFile = (
         })
     })
 
-    // Convert ArrayBuffer to Uint8Array for file-type detection
     const uint8Array = new Uint8Array(arrayBuffer.slice(0, 4100)) // Take first 4100 bytes for detection
 
-    // Detect file type from the buffer
     const fileTypeInfo = yield* Effect.tryPromise({
       try: () => fileTypeFromBuffer(uint8Array),
       catch: (error) =>
