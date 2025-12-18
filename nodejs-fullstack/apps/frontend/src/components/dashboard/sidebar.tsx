@@ -88,9 +88,26 @@ const styles = stylex.create({
   },
   buttonActive: {
     color: color.primary,
-    backgroundColor: color.secondary
+    backgroundColor: `color-mix(in srgb, ${color.primary}, ${color.secondary} 80%)`
   }
 })
+
+const sidebarItems = {
+  top: [
+    {
+      to: '/dashboard',
+      icon: LayoutDashboardIcon,
+      label: 'Overview'
+    }
+  ],
+  bottom: [
+    {
+      to: '/dashboard/logout',
+      icon: LogOutIcon,
+      label: 'Logout'
+    }
+  ]
+}
 
 export const Sidebar = () => (
   <div {...stylex.props(styles.container)}>
@@ -101,26 +118,27 @@ export const Sidebar = () => (
       </Typography.SemiboldType32>
     </header>
     <div {...stylex.props(styles.innerContainer)}>
-      <div>
-        <Link to="/dashboard">
-          <Button stylexStyles={styles.button}>
-            <LayoutDashboardIcon />
-            <Typography.SemiboldType16 stylexStyles={styles.buttonText}>
-              <Font.Body>Overview</Font.Body>
-            </Typography.SemiboldType16>
-          </Button>
-        </Link>
-      </div>
-      <div>
-        <Link to="/dashboard/logout">
-          <Button stylexStyles={styles.button}>
-            <LogOutIcon />
-            <Typography.SemiboldType16 stylexStyles={styles.buttonText}>
-              <Font.Body>Logout</Font.Body>
-            </Typography.SemiboldType16>
-          </Button>
-        </Link>
-      </div>
+      {Object.entries(sidebarItems).map(([key, value]) => (
+        <div key={key}>
+          {value.map((item) => (
+            <Link to={item.to} key={item.to}>
+              {({ isActive }) => (
+                <Button
+                  stylexStyles={[
+                    styles.button,
+                    isActive && styles.buttonActive
+                  ]}
+                >
+                  <item.icon />
+                  <Typography.SemiboldType16 stylexStyles={styles.buttonText}>
+                    <Font.Body>{item.label}</Font.Body>
+                  </Typography.SemiboldType16>
+                </Button>
+              )}
+            </Link>
+          ))}
+        </div>
+      ))}
     </div>
   </div>
 )
