@@ -4,8 +4,10 @@ import { Dialog } from '@/components/dialog'
 import { Font } from '@/components/font'
 import { Typography } from '@/components/typography'
 import { color } from '@/styles/design/tokens.stylex'
+import type MediaDescription from '@nodejs-fullstack-template/api/common/MediaDescription'
 import * as stylex from '@stylexjs/stylex'
 import { Trash2Icon } from 'lucide-react'
+import type { FunctionComponent } from 'react'
 
 const styles = stylex.create({
   container: {
@@ -61,7 +63,9 @@ const styles = stylex.create({
   deleteDialog: {}
 })
 
-export const Tile = () => {
+export const Tile: FunctionComponent<{ data: MediaDescription }> = ({
+  data
+}) => {
   return (
     <span
       className={`group ${stylex.props(styles.container).className}`}
@@ -69,7 +73,8 @@ export const Tile = () => {
     >
       <span {...stylex.props(styles.imageContainer)}>
         <img
-          src="https://placehold.co/300"
+          // src="https://placehold.co/300"
+          src={data.url}
           alt="title"
           {...stylex.props(styles.image)}
         />

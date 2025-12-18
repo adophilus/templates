@@ -15,15 +15,11 @@ export const Gallery = () => {
   const media = useListMedia()
 
   return Result.builder(media)
-    .onSuccess(() => (
+    .onSuccess((res) => (
       <div {...stylex.props(styles.container)}>
-        <Tile />
-        <Tile />
-        <Tile />
-        <Tile />
-        <Tile />
-        <Tile />
-        <Tile />
+        {res.data.map((item) => (
+          <Tile key={item.id} data={item} />
+        ))}
       </div>
     ))
     .orNull()
