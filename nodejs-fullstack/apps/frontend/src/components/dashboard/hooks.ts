@@ -6,7 +6,7 @@ export const galleryAtom = Atom.make(
   Effect.gen(function*() {
     const { client } = yield* Atom.getResult(backendClientAtom)
 
-    return yield* client.Storage.list()
+    return yield* client.Storage.listMedia()
   })
 )
 
