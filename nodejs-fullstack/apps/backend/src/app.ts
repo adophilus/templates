@@ -16,7 +16,7 @@ import {
 } from './features/auth/repository'
 import { createKyselyMigrator } from './features/database/kysely/migrator'
 import { KyselyClient } from './features/database/kysely'
-import { NO_MIGRATIONS, type MigrationResultSet } from 'kysely'
+import type { MigrationResultSet } from 'kysely'
 import { config } from './features/config'
 import { NodemailerMailerLive } from './features/mailer/service'
 import { AuthenticationMiddlewareLive } from './features/auth/middleware/AuthenticationMiddleware'

@@ -27,5 +27,8 @@ export class StorageRepository extends Context.Tag('StorageRepository')<
       void,
       StorageRepositoryError | StorageRepositoryNotFoundError
     >
+    findByUserId: (
+      userId: string
+    ) => Effect.Effect<StorageFile.Selectable[], StorageRepositoryError>
   }
 >() {}

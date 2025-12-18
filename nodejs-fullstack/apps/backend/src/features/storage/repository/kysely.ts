@@ -85,6 +85,25 @@ export const KyselyStorageRepositoryLive = Layer.effect(
             return yield* new StorageRepositoryNotFoundError({
               message: ''
             })
+        }),
+
+      findByUserId: (userId) =>
+        Effect.gen(function* () {
+          const files = yield* Effect.tryPromise({
+            try: () =>
+              db
+                .selectFrom('storage_files')
+                .where('user_id', '=', userId)
+                .selectAll()
+                .execute(),
+            catch: (error) =>
+              new StorageRepositoryError({
+                message: `Failed to find files by user ID: ${String(error)}`,
+                cause: error
+              })
+          })
+
+          return files
         })
     })
   })

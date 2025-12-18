@@ -21,7 +21,7 @@ describe('Auth API', () => {
   })
 
   it.effect('should send the sign up email', () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const client = yield* Client
 
       yield* client.Auth.sendSignUpEmail({
@@ -33,7 +33,7 @@ describe('Auth API', () => {
   )
 
   it('should not send sign up email email more than once', () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const client = yield* Client
 
       const res = yield* client.Auth.sendSignUpEmail({
@@ -44,7 +44,7 @@ describe('Auth API', () => {
     }).pipe(Effect.provide(FetchHttpClient.layer)))
 
   it.effect('should verify the sign up email', () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const client = yield* Client
 
       yield* client.Auth.verifyEmail({
@@ -57,7 +57,7 @@ describe('Auth API', () => {
   )
 
   it.effect('should send the sign in email', () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const client = yield* Client
 
       yield* client.Auth.sendSignInEmail({
@@ -69,7 +69,7 @@ describe('Auth API', () => {
   it.effect(
     'should not send the sign in email more than once within a short time interval',
     () =>
-      Effect.gen(function*() {
+      Effect.gen(function* () {
         const client = yield* Client
 
         const res = yield* client.Auth.sendSignInEmail({
@@ -81,7 +81,7 @@ describe('Auth API', () => {
   )
 
   it.effect('should verify the sign in email', () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const client = yield* Client
 
       const res = yield* client.Auth.verifyEmail({
@@ -97,7 +97,7 @@ describe('Auth API', () => {
   )
 
   it.effect('should get user profile', () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const client = yield* Client
 
       yield* client.Auth.getProfile()

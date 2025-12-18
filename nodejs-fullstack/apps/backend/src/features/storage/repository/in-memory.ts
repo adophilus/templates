@@ -50,6 +50,17 @@ export const InMemoryStorageRepository: Context.Tag.Service<StorageRepository> =
           inMemoryStore.delete(id)
         }
         return void 0
+      }),
+
+    findByUserId: (userId) =>
+      Effect.sync(() => {
+        const files: StorageFile.Selectable[] = []
+        for (const file of inMemoryStore.values()) {
+          if (file.user_id === userId) {
+            files.push(file)
+          }
+        }
+        return files
       })
   }
 

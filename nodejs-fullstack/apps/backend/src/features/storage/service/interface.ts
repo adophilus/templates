@@ -34,6 +34,9 @@ export class Storage extends Context.Tag('StorageService')<
     delete: (
       id: string
     ) => Effect.Effect<void, StorageServiceNotFoundError | StorageServiceError>
+    findByUserId: (
+      userId: string
+    ) => Effect.Effect<StorageFile.Selectable[], StorageServiceError>
     convertToMediaDescription(payload: StorageFile.Selectable): MediaDescription
   }
 >() {}

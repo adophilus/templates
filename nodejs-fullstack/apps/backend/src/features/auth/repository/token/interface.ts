@@ -46,4 +46,4 @@ export class AuthTokenRepository extends Context.Tag('AuthTokenRepository')<
       AuthTokenRepositoryError | AuthTokenRepositoryNotFoundError
     >
   }
->() { }
+>() {}

@@ -73,6 +73,17 @@ export const InMemoryStorage: Context.Tag.Service<Storage> = {
       return void 0
     }),
 
+  findByUserId: (userId) =>
+    Effect.sync(() => {
+      const files: StorageFile.Selectable[] = []
+      for (const file of inMemoryStore.values()) {
+        if (file.user_id === userId) {
+          files.push(file)
+        }
+      }
+      return files
+    }),
+
   convertToMediaDescription: (payload) => ({
     id: payload.id,
     source: 'in-memory',

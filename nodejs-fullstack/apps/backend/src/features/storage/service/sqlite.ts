@@ -120,6 +120,17 @@ export const SqliteStorageLive = Layer.effect(
           })
         ),
 
+      findByUserId: (userId) =>
+        repository.findByUserId(userId).pipe(
+          Effect.mapError(
+            (error) =>
+              new StorageServiceError({
+                message: `Database operation failed: ${String(error)}`,
+                cause: error
+              })
+          )
+        ),
+
       convertToMediaDescription: (payload) =>
         new MediaDescription({
           id: payload.id,

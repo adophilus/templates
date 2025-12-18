@@ -8,7 +8,7 @@ import {
 
 export const KyselyAuthTokenRepositoryLive = Layer.effect(
   AuthTokenRepository,
-  Effect.gen(function*(_) {
+  Effect.gen(function* (_) {
     const db = yield* KyselyClient
 
     return AuthTokenRepository.of({
