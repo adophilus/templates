@@ -1,3 +1,5 @@
+import { Result } from '@effect-atom/atom-react'
+import { useListMedia } from '../hooks'
 import { Tile } from './tile'
 import * as stylex from '@stylexjs/stylex'
 
@@ -10,15 +12,19 @@ const styles = stylex.create({
 })
 
 export const Gallery = () => {
-  return (
-    <div {...stylex.props(styles.container)}>
-      <Tile />
-      <Tile />
-      <Tile />
-      <Tile />
-      <Tile />
-      <Tile />
-      <Tile />
-    </div>
-  )
+  const media = useListMedia()
+
+  return Result.builder(media)
+    .onSuccess(() => (
+      <div {...stylex.props(styles.container)}>
+        <Tile />
+        <Tile />
+        <Tile />
+        <Tile />
+        <Tile />
+        <Tile />
+        <Tile />
+      </div>
+    ))
+    .orNull()
 }

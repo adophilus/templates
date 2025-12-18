@@ -14,7 +14,7 @@ export class ListMediaSuccessResponse extends Schema.TaggedClass<ListMediaSucces
 
 export const ListMediaEndpoint = HttpApiEndpoint.get(
   'listMedia',
-  '/storage/upload'
+  '/storage/list' // Updated path to be more descriptive
 )
   .addSuccess(ListMediaSuccessResponse)
   .addError(UnexpectedError)

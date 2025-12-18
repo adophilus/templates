@@ -6,7 +6,7 @@ import { ListMediaSuccessResponse } from '@nodejs-fullstack-template/api/Storage
 import CurrentUser from '@nodejs-fullstack-template/api/common/CurrentUser'
 import UnexpectedError from '@nodejs-fullstack-template/api/common/UnexpectedError'
 
-export const ListMediaEndpoint = HttpApiBuilder.handler(
+export const ListMediaEndpointLive = HttpApiBuilder.handler(
   Api,
   'Storage',
   'listMedia',

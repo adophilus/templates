@@ -1,4 +1,4 @@
-import { HttpApiEndpoint, HttpApiSchema } from '@effect/platform' // Added HttpApiSchema import
+import { HttpApiEndpoint, HttpApiSchema } from '@effect/platform'
 import { StatusCodes } from 'http-status-codes'
 import TokenNotExpiredError from '../common/TokenNotExpiredError'
 import VerificationEmailAlreadySentError from '../common/VerificationEmailAlreadySentError'
@@ -19,20 +19,20 @@ export class ResendVerificationEmailRequestBody extends Schema.Class<ResendVerif
   {
     description: 'Resend verification email request body'
   }
-) {}
+) { }
 
 export class ResendVerificationEmailSuccessResponse extends Schema.TaggedClass<ResendVerificationEmailSuccessResponse>()(
   'ResendVerificationEmailResponse',
   {},
-  HttpApiSchema.annotations({ status: StatusCodes.OK }) // Moved status here
-) {}
+  HttpApiSchema.annotations({ status: StatusCodes.OK })
+) { }
 
 const ResendVerificationEmailEndpoint = HttpApiEndpoint.post(
   'resendVerificationEmail',
   '/auth/verify/resend'
 )
   .setPayload(ResendVerificationEmailRequestBody)
-  .addSuccess(ResendVerificationEmailSuccessResponse) // Removed status from here
+  .addSuccess(ResendVerificationEmailSuccessResponse)
   .addError(TokenNotExpiredError)
   .addError(VerificationEmailAlreadySentError)
   .addError(UserAlreadyVerifiedError)
