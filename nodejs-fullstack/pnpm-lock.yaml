@@ -244,9 +244,9 @@ importers:
 
   apps/frontend:
     dependencies:
-      '@effect-rx/rx-react':
-        specifier: ^0.42.4
-        version: 0.42.4(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10)(react@19.2.1)(scheduler@0.27.0)
+      '@effect-atom/atom-react':
+        specifier: ^0.4.4
+        version: 0.4.4(@effect/experimental@0.57.11(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10))(@effect/platform@0.82.8(effect@3.19.10))(@effect/rpc@0.59.9(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10))(effect@3.19.10)(react@19.2.1)(scheduler@0.27.0)
       '@effect/platform':
         specifier: ^0.82.8
         version: 0.82.8(effect@3.19.10)
@@ -1304,18 +1304,20 @@ packages:
   '@dual-bundle/import-meta-resolve@4.2.1':
     resolution: {integrity: sha512-id+7YRUgoUX6CgV0DtuhirQWodeeA7Lf4i2x71JS/vtA5pRb/hIGWlw+G6MeXvsM+MXrz0VAydTGElX1rAfgPg==}
 
-  '@effect-rx/rx-react@0.42.4':
-    resolution: {integrity: sha512-Y248Rn0kHoTdRifA+QX5KKJIP7LdWz/CbKmfkhnrEou2f/0nCthGwQrheAgpu7wd+f+Svy8eLjjfY69iidEUDQ==}
+  '@effect-atom/atom-react@0.4.4':
+    resolution: {integrity: sha512-EWT9WpB67GNCecxQXJdAZNVMhuk3VxpdDfojxg1wOgWmR5TPaGiXA74Jqa2Y9AEjSB0hMMAk7RNve2CoIikg2w==}
     peerDependencies:
-      effect: ^3.17
+      effect: ^3.19
       react: '>=18 <20'
       scheduler: '*'
 
-  '@effect-rx/rx@0.48.7':
-    resolution: {integrity: sha512-SdxC/4L+S14kU+6QoKzF0VTbflNYmhX1eJHIP4ZfnDqLVWd4PHJFdLjGCS9ZAODLyukkuBw4OVB4P7ScGaVV1g==}
+  '@effect-atom/atom@0.4.10':
+    resolution: {integrity: sha512-SEPDN4rbNsz0LTWfu4+a//OGh+zIpe64pJ4SJDFN1k07c9l171FTKCHIQHVwjK84vE+TxIj/Tg/JZzgxEkdMsQ==}
     peerDependencies:
-      '@effect/platform': ^0.90.0
-      effect: ^3.17.0
+      '@effect/experimental': ^0.57.0
+      '@effect/platform': ^0.93.0
+      '@effect/rpc': ^0.72.1
+      effect: ^3.19.0
 
   '@effect/cli@0.61.8':
     resolution: {integrity: sha512-CRdzBUW3SkjsL1Og5bnh7nt1VN0JwNLyfnjlzTWwtIm07WFFdcZXUXquFJfmU++eTP5Kfp8JbZYvsHwmzg/q1w==}
@@ -9738,18 +9740,22 @@ snapshots:
 
   '@dual-bundle/import-meta-resolve@4.2.1': {}
 
-  '@effect-rx/rx-react@0.42.4(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10)(react@19.2.1)(scheduler@0.27.0)':
+  '@effect-atom/atom-react@0.4.4(@effect/experimental@0.57.11(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10))(@effect/platform@0.82.8(effect@3.19.10))(@effect/rpc@0.59.9(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10))(effect@3.19.10)(react@19.2.1)(scheduler@0.27.0)':
     dependencies:
-      '@effect-rx/rx': 0.48.7(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10)
+      '@effect-atom/atom': 0.4.10(@effect/experimental@0.57.11(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10))(@effect/platform@0.82.8(effect@3.19.10))(@effect/rpc@0.59.9(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10))(effect@3.19.10)
       effect: 3.19.10
       react: 19.2.1
       scheduler: 0.27.0
     transitivePeerDependencies:
+      - '@effect/experimental'
       - '@effect/platform'
+      - '@effect/rpc'
 
-  '@effect-rx/rx@0.48.7(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10)':
+  '@effect-atom/atom@0.4.10(@effect/experimental@0.57.11(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10))(@effect/platform@0.82.8(effect@3.19.10))(@effect/rpc@0.59.9(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10))(effect@3.19.10)':
     dependencies:
+      '@effect/experimental': 0.57.11(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10)
       '@effect/platform': 0.82.8(effect@3.19.10)
+      '@effect/rpc': 0.59.9(@effect/platform@0.82.8(effect@3.19.10))(effect@3.19.10)
       effect: 3.19.10
 
   '@effect/cli@0.61.8(@effect/platform@0.82.8(effect@3.19.10))(@effect/printer-ansi@0.43.5(@effect/typeclass@0.34.5(effect@3.19.10))(effect@3.19.10))(@effect/printer@0.43.5(@effect/typeclass@0.34.5(effect@3.19.10))(effect@3.19.10))(effect@3.19.10)':

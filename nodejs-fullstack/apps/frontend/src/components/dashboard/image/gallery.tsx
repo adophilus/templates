@@ -9,14 +9,16 @@ const styles = stylex.create({
   }
 })
 
-export const Gallery = () => (
-  <div {...stylex.props(styles.container)}>
-    <Tile />
-    <Tile />
-    <Tile />
-    <Tile />
-    <Tile />
-    <Tile />
-    <Tile />
-  </div>
-)
+export const Gallery = () => {
+  return (
+    <div {...stylex.props(styles.container)}>
+      <Tile />
+      <Tile />
+      <Tile />
+      <Tile />
+      <Tile />
+      <Tile />
+      <Tile />
+    </div>
+  )
+}

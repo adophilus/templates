@@ -1,14 +1,16 @@
-import { rxRuntime } from '@/services/rx'
-import { Effect } from 'effect'
-import { BackendClient } from '@/services/backend'
-import { useRxSet } from '@effect-rx/rx-react'
+import { makeAtomRuntime } from '@/services/atom'
+import { Effect, Layer, Ref } from 'effect'
+import { Atom, useAtomSet } from '@effect-atom/atom-react'
 import type { SendSignInEmailRequestBody } from '@nodejs-fullstack-template/api/Auth/SendSignInEmailEndpoint'
 import type { SendSignUpEmailRequestBody } from '@nodejs-fullstack-template/api/Auth/SendSignUpEmailEndpoint'
 import type { VerifyEmailRequestBody } from '@nodejs-fullstack-template/api/Auth/VerifyEmailEndpoint'
+import { backendClientAtom } from '@/services/backend'
 
-export const sendSignInEmailRx = rxRuntime.fn(
-  Effect.fn(function* (payload: SendSignInEmailRequestBody) {
-    const { client } = yield* BackendClient
+const atomRuntime = makeAtomRuntime(Layer.empty)
+
+export const sendSignInEmailAtom = atomRuntime.fn(
+  Effect.fn(function*(payload: SendSignInEmailRequestBody) {
+    const { client } = yield* Atom.getResult(backendClientAtom)
 
     return yield* client.Auth.sendSignInEmail({
       payload
@@ -16,9 +18,9 @@ export const sendSignInEmailRx = rxRuntime.fn(
   })
 )
 
-export const sendSignUpEmailRx = rxRuntime.fn(
-  Effect.fn(function* (payload: SendSignUpEmailRequestBody) {
-    const { client } = yield* BackendClient
+export const sendSignUpEmailAtom = atomRuntime.fn(
+  Effect.fn(function*(payload: SendSignUpEmailRequestBody) {
+    const { client } = yield* Atom.getResult(backendClientAtom)
 
     return yield* client.Auth.sendSignUpEmail({
       payload
@@ -26,9 +28,9 @@ export const sendSignUpEmailRx = rxRuntime.fn(
   })
 )
 
-export const verifyEmailRx = rxRuntime.fn(
-  Effect.fn(function* (payload: VerifyEmailRequestBody) {
-    const { client } = yield* BackendClient
+export const verifyEmailAtom = atomRuntime.fn(
+  Effect.fn(function*(payload: VerifyEmailRequestBody) {
+    const { client } = yield* Atom.getResult(backendClientAtom)
 
     return yield* client.Auth.verifyEmail({
       payload
@@ -37,10 +39,8 @@ export const verifyEmailRx = rxRuntime.fn(
 )
 
 export const useSendSignInEmail = () =>
-  useRxSet(sendSignInEmailRx, { mode: 'promiseExit' })
+  useAtomSet(sendSignInEmailAtom, { mode: 'promiseExit' })
 export const useSendSignUpEmail = () =>
-  useRxSet(sendSignUpEmailRx, { mode: 'promiseExit' })
+  useAtomSet(sendSignUpEmailAtom, { mode: 'promiseExit' })
 export const useVerifyEmail = () =>
-  useRxSet(verifyEmailRx, { mode: 'promiseExit' })
-
-export const useAuth = () => null
+  useAtomSet(verifyEmailAtom, { mode: 'promiseExit' })

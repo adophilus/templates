@@ -4,7 +4,7 @@ import { SendSignUpEmailEndpointLive } from './SendSignUpEmailEndpoint'
 import { ResendVerificationEmailEndpointLive } from './ResendVerificationEmailEndpoint'
 import { GetProfileEndpointLive } from './GetProfileEndpoint'
 import { SendSignInEmailEndpointLive } from './SendSignInEmailEnddoint'
-import { VerifyEmailEndpointLive } from './VerificationEndpoint'
+import { VerifyEmailEndpointLive } from './VerifyEmailEndpoint'
 
 const AuthApiLive = HttpApiBuilder.group(Api, 'Auth', (handlers) =>
   handlers

@@ -112,7 +112,7 @@ export const Sidebar = () => (
         </Link>
       </div>
       <div>
-        <Link to="/dashboard">
+        <Link to="/dashboard/logout">
           <Button stylexStyles={styles.button}>
             <LogOutIcon />
             <Typography.SemiboldType16 stylexStyles={styles.buttonText}>

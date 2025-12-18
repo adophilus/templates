@@ -51,7 +51,6 @@ export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
   children
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const toastRef = useRef<string | number>(null)
 
   const closeDialog = () => {
     dialogRef.current?.close()
@@ -64,13 +63,10 @@ export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
       files: [] as File[]
     },
     onSubmit: async ({ value: { files } }) => {
-      toastRef.current = toast.loading('Uploading files...')
-
       const res = await uploadMedia(files)
 
       Exit.match(res, {
         onSuccess: () => {
-          toast.dismiss(toastRef.current ?? undefined)
           closeDialog()
           toast.success('Files uploaded')
         },
@@ -97,10 +93,7 @@ export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
           }
 
           form.setErrorMap({
-            onBlur: errorMap,
-            onChange: errorMap,
-            onDynamic: errorMap,
-            onSubmit: errorMap
+            onBlur: errorMap
           })
         }
       })

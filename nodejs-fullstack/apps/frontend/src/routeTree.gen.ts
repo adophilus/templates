@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardDashboardIndexRouteImport } from './routes/_dashboard/dashboard/index'
 import { Route as AuthAuthIndexRouteImport } from './routes/_auth/auth/index'
+import { Route as DashboardDashboardLogoutRouteImport } from './routes/_dashboard/dashboard/logout'
 import { Route as AuthAuthVerifyRouteImport } from './routes/_auth/auth/verify'
 import { Route as AuthAuthSignUpRouteImport } from './routes/_auth/auth/sign-up'
 import { Route as AuthAuthSignInRouteImport } from './routes/_auth/auth/sign-in'
@@ -41,6 +42,12 @@ const AuthAuthIndexRoute = AuthAuthIndexRouteImport.update({
   path: '/auth/',
   getParentRoute: () => AuthRoute,
 } as any)
+const DashboardDashboardLogoutRoute =
+  DashboardDashboardLogoutRouteImport.update({
+    id: '/dashboard/logout',
+    path: '/dashboard/logout',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const AuthAuthVerifyRoute = AuthAuthVerifyRouteImport.update({
   id: '/auth/verify',
   path: '/auth/verify',
@@ -62,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/auth/sign-in': typeof AuthAuthSignInRoute
   '/auth/sign-up': typeof AuthAuthSignUpRoute
   '/auth/verify': typeof AuthAuthVerifyRoute
+  '/dashboard/logout': typeof DashboardDashboardLogoutRoute
   '/auth': typeof AuthAuthIndexRoute
   '/dashboard': typeof DashboardDashboardIndexRoute
 }
@@ -70,6 +78,7 @@ export interface FileRoutesByTo {
   '/auth/sign-in': typeof AuthAuthSignInRoute
   '/auth/sign-up': typeof AuthAuthSignUpRoute
   '/auth/verify': typeof AuthAuthVerifyRoute
+  '/dashboard/logout': typeof DashboardDashboardLogoutRoute
   '/auth': typeof AuthAuthIndexRoute
   '/dashboard': typeof DashboardDashboardIndexRoute
 }
@@ -81,6 +90,7 @@ export interface FileRoutesById {
   '/_auth/auth/sign-in': typeof AuthAuthSignInRoute
   '/_auth/auth/sign-up': typeof AuthAuthSignUpRoute
   '/_auth/auth/verify': typeof AuthAuthVerifyRoute
+  '/_dashboard/dashboard/logout': typeof DashboardDashboardLogoutRoute
   '/_auth/auth/': typeof AuthAuthIndexRoute
   '/_dashboard/dashboard/': typeof DashboardDashboardIndexRoute
 }
@@ -91,6 +101,7 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/auth/verify'
+    | '/dashboard/logout'
     | '/auth'
     | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
@@ -99,6 +110,7 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/auth/verify'
+    | '/dashboard/logout'
     | '/auth'
     | '/dashboard'
   id:
@@ -109,6 +121,7 @@ export interface FileRouteTypes {
     | '/_auth/auth/sign-in'
     | '/_auth/auth/sign-up'
     | '/_auth/auth/verify'
+    | '/_dashboard/dashboard/logout'
     | '/_auth/auth/'
     | '/_dashboard/dashboard/'
   fileRoutesById: FileRoutesById
@@ -156,6 +169,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthIndexRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_dashboard/dashboard/logout': {
+      id: '/_dashboard/dashboard/logout'
+      path: '/dashboard/logout'
+      fullPath: '/dashboard/logout'
+      preLoaderRoute: typeof DashboardDashboardLogoutRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/_auth/auth/verify': {
       id: '/_auth/auth/verify'
       path: '/auth/verify'
@@ -197,10 +217,12 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface DashboardRouteChildren {
+  DashboardDashboardLogoutRoute: typeof DashboardDashboardLogoutRoute
   DashboardDashboardIndexRoute: typeof DashboardDashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardDashboardLogoutRoute: DashboardDashboardLogoutRoute,
   DashboardDashboardIndexRoute: DashboardDashboardIndexRoute,
 }
 

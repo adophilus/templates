@@ -1,11 +1,13 @@
-import { BackendClient } from '@/services/backend'
-import { rxRuntime } from '@/services/rx'
-import { useRxSet } from '@effect-rx/rx-react'
-import { Effect } from 'effect'
+import { makeAtomRuntime } from '@/services/atom'
+import { backendClientAtom } from '@/services/backend'
+import { Atom, useAtomSet } from '@effect-atom/atom-react'
+import { Effect, Layer } from 'effect'
 
-export const uploadMediaRx = rxRuntime.fn(
-  Effect.fn(function* (files: File[]) {
-    const { client } = yield* BackendClient
+const atomRuntime = makeAtomRuntime(Layer.empty)
+
+export const uploadMediaRx = atomRuntime.fn(
+  Effect.fn(function*(files: File[]) {
+    const { client } = yield* Atom.getResult(backendClientAtom)
 
     const formData = new FormData()
     for (const file of files) {
@@ -17,4 +19,4 @@ export const uploadMediaRx = rxRuntime.fn(
 )
 
 export const useUploadMedia = () =>
-  useRxSet(uploadMediaRx, { mode: 'promiseExit' })
+  useAtomSet(uploadMediaRx, { mode: 'promiseExit' })
