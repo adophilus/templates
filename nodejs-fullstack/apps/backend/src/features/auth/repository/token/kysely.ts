@@ -103,7 +103,21 @@ export const KyselyAuthTokenRepositoryLive = Layer.effect(
               message: `Failed to delete token by ID: ${String(error)}`,
               cause: error
             })
-        })
+        }),
+
+      deleteExpired: () =>
+        Effect.tryPromise({
+          try: () =>
+            db
+              .deleteFrom('auth_tokens')
+              .where('expires_at', '<', Math.round(Date.now() / 1000))
+              .execute(),
+          catch: (error) =>
+            new AuthTokenRepositoryError({
+              message: `Failed to delete expired tokens: ${String(error)}`,
+              cause: error
+            })
+        }).pipe(Effect.asUnit) // Return void
     })
   })
 )

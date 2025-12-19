@@ -20,6 +20,7 @@ import type { MigrationResultSet } from 'kysely'
 import { config } from './features/config'
 import { NodemailerMailerLive } from './features/mailer/service'
 import { AuthenticationMiddlewareLive } from './features/auth/middleware/AuthenticationMiddleware'
+import { AuthCronJob } from './features/auth/cron'
 
 export class DatabaseMigrationFailedError extends Data.TaggedError(
   'DatabaseMigrationFailedError'
@@ -58,7 +59,10 @@ export const AuthMiddlewareLayer = AuthenticationMiddlewareLive.pipe(
   Layer.provide(KyselyAuthSessionRepositoryLive)
 )
 
+export const AuthCronJobLayer = AuthCronJob
+
 export const AuthLayer = AuthApiLive.pipe(
+  Layer.provide(AuthCronJobLayer),
   Layer.provide(AuthenticationMiddlewareLive),
   Layer.provide(KyselyAuthUserRepositoryLive),
   Layer.provide(KyselyAuthTokenRepositoryLive),

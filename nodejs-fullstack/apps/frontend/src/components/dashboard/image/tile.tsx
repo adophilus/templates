@@ -60,6 +60,7 @@ const styles = stylex.create({
     }
   },
   deleteButton: {
+    pointerEvents: 'auto',
     backgroundColor: color.secondary,
     borderRadius: '0.5rem',
     padding: '0.5rem',

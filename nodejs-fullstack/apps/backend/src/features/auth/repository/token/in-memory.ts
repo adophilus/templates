@@ -69,6 +69,17 @@ export const InMemoryAuthTokenRepository: Context.Tag.Service<AuthTokenRepositor
           inMemoryTokens.delete(id)
         }
         return void 0
+      }),
+
+    deleteExpired: () =>
+      Effect.sync(() => {
+        const currentTime = Math.round(Date.now() / 1000)
+        for (const [id, token] of inMemoryTokens.entries()) {
+          if (token.expires_at < currentTime) {
+            inMemoryTokens.delete(id)
+          }
+        }
+        return void 0
       })
   }
 
