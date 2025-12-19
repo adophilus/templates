@@ -29,5 +29,7 @@ export const cleanExpiredAuthSessions = Effect.gen(function* () {
 }).pipe(Effect.repeat(Schedule.fixed('1 minutes')))
 
 export const AuthCronJob = Layer.effectDiscard(
-  Effect.all([cleanExpiredAuthTokens, cleanExpiredAuthSessions])
+  Effect.all([cleanExpiredAuthTokens, cleanExpiredAuthSessions], {
+    concurrency: 'unbounded'
+  })
 )
