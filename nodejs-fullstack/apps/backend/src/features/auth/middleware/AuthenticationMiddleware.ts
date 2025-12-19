@@ -2,7 +2,6 @@ import AuthenticationMiddleware from '@nodejs-fullstack-template/api/Auth/Authen
 import { Effect, Layer, Redacted, Option } from 'effect' // Keep Option import for userRepository.findById
 import { AuthUserRepository } from '../repository'
 import { AuthSessionService } from '../service'
-import { InvalidSessionError, AuthSessionServiceError } from '../service'
 import UnauthorizedError from '@nodejs-fullstack-template/api/common/UnauthorizedError'
 import UnexpectedError from '@nodejs-fullstack-template/api/common/UnexpectedError'
 // import { User } from '@nodejs-fullstack-template/api/common/User'

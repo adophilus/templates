@@ -46,7 +46,8 @@ export class AuthTokenRepository extends Context.Tag('AuthTokenRepository')<
       AuthTokenRepositoryError | AuthTokenRepositoryNotFoundError
     >
 
-    deleteExpired: () => Effect.Effect< // Renamed from findExpired
+    deleteExpired: () => Effect.Effect<
+      // Renamed from findExpired
       void, // Changed return type to void
       AuthTokenRepositoryError
     >

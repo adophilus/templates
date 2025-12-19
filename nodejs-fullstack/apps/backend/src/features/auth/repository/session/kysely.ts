@@ -1,7 +1,9 @@
 import { Effect, Layer, Option } from 'effect'
 import { KyselyClient } from '@/features/database/kysely'
 import { AuthSessionRepository } from './interface'
-import { AuthSessionRepositoryError, AuthSessionRepositoryNotFoundError } from './error'
+import {
+  AuthSessionRepositoryError,
+} from './error'
 
 export const KyselyAuthSessionRepositoryLive = Layer.effect(
   AuthSessionRepository,
@@ -75,11 +77,11 @@ export const KyselyAuthSessionRepositoryLive = Layer.effect(
       deleteAllExpired: () =>
         Effect.tryPromise({
           try: () => {
-            const currentTime = Math.round(Date.now() / 1000);
+            const currentTime = Math.round(Date.now() / 1000)
             return db
               .deleteFrom('auth_sessions')
               .where('expires_at', '<', currentTime)
-              .execute();
+              .execute()
           },
           catch: (error) =>
             new AuthSessionRepositoryError({

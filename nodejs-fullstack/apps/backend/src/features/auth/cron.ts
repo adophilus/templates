@@ -19,13 +19,14 @@ export const cleanExpiredAuthSessions = Effect.gen(function* () {
   yield* Console.log('Running cron job: Cleaning expired auth sessions...')
 
   yield* authSessionService.deleteAllExpired().pipe(
-    Effect.tap(() => Console.log('Expired auth sessions cleaned successfully.')),
+    Effect.tap(() =>
+      Console.log('Expired auth sessions cleaned successfully.')
+    ),
     Effect.catchAll((error) =>
       Console.error(`Error cleaning expired auth sessions: ${error.message}`)
     )
   )
 }).pipe(Effect.repeat(Schedule.fixed('1 minutes')))
-
 
 export const AuthCronJob = Layer.effectDiscard(
   Effect.all([cleanExpiredAuthTokens, cleanExpiredAuthSessions])

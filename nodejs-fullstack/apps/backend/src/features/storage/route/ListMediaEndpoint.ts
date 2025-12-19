@@ -11,7 +11,7 @@ export const ListMediaEndpointLive = HttpApiBuilder.handler(
   'Storage',
   'listMedia',
   () =>
-    Effect.gen(function*() {
+    Effect.gen(function* () {
       const storage = yield* Storage
       const user = yield* CurrentUser
 

@@ -52,15 +52,17 @@ export const AuthSessionServiceLive = Layer.effect(
 
       findById: (sessionId) =>
         Effect.gen(function* () {
-          const sessionOption = yield* sessionRepository.findById(sessionId).pipe(
-            Effect.mapError(
-              (error) =>
-                new AuthSessionServiceError({
-                  message: error.message,
-                  cause: error
-                })
+          const sessionOption = yield* sessionRepository
+            .findById(sessionId)
+            .pipe(
+              Effect.mapError(
+                (error) =>
+                  new AuthSessionServiceError({
+                    message: error.message,
+                    cause: error
+                  })
+              )
             )
-          )
           const session = yield* Option.match(sessionOption, {
             onNone: () =>
               Effect.fail(
@@ -69,7 +71,7 @@ export const AuthSessionServiceLive = Layer.effect(
             onSome: Effect.succeed
           })
 
-          return yield* validateAuthSession(session); // Validate the retrieved session
+          return yield* validateAuthSession(session) // Validate the retrieved session
         }),
 
       validate: (session) => validateAuthSession(session), // Expose helper as validate method

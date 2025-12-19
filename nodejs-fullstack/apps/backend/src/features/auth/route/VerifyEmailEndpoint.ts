@@ -7,12 +7,8 @@ import {
   UnexpectedError
 } from '@nodejs-fullstack-template/api/common/index'
 // import { ulid } from 'ulidx' // No longer needed here
-import {
-  AuthTokenRepository,
-  AuthUserRepository
-} from '../repository'
+import { AuthTokenRepository, AuthUserRepository } from '../repository'
 import { AuthSessionService } from '../service' // Updated import path
-import { AuthSessionServiceError } from '../service' // Also need to import error from service
 
 export const VerifyEmailEndpointLive = HttpApiBuilder.handler(
   Api,

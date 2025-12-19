@@ -1,4 +1,3 @@
-import { makeAtomRuntime } from '@/services/atom'
 import { backendClientAtom } from '@/services/backend'
 import {
   Atom,
@@ -6,12 +5,10 @@ import {
   useAtomSet,
   useAtomValue
 } from '@effect-atom/atom-react'
-import { Effect, Layer } from 'effect'
+import { Effect } from 'effect'
 
-const atomRuntime = makeAtomRuntime(Layer.empty)
-
-export const uploadMediaRx = atomRuntime.fn(
-  Effect.fn(function*(files: File[]) {
+export const uploadMediaRx = Atom.fn(
+  Effect.fn(function* (files: File[]) {
     const { client } = yield* Atom.getResult(backendClientAtom)
     const registry = yield* Registry.AtomRegistry
 
@@ -28,7 +25,7 @@ export const uploadMediaRx = atomRuntime.fn(
 )
 
 export const listMediaAtom = Atom.make(
-  Effect.gen(function*() {
+  Effect.gen(function* () {
     const { client } = yield* Atom.getResult(backendClientAtom)
 
     return yield* client.Storage.listMedia()
@@ -36,7 +33,7 @@ export const listMediaAtom = Atom.make(
 )
 
 const deleteMediaAtom = Atom.fn(
-  Effect.fn(function*(fileId: string) {
+  Effect.fn(function* (fileId: string) {
     const { client } = yield* Atom.getResult(backendClientAtom)
     const registry = yield* Registry.AtomRegistry
 

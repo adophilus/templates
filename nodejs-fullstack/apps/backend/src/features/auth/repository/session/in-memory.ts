@@ -58,6 +58,17 @@ export const InMemoryAuthSessionRepository: Context.Tag.Service<AuthSessionRepos
           inMemorySessions.delete(id)
         }
         return void 0
+      }),
+
+    deleteAllExpired: () =>
+      Effect.sync(() => {
+        const currentTime = Math.round(Date.now() / 1000)
+        for (const [id, session] of inMemorySessions.entries()) {
+          if (session.expires_at < currentTime) {
+            inMemorySessions.delete(id)
+          }
+        }
+        return void 0
       })
   }
 
