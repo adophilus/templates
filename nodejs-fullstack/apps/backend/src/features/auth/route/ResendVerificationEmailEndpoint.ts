@@ -9,7 +9,8 @@ import SignInVerificationMail from '@/emails/SignInVerificationMail'
 import {
   UserNotFoundError,
   VerificationEmailAlreadySentError,
-  UnexpectedError
+  UnexpectedError,
+  TokenNotExpiredError
 } from '@nodejs-fullstack-template/api/common/index'
 import { ulid } from 'ulidx'
 
@@ -88,6 +89,8 @@ export const ResendVerificationEmailEndpointLive = HttpApiBuilder.handler(
         return error
       }),
       Effect.catchTags({
+        AuthTokenRepositoryConstraintError: () =>
+          Effect.fail(new TokenNotExpiredError()),
         AuthUserRepositoryError: (error) =>
           Effect.fail(
             new UnexpectedError({

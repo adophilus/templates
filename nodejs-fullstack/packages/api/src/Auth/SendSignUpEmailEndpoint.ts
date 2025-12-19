@@ -7,6 +7,7 @@ import { OpenApi } from '@effect/platform'
 import { Schema } from 'effect'
 import Email from '../common/Email'
 import FullName from '../common/FullName'
+import { TokenNotExpiredError } from '../common'
 
 export class SendSignUpEmailRequestBody extends Schema.Class<SendSignUpEmailRequestBody>(
   'SendSignUpEmailRequestBody'
@@ -33,6 +34,7 @@ const SendSignUpEmailEndpoint = HttpApiEndpoint.post(
   .setPayload(SendSignUpEmailRequestBody)
   .addSuccess(SendSignUpEmailSuccessResponse)
   .addError(EmailAlreadyInUseError)
+  .addError(TokenNotExpiredError)
   .addError(BadRequestError)
   .addError(UnexpectedError)
   .annotate(OpenApi.Description, 'Sign up new user')

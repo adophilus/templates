@@ -67,6 +67,7 @@ export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
 
       Exit.match(res, {
         onSuccess: () => {
+          form.reset()
           closeDialog()
           toast.success('Files uploaded')
         },

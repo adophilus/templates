@@ -8,6 +8,7 @@ import { Mailer } from '@/features/mailer/service'
 import SignInVerificationMail from '@/emails/SignInVerificationMail'
 import {
   EmailAlreadyInUseError,
+  TokenNotExpiredError,
   UnexpectedError
 } from '@nodejs-fullstack-template/api/common/index'
 import { ulid } from 'ulidx'
@@ -72,6 +73,8 @@ export const SendSignUpEmailEndpointLive = HttpApiBuilder.handler(
         return error
       }),
       Effect.catchTags({
+        AuthTokenRepositoryConstraintError: () =>
+          Effect.fail(new TokenNotExpiredError()),
         AuthUserRepositoryError: (error) =>
           Effect.fail(
             new UnexpectedError({

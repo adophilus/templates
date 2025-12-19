@@ -193,7 +193,7 @@ export const Tile: FunctionComponent<{ data: MediaDescription }> = ({
               <Font.Body>Delete</Font.Body>
             </Typography.MediumType14>
           </Button>
-          <Dialog.Cancel asChild>
+          <Dialog.Cancel asChild autoFocus>
             <Button>
               <Typography.MediumType14>
                 <Font.Body>Close</Font.Body>

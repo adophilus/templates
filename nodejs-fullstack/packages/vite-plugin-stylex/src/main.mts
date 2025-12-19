@@ -1,14 +1,14 @@
 import type { Plugin, ViteDevServer, Rollup, AliasOptions } from "vite";
 import * as babel from "@babel/core";
 import stylexBabelPlugin, {
-  Options as StyleXOptions,
+  type Options as StyleXOptions,
 } from "@stylexjs/babel-plugin";
 
-// @ts-ignore
+// @ts-expect-error
 import flowSyntaxPlugin from "@babel/plugin-syntax-flow";
-// @ts-ignore
+// @ts-expect-error
 import jsxSyntaxPlugin from "@babel/plugin-syntax-jsx";
-// @ts-ignore
+// @ts-expect-error
 import typescriptSyntaxPlugin from "@babel/plugin-syntax-typescript";
 import path from "path";
 import crypto from "crypto";
@@ -21,7 +21,7 @@ const stylexPkg =
   require("@stylexjs/stylex/package.json") as typeof import("@stylexjs/stylex/package.json");
 
 const pluginPkg =
-  // @ts-ignore - no need to include package.json in the output
+  // @ts-expect-error - no need to include package.json in the output
   require("../package.json") as typeof import("../package.json");
 
 const stylePackageVersion = stylexPkg.version;
@@ -98,9 +98,9 @@ export default function styleXVitePlugin({
     id: 0,
     css: "",
   };
-  let modulesToInvalidate = new Map<string, string>();
+  const modulesToInvalidate = new Map<string, string>();
   let server: ViteDevServer;
-  let aliases: Record<string, string[]> = {};
+  const aliases: Record<string, string[]> = {};
   let reloadCount = 0;
 
   async function reloadStyleX() {
@@ -133,7 +133,7 @@ export default function styleXVitePlugin({
       return "";
     }
 
-    // @ts-ignore
+    // @ts-expect-error
     const stylexCSS = stylexBabelPlugin.processStylexRules(
       rules.filter(Boolean),
       useCSSLayers
@@ -198,7 +198,7 @@ export default function styleXVitePlugin({
     id: string,
     css: string
   ) {
-    let transformPluginContext = {
+    const transformPluginContext = {
       ...context,
       getCombinedSourcemap: () => {
         throw new Error("getCombinedSourcemap not implemented");
@@ -207,7 +207,7 @@ export default function styleXVitePlugin({
 
     css = css.replace(STYLEX_REPLACE_RULE, compileStyleX());
 
-    for (let plugin of cssPlugins) {
+    for (const plugin of cssPlugins) {
       if (!plugin.transform) continue;
       const transformHandler =
         "handler" in plugin.transform!
@@ -219,7 +219,7 @@ export default function styleXVitePlugin({
         // generated CSS. In build mode, this updates the chunks later used to
         // generate the bundle. In serve mode, the transformed souce should be
         // applied in transform.
-        let result = await transformHandler.call(
+        const result = await transformHandler.call(
           transformPluginContext,
           css,
           id
@@ -373,12 +373,12 @@ export default function styleXVitePlugin({
         const { code, map, metadata } = result;
 
         if (
-          // @ts-ignore
+          // @ts-expect-error
           metadata?.stylex != null &&
-          // @ts-ignore
+          // @ts-expect-error
           metadata?.stylex.length > 0
         ) {
-          // @ts-ignore
+          // @ts-expect-error
           stylexRules[id] = metadata.stylex;
           reloadStyleX();
         }
@@ -390,7 +390,7 @@ export default function styleXVitePlugin({
       // We must run before `enforce: post` so the updated chunks are picked up
       // by vite:css-post.
       async renderChunk() {
-        for (let [id, code] of modulesToInvalidate.entries()) {
+        for (const [id, code] of modulesToInvalidate.entries()) {
           await transformWithPlugins(this, id, code);
         }
       },

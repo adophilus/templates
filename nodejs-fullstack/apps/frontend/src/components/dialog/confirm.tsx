@@ -1,4 +1,5 @@
-import React, { forwardRef } from 'react'
+import type React from 'react'
+import { forwardRef } from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import type { ButtonProps } from '../button'
 import { useDialog } from './context'
