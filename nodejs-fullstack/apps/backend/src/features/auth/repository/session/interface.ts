@@ -30,5 +30,13 @@ export class AuthSessionRepository extends Context.Tag('AuthSessionRepository')<
       void,
       AuthSessionRepositoryError | AuthSessionRepositoryNotFoundError
     >
+
+    extendExpiryById: (
+      id: string,
+      expires_at: number
+    ) => Effect.Effect<
+      AuthSession.Selectable,
+      AuthSessionRepositoryError | AuthSessionRepositoryNotFoundError
+    >
   }
 >() {}

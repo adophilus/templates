@@ -74,7 +74,7 @@ export const VerifyEmailEndpointLive = HttpApiBuilder.handler(
 
       const session = yield* sessionRepository.create({
         id: ulid(),
-        expires_at: Math.round(Date.now() / 1000 + 86400), // session expires in 1 day
+        expires_at: Math.round(Date.now() / 1000 + 86400 * 30), // session expires in 30 days
         user_id: user.id,
         created_at: Math.round(Date.now() / 1000)
       })

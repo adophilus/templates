@@ -9,9 +9,14 @@
     },
     "motion": {
       "command": "pnpx",
-      "args": ["motion-ai"],
+      "args": [
+        "motion-ai"
+      ],
       "trust": true
     }
   },
-  "$version": 2
+  "$version": 2,
+  "ui": {
+    "hideBanner": false
+  }
 }

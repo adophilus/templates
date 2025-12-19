@@ -117,7 +117,7 @@ export const KyselyAuthTokenRepositoryLive = Layer.effect(
               message: `Failed to delete expired tokens: ${String(error)}`,
               cause: error
             })
-        }).pipe(Effect.asUnit) // Return void
+        })
     })
   })
 )

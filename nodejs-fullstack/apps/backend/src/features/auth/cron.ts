@@ -1,8 +1,7 @@
 import { Effect, Schedule, Console, Layer } from 'effect'
 import { AuthTokenRepository } from './repository/token/interface'
 
-// Define the cron job to clean expired auth tokens
-export const cleanExpiredAuthTokens = Effect.gen(function* (_) {
+export const cleanExpiredAuthTokens = Effect.gen(function* () {
   const authTokenRepository = yield* AuthTokenRepository
   yield* Console.log('Running cron job: Cleaning expired auth tokens...')
 
@@ -12,10 +11,6 @@ export const cleanExpiredAuthTokens = Effect.gen(function* (_) {
       Console.error(`Error cleaning expired auth tokens: ${error.message}`)
     )
   )
-}).pipe(
-  // Schedule the cron job to run periodically (e.g., every 1 minutes)
-  Effect.repeat(Schedule.fixed('1 minutes')),
-  Effect.fork
-)
+}).pipe(Effect.repeat(Schedule.fixed('1 minutes')))
 
 export const AuthCronJob = Layer.effectDiscard(cleanExpiredAuthTokens)

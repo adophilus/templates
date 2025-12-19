@@ -1,7 +1,7 @@
 import { Effect, Layer, Option } from 'effect'
 import { KyselyClient } from '@/features/database/kysely'
 import { AuthSessionRepository } from './interface'
-import { AuthSessionRepositoryError } from './error'
+import { AuthSessionRepositoryError, AuthSessionRepositoryNotFoundError } from './error' // Import AuthSessionRepositoryNotFoundError
 
 export const KyselyAuthSessionRepositoryLive = Layer.effect(
   AuthSessionRepository,
@@ -68,6 +68,33 @@ export const KyselyAuthSessionRepositoryLive = Layer.effect(
           catch: (error) =>
             new AuthSessionRepositoryError({
               message: `Failed to delete session by token: ${String(error)}`,
+              cause: error
+            })
+        }),
+
+      extendExpiryById: (id, expires_at) =>
+        Effect.tryPromise({
+          try: async () => {
+            const result = await db
+              .updateTable('auth_sessions')
+              .set({
+                expires_at,
+                updated_at: Math.round(Date.now() / 1000)
+              })
+              .where('id', '=', id)
+              .returningAll()
+              .executeTakeFirst();
+            
+            if (!result) {
+                throw new AuthSessionRepositoryNotFoundError({
+                    message: `Session with id ${id} not found.`
+                });
+            }
+            return result;
+          },
+          catch: (error) =>
+            new AuthSessionRepositoryError({
+              message: `Failed to extend session expiry for id ${id}: ${String(error)}`,
               cause: error
             })
         })
