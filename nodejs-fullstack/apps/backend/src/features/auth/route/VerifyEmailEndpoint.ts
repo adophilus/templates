@@ -6,12 +6,13 @@ import {
   InvalidOrExpiredTokenError,
   UnexpectedError
 } from '@nodejs-fullstack-template/api/common/index'
-import { ulid } from 'ulidx'
+// import { ulid } from 'ulidx' // No longer needed here
 import {
-  AuthSessionRepository,
   AuthTokenRepository,
   AuthUserRepository
 } from '../repository'
+import { AuthSessionService } from '../service' // Updated import path
+import { AuthSessionServiceError } from '../service' // Also need to import error from service
 
 export const VerifyEmailEndpointLive = HttpApiBuilder.handler(
   Api,
@@ -19,7 +20,7 @@ export const VerifyEmailEndpointLive = HttpApiBuilder.handler(
   'verifyEmail',
   ({ payload }) =>
     Effect.gen(function* () {
-      const sessionRepository = yield* AuthSessionRepository
+      const authSessionService = yield* AuthSessionService // Inject AuthSessionService
       const tokenRepository = yield* AuthTokenRepository
       const userRepository = yield* AuthUserRepository
 
@@ -72,12 +73,8 @@ export const VerifyEmailEndpointLive = HttpApiBuilder.handler(
         })
       }
 
-      const session = yield* sessionRepository.create({
-        id: ulid(),
-        expires_at: Math.round(Date.now() / 1000 + 86400 * 30), // session expires in 30 days
-        user_id: user.id,
-        created_at: Math.round(Date.now() / 1000)
-      })
+      // Use AuthSessionService to create the session
+      const session = yield* authSessionService.create(user.id)
 
       return VerifyEmailSuccessResponse.make({
         data: {
@@ -100,7 +97,8 @@ export const VerifyEmailEndpointLive = HttpApiBuilder.handler(
           ),
         AuthTokenRepositoryNotFoundError: () =>
           Effect.fail(new InvalidOrExpiredTokenError()),
-        AuthSessionRepositoryError: (error) =>
+        // Catch AuthSessionServiceError and map it to UnexpectedError
+        AuthSessionServiceError: (error) =>
           Effect.fail(
             new UnexpectedError({
               message: `Failed to create session: ${error.message}`

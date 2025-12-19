@@ -11,7 +11,7 @@ import { config } from '@/features/config'
 import { validateFile } from './validation'
 import MediaDescription from '@nodejs-fullstack-template/api/common/MediaDescription'
 
-export const SqliteStorageLive = Layer.effect(
+export const StorageServiceLive = Layer.effect(
   Storage,
   Effect.gen(function* () {
     const repository = yield* StorageRepository

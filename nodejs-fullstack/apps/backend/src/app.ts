@@ -21,6 +21,7 @@ import { config } from './features/config'
 import { NodemailerMailerLive } from './features/mailer/service'
 import { AuthenticationMiddlewareLive } from './features/auth/middleware/AuthenticationMiddleware'
 import { AuthCronJob } from './features/auth/cron'
+import { AuthSessionServiceLive } from './features/auth/service/session/live' // Updated import path
 
 export class DatabaseMigrationFailedError extends Data.TaggedError(
   'DatabaseMigrationFailedError'
@@ -56,17 +57,19 @@ export const MailerLayer = NodemailerMailerLive
 
 export const AuthMiddlewareLayer = AuthenticationMiddlewareLive.pipe(
   Layer.provide(KyselyAuthUserRepositoryLive),
-  Layer.provide(KyselyAuthSessionRepositoryLive)
+  Layer.provide(KyselyAuthSessionRepositoryLive),
+  Layer.provide(AuthSessionServiceLive) // Provide AuthSessionServiceLive here
 )
 
 export const AuthCronJobLayer = AuthCronJob
 
 export const AuthLayer = AuthApiLive.pipe(
   Layer.provide(AuthCronJobLayer),
-  Layer.provide(AuthenticationMiddlewareLive),
+  Layer.provide(AuthenticationMiddlewareLive), // This will now receive AuthSessionService via AuthMiddlewareLayer
   Layer.provide(KyselyAuthUserRepositoryLive),
   Layer.provide(KyselyAuthTokenRepositoryLive),
-  Layer.provide(KyselyAuthSessionRepositoryLive)
+  Layer.provide(KyselyAuthSessionRepositoryLive),
+  Layer.provide(AuthSessionServiceLive) // Also provide it directly for other auth components if they need it
 )
 
 export const StorageLayer = StorageApiLive.pipe(

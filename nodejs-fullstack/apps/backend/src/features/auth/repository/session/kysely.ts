@@ -1,7 +1,7 @@
 import { Effect, Layer, Option } from 'effect'
 import { KyselyClient } from '@/features/database/kysely'
 import { AuthSessionRepository } from './interface'
-import { AuthSessionRepositoryError, AuthSessionRepositoryNotFoundError } from './error' // Import AuthSessionRepositoryNotFoundError
+import { AuthSessionRepositoryError, AuthSessionRepositoryNotFoundError } from './error'
 
 export const KyselyAuthSessionRepositoryLive = Layer.effect(
   AuthSessionRepository,
@@ -72,29 +72,18 @@ export const KyselyAuthSessionRepositoryLive = Layer.effect(
             })
         }),
 
-      extendExpiryById: (id, expires_at) =>
+      deleteAllExpired: () =>
         Effect.tryPromise({
-          try: async () => {
-            const result = await db
-              .updateTable('auth_sessions')
-              .set({
-                expires_at,
-                updated_at: Math.round(Date.now() / 1000)
-              })
-              .where('id', '=', id)
-              .returningAll()
-              .executeTakeFirst();
-            
-            if (!result) {
-                throw new AuthSessionRepositoryNotFoundError({
-                    message: `Session with id ${id} not found.`
-                });
-            }
-            return result;
+          try: () => {
+            const currentTime = Math.round(Date.now() / 1000);
+            return db
+              .deleteFrom('auth_sessions')
+              .where('expires_at', '<', currentTime)
+              .execute();
           },
           catch: (error) =>
             new AuthSessionRepositoryError({
-              message: `Failed to extend session expiry for id ${id}: ${String(error)}`,
+              message: `Failed to delete expired sessions: ${String(error)}`,
               cause: error
             })
         })
