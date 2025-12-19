@@ -1,6 +1,6 @@
 import { Api } from '@nodejs-fullstack-template/api'
 import { HttpApiClient, HttpClient, HttpClientRequest } from '@effect/platform'
-import { Context, Effect, Layer, Option, Ref, Schedule } from 'effect'
+import { Effect, Option, Schedule } from 'effect'
 import { FetchHttpClient } from '@effect/platform'
 import { Atom } from '@effect-atom/atom-react'
 import { authAtom } from '@/components/auth/hooks'

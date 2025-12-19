@@ -1,7 +1,4 @@
-import {
-  useRef,
-  type FunctionComponent,
-} from 'react'
+import { useRef, type FunctionComponent } from 'react'
 import * as stylex from '@stylexjs/stylex'
 import { color, fontFamily } from '@/styles/design/tokens.stylex'
 
@@ -55,6 +52,7 @@ export const Otp: FunctionComponent<OtpProps> = ({
       {Array.from({ length }).map((_, i) => (
         <input
           {...stylex.props(styles.input)}
+          // biome-ignore lint/suspicious/noArrayIndexKey: the otp input are determined by the passed in length
           key={`otp-input-${i}`}
           maxLength={1}
           defaultValue={defaultValue?.at(i)}

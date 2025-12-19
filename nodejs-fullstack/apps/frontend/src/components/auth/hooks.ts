@@ -3,7 +3,6 @@ import {
   useAtomValue,
   Atom,
   useAtomSet,
-  Registry
 } from '@effect-atom/atom-react'
 
 class AuthenticatedAuthStoreSchema extends Schema.Class<AuthenticatedAuthStoreSchema>(

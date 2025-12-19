@@ -1,4 +1,4 @@
-import type { Plugin, ViteDevServer, Rollup, AliasOptions } from "vite";
+import type { Plugin, ViteDevServer, Rollup, } from "vite";
 import * as babel from "@babel/core";
 import stylexBabelPlugin, {
   type Options as StyleXOptions,
@@ -10,9 +10,8 @@ import flowSyntaxPlugin from "@babel/plugin-syntax-flow";
 import jsxSyntaxPlugin from "@babel/plugin-syntax-jsx";
 // @ts-expect-error
 import typescriptSyntaxPlugin from "@babel/plugin-syntax-typescript";
-import path from "path";
-import crypto from "crypto";
-import { createRequire } from "module";
+import path from "node:path";
+import { createRequire } from "node:module";
 import { satisfies } from "compare-versions";
 
 const require = createRequire(import.meta.url);
@@ -230,7 +229,7 @@ export default function styleXVitePlugin({
         } else if (result.code) {
           css = result.code;
         }
-      } catch (e) {
+      } catch (_e) {
         console.error(
           `Error running ${plugin.name} on Tailwind CSS output. Skipping.`
         );

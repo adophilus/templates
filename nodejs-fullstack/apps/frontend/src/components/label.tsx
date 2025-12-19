@@ -6,7 +6,8 @@ export const Label = forwardRef<
   HTMLLabelElement,
   React.LabelHTMLAttributes<HTMLLabelElement>
 >(({ children, ...props }, ref) => (
-  <label {...props} ref={ref}>
+  // biome-ignore lint/a11y/noLabelWithoutControl: The props are passed in by a parent component
+<label {...props} ref={ref}>
     <Typography.SemiboldType12>
       <Font.Body>{children}</Font.Body>
     </Typography.SemiboldType12>

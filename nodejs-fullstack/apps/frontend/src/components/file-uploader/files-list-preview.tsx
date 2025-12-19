@@ -18,8 +18,8 @@ export const FilesListPreview: FunctionComponent = () => {
   return (
     <div {...stylex.props(styles.container)}>
       {files.map((file, index) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: using the name or webkitRelativePath would not allow multiple images of the same type to be uploaded
         <FilesListPreviewItem
+          // biome-ignore lint/suspicious/noArrayIndexKey: using the name or webkitRelativePath would not allow multiple images of the same type to be uploaded
           key={index}
           file={file}
           onRemove={() => removeFile(index)}

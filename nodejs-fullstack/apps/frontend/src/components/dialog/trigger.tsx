@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import type { ButtonProps } from '../button'
 import { useDialog } from './context' // Assuming useDialog is in context.ts or a separate useDialog.ts

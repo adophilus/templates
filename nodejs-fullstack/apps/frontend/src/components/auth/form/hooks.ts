@@ -1,5 +1,5 @@
 import { makeAtomRuntime } from '@/services/atom'
-import { Effect, Layer, Ref } from 'effect'
+import { Effect, Layer, } from 'effect'
 import { Atom, useAtomSet } from '@effect-atom/atom-react'
 import type { SendSignInEmailRequestBody } from '@nodejs-fullstack-template/api/Auth/SendSignInEmailEndpoint'
 import type { SendSignUpEmailRequestBody } from '@nodejs-fullstack-template/api/Auth/SendSignUpEmailEndpoint'
