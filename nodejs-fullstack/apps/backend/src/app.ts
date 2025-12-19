@@ -4,7 +4,7 @@ import { Api } from '@nodejs-fullstack-template/api'
 import { createServer } from 'node:http'
 import StorageApiLive from './features/storage/route'
 import { Console, Data, Effect, Layer } from 'effect'
-import { SqliteStorageLive } from './features/storage/service'
+import { StorageServiceLive } from './features/storage/service'
 import { KyselyStorageRepositoryLive } from './features/storage/repository'
 import { SqliteKyselyClientLive } from './features/database/kysely/db/sqlite'
 import { DevTools } from '@effect/experimental'
@@ -56,9 +56,9 @@ export const DatabaseLayer = Layer.merge(
 export const MailerLayer = NodemailerMailerLive
 
 export const AuthMiddlewareLayer = AuthenticationMiddlewareLive.pipe(
+  Layer.provide(AuthSessionServiceLive), // Provide AuthSessionServiceLive here
   Layer.provide(KyselyAuthUserRepositoryLive),
-  Layer.provide(KyselyAuthSessionRepositoryLive),
-  Layer.provide(AuthSessionServiceLive) // Provide AuthSessionServiceLive here
+  Layer.provide(KyselyAuthSessionRepositoryLive)
 )
 
 export const AuthCronJobLayer = AuthCronJob
@@ -66,14 +66,14 @@ export const AuthCronJobLayer = AuthCronJob
 export const AuthLayer = AuthApiLive.pipe(
   Layer.provide(AuthCronJobLayer),
   Layer.provide(AuthenticationMiddlewareLive), // This will now receive AuthSessionService via AuthMiddlewareLayer
+  Layer.provide(AuthSessionServiceLive), // Also provide it directly for other auth components if they need it
   Layer.provide(KyselyAuthUserRepositoryLive),
   Layer.provide(KyselyAuthTokenRepositoryLive),
-  Layer.provide(KyselyAuthSessionRepositoryLive),
-  Layer.provide(AuthSessionServiceLive) // Also provide it directly for other auth components if they need it
+  Layer.provide(KyselyAuthSessionRepositoryLive)
 )
 
 export const StorageLayer = StorageApiLive.pipe(
-  Layer.provide(SqliteStorageLive),
+  Layer.provide(StorageServiceLive),
   Layer.provide(KyselyStorageRepositoryLive)
 )
 

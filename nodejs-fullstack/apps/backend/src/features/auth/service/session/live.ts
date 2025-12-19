@@ -50,6 +50,28 @@ export const AuthSessionServiceLive = Layer.effect(
           )
         }),
 
+      findById: (sessionId) =>
+        Effect.gen(function* () {
+          const sessionOption = yield* sessionRepository.findById(sessionId).pipe(
+            Effect.mapError(
+              (error) =>
+                new AuthSessionServiceError({
+                  message: error.message,
+                  cause: error
+                })
+            )
+          )
+          const session = yield* Option.match(sessionOption, {
+            onNone: () =>
+              Effect.fail(
+                new InvalidSessionError({ message: 'Session not found' })
+              ),
+            onSome: Effect.succeed
+          })
+
+          return yield* validateAuthSession(session); // Validate the retrieved session
+        }),
+
       validate: (session) => validateAuthSession(session), // Expose helper as validate method
 
       extendExpiry: (sessionId) =>

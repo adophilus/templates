@@ -9,6 +9,10 @@ export class AuthSessionService extends Context.Tag('AuthSessionService')<
       userId: string
     ) => Effect.Effect<AuthSession.Selectable, AuthSessionServiceError>
 
+    findById: (
+      sessionId: string
+    ) => Effect.Effect<AuthSession.Selectable, AuthSessionServiceError | InvalidSessionError>
+
     extendExpiry: (
       sessionId: string
     ) => Effect.Effect<
