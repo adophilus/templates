@@ -69,9 +69,9 @@ export const Shell = forwardRef<HTMLDialogElement, DialogShellProps>(
         }}
       >
         <div {...stylex.props(styles.innerContainer)}>
-          <div>{title}</div>
-          <div>{body}</div>
-          <div>{footer}</div>
+          {title}
+          {body}
+          {footer}
         </div>
       </dialog>
     )

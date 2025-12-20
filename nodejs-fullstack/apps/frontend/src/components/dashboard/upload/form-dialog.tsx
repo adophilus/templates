@@ -1,6 +1,6 @@
 import { Font } from '@/components/font'
 import { Typography } from '@/components/typography'
-import { PlusIcon } from 'lucide-react'
+import { Loader2Icon, PlusIcon } from 'lucide-react'
 import { Button } from '@/components/button'
 import { useRef, type FunctionComponent, type ReactNode } from 'react'
 import { Dialog } from '@/components/dialog'
@@ -13,6 +13,12 @@ import { useUploadMedia } from './hooks'
 import { Cause, Exit } from 'effect'
 import { color } from '@/styles/design/tokens.stylex'
 
+const loadingAnimation = stylex.keyframes({
+  to: {
+    transform: 'rotate(360deg)'
+  }
+})
+
 const styles = stylex.create({
   addFileButtonContainer: {
     paddingTop: '0.5rem'
@@ -24,6 +30,12 @@ const styles = stylex.create({
   },
   fieldError: {
     color: color.danger
+  },
+  submittingIcon: {
+    animationName: loadingAnimation,
+    animationTimingFunction: 'linear',
+    animationDuration: '700ms',
+    animationIterationCount: 'infinite'
   }
 })
 
@@ -158,16 +170,27 @@ export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
             </Typography.MediumType14>
           </Dialog.Cancel>
           <Dialog.Confirm disableDefaultBehavior asChild>
-            <Button
-              type="button"
-              onClick={() => {
-                form.handleSubmit()
-              }}
+            <form.Subscribe
+              selector={(state) => [state.canSubmit, state.isSubmitting]}
             >
-              <Typography.MediumType14>
-                <Font.Body>Upload</Font.Body>
-              </Typography.MediumType14>
-            </Button>
+              {([canSubmit, isSubmitting]) => (
+                <Button
+                  type="button"
+                  onClick={() => {
+                    form.handleSubmit()
+                  }}
+                  disabled={!canSubmit || isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <Loader2Icon {...stylex.props(styles.submittingIcon)} />
+                  ) : (
+                    <Typography.MediumType14>
+                      <Font.Body>Upload</Font.Body>
+                    </Typography.MediumType14>
+                  )}
+                </Button>
+              )}
+            </form.Subscribe>
           </Dialog.Confirm>
         </Dialog.Footer>
       </Dialog.Shell>

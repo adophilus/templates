@@ -26,17 +26,22 @@ const styles = stylex.create({
   },
   detailsContainer: {
     display: 'flex',
+    overflow: 'hidden',
     flexGrow: 1,
     flexDirection: 'column',
     alignItems: 'start',
     justifyContent: 'space-between'
   },
   removeButton: {
+    flexShrink: 0,
     transition: 'color',
     transitionDuration: '250ms',
     ':hover': {
       color: color.danger
     }
+  },
+  fileName: {
+    textOverflow: 'ellipsis'
   }
 })
 
@@ -56,7 +61,7 @@ export const FilesListPreviewItem: FunctionComponent<
       <img src={fileUrl} alt={file.name} {...stylex.props(styles.image)} />
       <span {...stylex.props(styles.detailsContainer)}>
         <Typography.MediumType16>
-          <Font.Body>{file.name}</Font.Body>
+          <Font.Body stylexStyles={styles.fileName}>{file.name}</Font.Body>
         </Typography.MediumType16>
         <Typography.MediumType12>
           <Font.Body>{formattedSize}</Font.Body>

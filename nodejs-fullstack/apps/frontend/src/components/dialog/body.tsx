@@ -5,8 +5,10 @@ export type DialogBodyProps = DialogHTMLAttributes<HTMLDivElement> & {
   stylexStyles?: stylex.StyleXStyles
 }
 
+const styles = stylex.create({body: {overflow: 'hidden'}})
+
 export const Body = forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ stylexStyles, ...props }, ref) => (
-    <div {...props} {...stylex.props(stylexStyles)} ref={ref} />
+    <div {...props} {...stylex.props(stylexStyles, styles.body)} ref={ref} />
   )
 )
