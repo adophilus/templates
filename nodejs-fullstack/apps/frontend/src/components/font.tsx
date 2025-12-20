@@ -14,7 +14,7 @@ const styles = stylex.create({
 export type FontVariant = keyof typeof styles
 
 export type FontProps = ComponentProps<'span'> & {
-  stylexStyles?: stylex.StyleX
+  stylexStyles?: stylex.StyleXStyles
 }
 
 const createFontComponent = (variant: FontVariant) =>
