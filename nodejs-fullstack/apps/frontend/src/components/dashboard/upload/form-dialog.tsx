@@ -14,6 +14,9 @@ import { Cause, Exit } from 'effect'
 import { color } from '@/styles/design/tokens.stylex'
 
 const styles = stylex.create({
+  addFileButtonContainer: {
+    paddingTop: '0.5rem'
+  },
   addFileButton: {
     display: 'flex',
     alignItems: 'center',
@@ -24,23 +27,26 @@ const styles = stylex.create({
   }
 })
 
-const UploadFile: FunctionComponent<{ onChange: (files: File[]) => void }> = ({
-  onChange
-}) => (
-  <FileUploader.Provider onChange={onChange}>
+const UploadFile: FunctionComponent<{
+  value?: File[]
+  onChange: (files: File[]) => void
+}> = ({ onChange, value }) => (
+  <FileUploader.Provider onChange={onChange} value={value} max={5}>
     {({ files }) => (
       <FileUploader.Shell>
         <FileUploader.Placeholder />
         <FileUploader.FilesListPreview />
         {files.length > 0 && (
-          <FileUploader.Trigger>
-            <Button type="button" stylexStyles={styles.addFileButton}>
-              <PlusIcon />
-              <Typography.MediumType14>
-                <Font.Body>Add file</Font.Body>
-              </Typography.MediumType14>
-            </Button>
-          </FileUploader.Trigger>
+          <span {...stylex.props(styles.addFileButtonContainer)}>
+            <FileUploader.Trigger asChild>
+              <Button type="button" stylexStyles={styles.addFileButton}>
+                <PlusIcon />
+                <Typography.MediumType14>
+                  <Font.Body>Add file</Font.Body>
+                </Typography.MediumType14>
+              </Button>
+            </FileUploader.Trigger>
+          </span>
         )}
       </FileUploader.Shell>
     )}
@@ -130,6 +136,7 @@ export const UploadFormDialog: FunctionComponent<{ children: ReactNode }> = ({
               {(field) => (
                 <>
                   <UploadFile
+                    value={field.state.value}
                     onChange={(files) => field.handleChange(() => files)}
                   />
                   <span {...stylex.props(styles.fieldError)}>
