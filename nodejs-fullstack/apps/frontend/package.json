@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --port $FRONTEND_PORT --host",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "typecheck": "tsc -b",
+    "lint": "biome lint . && pnpm typecheck",
     "preview": "vite preview"
   },
   "dependencies": {
