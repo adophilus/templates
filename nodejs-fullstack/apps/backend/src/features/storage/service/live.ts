@@ -7,13 +7,14 @@ import {
 import { ulid } from 'ulidx'
 import { Effect, Layer } from 'effect'
 import { Storage } from './interface'
-import { config } from '@/features/config'
 import { validateFile } from './validation'
 import MediaDescription from '@nodejs-fullstack-template/api/common/MediaDescription'
+import { AppConfig } from '@/features/config'
 
 export const StorageServiceLive = Layer.effect(
   Storage,
   Effect.gen(function* () {
+    const config = yield* AppConfig
     const repository = yield* StorageRepository
 
     return Storage.of({

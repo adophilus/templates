@@ -9,8 +9,9 @@ import {
   Section,
   Text
 } from 'jsx-email'
-import { config } from '../features/config'
 import type { AuthToken } from '../types'
+import { Effect } from 'effect'
+import { AppConfig } from '@/features/config'
 
 export type SignInVerificationMailProps = {
   token: AuthToken.Selectable
@@ -100,9 +101,11 @@ const link = {
   textDecoration: 'underline'
 }
 
-export default function SignInVerificationMail({
+export const SignInVerificationMail = Effect.fn(function* ({
   token
 }: SignInVerificationMailProps) {
+  const config = yield* AppConfig
+
   return (
     <Html>
       <Head />
@@ -134,4 +137,4 @@ export default function SignInVerificationMail({
       </Body>
     </Html>
   )
-}
+})

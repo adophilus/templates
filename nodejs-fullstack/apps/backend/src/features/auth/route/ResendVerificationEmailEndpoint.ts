@@ -5,7 +5,7 @@ import { ResendVerificationEmailSuccessResponse } from '@nodejs-fullstack-templa
 import { AuthUserRepository } from '../repository/user/interface'
 import { AuthTokenRepository } from '../repository/token/interface'
 import { Mailer } from '@/features/mailer/service'
-import SignInVerificationMail from '@/emails/SignInVerificationMail'
+import { SignInVerificationMail } from '@/emails'
 import {
   UserNotFoundError,
   VerificationEmailAlreadySentError,
@@ -65,12 +65,14 @@ export const ResendVerificationEmailEndpointLive = HttpApiBuilder.handler(
         created_at: Math.round(Date.now() / 1000)
       })
 
+      const email = yield* SignInVerificationMail({
+        token: verificationToken
+      })
+
       yield* mailer.send({
         recipients: [payload.email],
         subject: 'Your verification code',
-        email: SignInVerificationMail({
-          token: verificationToken
-        })
+        email
       })
 
       return ResendVerificationEmailSuccessResponse.make()

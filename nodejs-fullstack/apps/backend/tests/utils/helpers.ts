@@ -8,6 +8,7 @@ import {
 } from '@/features/auth/repository'
 import { ulid } from 'ulidx'
 import { SqliteKyselyClientLive } from '@/features/database/kysely/db/sqlite'
+import { AppConfigLive, EnvLive } from '@/features/config'
 
 const createMockUserEffect = Effect.gen(function* () {
   const authUserRepo = yield* AuthUserRepository
@@ -37,7 +38,9 @@ const createMockUserEffect = Effect.gen(function* () {
 export const createMockUserWithSession = async () => {
   const layer = KyselyAuthSessionRepositoryLive.pipe(
     Layer.provideMerge(KyselyAuthUserRepositoryLive),
-    Layer.provide(SqliteKyselyClientLive)
+    Layer.provide(SqliteKyselyClientLive),
+    Layer.provide(AppConfigLive),
+    Layer.provide(EnvLive)
   )
 
   const program = createMockUserEffect.pipe(Effect.provide(layer))

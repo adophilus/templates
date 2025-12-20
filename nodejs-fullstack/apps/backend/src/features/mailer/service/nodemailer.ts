@@ -1,6 +1,5 @@
 import { render, renderPlainText } from 'jsx-email'
 import nodemailer from 'nodemailer'
-import { config } from '@/features/config'
 import { Context, Effect, Layer } from 'effect'
 import { Mailer } from './interface'
 import {
@@ -9,6 +8,7 @@ import {
   MailerValidationError
 } from './error'
 import type { SendMailError } from './error'
+import { AppConfig } from '@/features/config'
 
 type EmailPayload = {
   readonly recipients: readonly string[]
@@ -53,7 +53,9 @@ export class NodemailerTransporter extends Context.Tag('NodemailerTransporter')<
   }
 >() {}
 
-const createTransporter = Effect.sync(() => {
+const createTransporter = Effect.gen(function* () {
+  const config = yield* AppConfig
+
   const transporter = nodemailer.createTransport({
     url: config.mail.url,
     headers: { 'Content-Transfer-Encoding': 'quoted-printable' }
@@ -76,14 +78,15 @@ const createTransporter = Effect.sync(() => {
   }
 })
 
-export const NodemailerMailer: Layer.Layer<Mailer, never, never> = Layer.effect(
+export const NodemailerMailer = Layer.effect(
   Mailer,
-  Effect.gen(function* (_) {
+  Effect.gen(function* () {
+    const config = yield* AppConfig
     const transporter = yield* createTransporter
 
     return Mailer.of({
       send: (payload: EmailPayload) =>
-        Effect.gen(function* (_) {
+        Effect.gen(function* () {
           yield* validateRecipients(payload.recipients).pipe(
             Effect.mapError((error) => error as SendMailError)
           )

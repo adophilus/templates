@@ -17,11 +17,13 @@ import {
 import { createKyselyMigrator } from './features/database/kysely/migrator'
 import { KyselyClient } from './features/database/kysely'
 import type { MigrationResultSet } from 'kysely'
-import { config } from './features/config'
+// import { config } from './features/config' // Removed direct import
 import { NodemailerMailerLive } from './features/mailer/service'
 import { AuthenticationMiddlewareLive } from './features/auth/middleware/AuthenticationMiddleware'
 import { AuthCronJob } from './features/auth/cron'
-import { AuthSessionServiceLive } from './features/auth/service/session/live' // Updated import path
+import { AuthSessionServiceLive } from './features/auth/service/session/live'
+import { EnvLive } from './features/config'
+import { AppConfigLive, AppConfig } from './features/config' // Import AppConfigLive and AppConfig
 
 export class DatabaseMigrationFailedError extends Data.TaggedError(
   'DatabaseMigrationFailedError'
@@ -37,6 +39,7 @@ const checkMigrationResultSet = (rs: MigrationResultSet) =>
 export const DatabaseMigrationLayer = Layer.effectDiscard(
   Effect.gen(function* () {
     const client = yield* KyselyClient
+    const config = yield* AppConfig // Inject AppConfig
 
     const migrator = createKyselyMigrator(client, config.db.migrationsFolder)
 
@@ -56,7 +59,7 @@ export const DatabaseLayer = Layer.merge(
 export const MailerLayer = NodemailerMailerLive
 
 export const AuthMiddlewareLayer = AuthenticationMiddlewareLive.pipe(
-  Layer.provide(AuthSessionServiceLive), // Provide AuthSessionServiceLive here
+  Layer.provide(AuthSessionServiceLive),
   Layer.provide(KyselyAuthUserRepositoryLive),
   Layer.provide(KyselyAuthSessionRepositoryLive)
 )
@@ -65,8 +68,8 @@ export const AuthCronJobLayer = AuthCronJob
 
 export const AuthLayer = AuthApiLive.pipe(
   Layer.provide(AuthCronJobLayer),
-  Layer.provide(AuthenticationMiddlewareLive), // This will now receive AuthSessionService via AuthMiddlewareLayer
-  Layer.provide(AuthSessionServiceLive), // Also provide it directly for other auth components if they need it
+  Layer.provide(AuthenticationMiddlewareLive),
+  Layer.provide(AuthSessionServiceLive),
   Layer.provide(KyselyAuthUserRepositoryLive),
   Layer.provide(KyselyAuthTokenRepositoryLive),
   Layer.provide(KyselyAuthSessionRepositoryLive)
@@ -94,4 +97,9 @@ export const HttpLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
 
 export const DevToolsLive = DevTools.layer()
 
-export const AppLive = HttpLive.pipe(Layer.provide(DevToolsLive))
+// Provide EnvServiceLive and AppConfigLive as base layers
+export const AppLive = HttpLive.pipe(
+  Layer.provide(AppConfigLive),
+  Layer.provide(EnvLive),
+  Layer.provide(DevToolsLive)
+)
