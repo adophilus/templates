@@ -22,7 +22,7 @@ export const AuthConfigSchema = Schema.Struct({
 // Database Config Schema
 export const DatabaseConfigSchema = Schema.Struct({
   url: Schema.String,
-  prefix: Schema.String,
+  prefix: Schema.NullOr(Schema.String),
   migrationsFolder: Schema.String
 })
 
@@ -52,7 +52,9 @@ export const ServerConfigSchema = Schema.Struct({
   url: Schema.String
 })
 
-export class AppConfigSchema extends Schema.Class<AppConfigSchema>('ConfigSchema')({
+export class AppConfigSchema extends Schema.Class<AppConfigSchema>(
+  'ConfigSchema'
+)({
   auth: AuthConfigSchema,
   db: DatabaseConfigSchema,
   environment: EnvironmentConfigSchema,

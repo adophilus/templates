@@ -5,7 +5,7 @@ export class EnvSchema extends Schema.Class<EnvSchema>('EnvSchema')({
   NODE_ENV: Schema.Literal('production', 'staging', 'development', 'test'),
   AUTH_TOKEN_SECRET: Schema.String,
   DATABASE_URL: Schema.String,
-  DATABASE_PREFIX: Schema.String,
+  DATABASE_PREFIX: Schema.NullOr(Schema.String),
   DATABASE_MIGRATIONS_FOLDER: Schema.String,
   MAIL_URL: Schema.String,
   MAIL_SENDER_NAME: Schema.String,
