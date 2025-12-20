@@ -5,5 +5,6 @@ export type TContext = {
   setFiles: (files: File[]) => void
   removeFile: (index: number) => void
   fileInputRef: RefObject<HTMLInputElement | null>
+  max?: number
 }
 export const Context = createContext<TContext>(null as unknown as TContext)

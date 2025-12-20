@@ -1,10 +1,4 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  type FunctionComponent,
-  type ReactNode
-} from 'react'
+import { useRef, type FunctionComponent, type ReactNode } from 'react'
 import { Context, type TContext } from './context'
 import * as stylex from '@stylexjs/stylex'
 
@@ -19,27 +13,34 @@ const styles = stylex.create({
 
 export type ProviderProps = {
   children: ReactNode | ((context: TContext) => ReactNode)
+  value?: File[]
   onChange?: (files: File[]) => void
+  max?: number
 }
 
 export const Provider: FunctionComponent<ProviderProps> = ({
   children,
+  value = [],
+  max,
   onChange
 }) => {
-  const [files, setFiles] = useState<File[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  useEffect(() => {
-    onChange?.(files)
-  }, [onChange, files])
-
   const removeFile = (index: number) => {
-    const newFiles = [...files]
+    const newFiles = [...value]
     newFiles.splice(index, 1)
-    setFiles(newFiles)
+    onChange?.(newFiles)
   }
 
-  const contextValue = { files, setFiles, fileInputRef, removeFile }
+  const contextValue: TContext = {
+    files: value,
+    setFiles: (files) => {
+      onChange?.(files)
+    },
+    fileInputRef,
+    removeFile,
+    max
+  }
 
   return (
     <Context.Provider value={contextValue}>
@@ -51,8 +52,7 @@ export const Provider: FunctionComponent<ProviderProps> = ({
         {...stylex.props(styles.input)}
         onChange={(e) => {
           const filesList = e.target.files
-          const newFilesList = [...files, ...(filesList ?? [])]
-          setFiles(newFilesList)
+          const newFilesList = [...value, ...(filesList ?? [])]
           onChange?.(newFilesList)
           e.target.value = ''
         }}
