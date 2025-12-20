@@ -13,6 +13,9 @@ const styles = stylex.create({
       outlineWidth: '2px',
       outlineStyle: 'solid',
       outlineOffset: '2px'
+    },
+    ':disabled': {
+      filter: 'opacity(70%)'
     }
   }
 })

@@ -17,10 +17,7 @@ const styles = stylex.create({
   submit: {
     display: 'flex',
     width: '100%',
-    justifyContent: 'space-between',
-    ':disabled': {
-      filter: 'opacity(70%)'
-    }
+    justifyContent: 'space-between'
   },
   submittingIcon: {
     animationName: loadingAnimation,
