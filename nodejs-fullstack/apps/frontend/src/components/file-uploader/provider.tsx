@@ -5,7 +5,7 @@ import {
   type FunctionComponent,
   type ReactNode
 } from 'react'
-import { Context } from './context'
+import { Context, type TContext } from './context'
 import * as stylex from '@stylexjs/stylex'
 
 const styles = stylex.create({
