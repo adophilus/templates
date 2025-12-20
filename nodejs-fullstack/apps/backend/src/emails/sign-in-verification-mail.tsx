@@ -1,3 +1,5 @@
+// biome-ignore lint/correctness/noUnusedImports: This react import is required for the proper operation of this jsx component
+import React from 'react'
 import {
   Body,
   Container,

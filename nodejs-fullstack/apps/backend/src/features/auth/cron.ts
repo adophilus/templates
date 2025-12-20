@@ -2,7 +2,7 @@ import { Effect, Schedule, Console, Layer } from 'effect'
 import { AuthTokenRepository } from './repository/token/interface'
 import { AuthSessionService } from './service' // Import AuthSessionService
 
-export const cleanExpiredAuthTokens = Effect.gen(function* () {
+export const cleanExpiredAuthTokens = Effect.gen(function*() {
   const authTokenRepository = yield* AuthTokenRepository
   yield* Console.log('Running cron job: Cleaning expired auth tokens...')
 
@@ -14,7 +14,7 @@ export const cleanExpiredAuthTokens = Effect.gen(function* () {
   )
 }).pipe(Effect.repeat(Schedule.fixed('1 minutes')))
 
-export const cleanExpiredAuthSessions = Effect.gen(function* () {
+export const cleanExpiredAuthSessions = Effect.gen(function*() {
   const authSessionService = yield* AuthSessionService
   yield* Console.log('Running cron job: Cleaning expired auth sessions...')
 
@@ -29,7 +29,9 @@ export const cleanExpiredAuthSessions = Effect.gen(function* () {
 }).pipe(Effect.repeat(Schedule.fixed('1 minutes')))
 
 export const AuthCronJob = Layer.effectDiscard(
-  Effect.all([cleanExpiredAuthTokens, cleanExpiredAuthSessions], {
-    concurrency: 'unbounded'
-  })
+  Effect.void
+  // Effect.all([cleanExpiredAuthTokens, cleanExpiredAuthSessions], {
+  //   concurrency: 'unbounded'
+  // })
+  // Effect.fork
 )
