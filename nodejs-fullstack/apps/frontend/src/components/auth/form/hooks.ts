@@ -1,5 +1,5 @@
 import { makeAtomRuntime } from '@/services/atom'
-import { Effect, Layer, } from 'effect'
+import { Effect, Layer } from 'effect'
 import { Atom, useAtomSet } from '@effect-atom/atom-react'
 import type { SendSignInEmailRequestBody } from '@nodejs-fullstack-template/api/Auth/SendSignInEmailEndpoint'
 import type { SendSignUpEmailRequestBody } from '@nodejs-fullstack-template/api/Auth/SendSignUpEmailEndpoint'
@@ -9,7 +9,7 @@ import { backendClientAtom } from '@/services/backend'
 const atomRuntime = makeAtomRuntime(Layer.empty)
 
 export const sendSignInEmailAtom = atomRuntime.fn(
-  Effect.fn(function*(payload: SendSignInEmailRequestBody) {
+  Effect.fn(function* (payload: SendSignInEmailRequestBody) {
     const { client } = yield* Atom.getResult(backendClientAtom)
 
     return yield* client.Auth.sendSignInEmail({
@@ -19,7 +19,7 @@ export const sendSignInEmailAtom = atomRuntime.fn(
 )
 
 export const sendSignUpEmailAtom = atomRuntime.fn(
-  Effect.fn(function*(payload: SendSignUpEmailRequestBody) {
+  Effect.fn(function* (payload: SendSignUpEmailRequestBody) {
     const { client } = yield* Atom.getResult(backendClientAtom)
 
     return yield* client.Auth.sendSignUpEmail({
@@ -29,7 +29,7 @@ export const sendSignUpEmailAtom = atomRuntime.fn(
 )
 
 export const verifyEmailAtom = atomRuntime.fn(
-  Effect.fn(function*(payload: VerifyEmailRequestBody) {
+  Effect.fn(function* (payload: VerifyEmailRequestBody) {
     const { client } = yield* Atom.getResult(backendClientAtom)
 
     return yield* client.Auth.verifyEmail({

@@ -53,7 +53,7 @@ export const ServerConfigSchema = Schema.Struct({
 })
 
 export class AppConfigSchema extends Schema.Class<AppConfigSchema>(
-  'ConfigSchema'
+  'AppConfigSchema'
 )({
   auth: AuthConfigSchema,
   db: DatabaseConfigSchema,

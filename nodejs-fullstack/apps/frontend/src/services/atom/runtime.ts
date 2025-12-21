@@ -3,6 +3,9 @@ import { Logger } from 'effect'
 
 export const makeAtomRuntime = Atom.context({ memoMap: Atom.defaultMemoMap })
 makeAtomRuntime.addGlobalLayer(
+  // Layer.merge(
+  //   Layer.tapErrorCause((cause) => Effect.logError(cause))(Layer.empty),
+  //   Logger.pretty
+  // )
   Logger.pretty
-  // Layer.tapErrorCause(Effect.logError))
 )

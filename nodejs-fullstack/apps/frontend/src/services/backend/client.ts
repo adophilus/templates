@@ -1,13 +1,15 @@
 import { Api } from '@nodejs-fullstack-template/api'
 import { HttpApiClient, HttpClient, HttpClientRequest } from '@effect/platform'
-import { Effect, Option, Schedule } from 'effect'
+import { Effect, Layer, Logger, Option, Schedule } from 'effect'
 import { FetchHttpClient } from '@effect/platform'
 import { Atom } from '@effect-atom/atom-react'
 import { authAtom } from '@/components/auth/hooks'
+import { AppConfig, AppConfigLive, EnvLive } from '../config'
+import { makeAtomRuntime } from '../atom'
 
-const makeBackendHttpClient = (accessToken?: string) =>
+const makeBackendHttpClient = (baseUrl: string, accessToken?: string) =>
   HttpApiClient.make(Api, {
-    baseUrl: 'http://localhost:5000',
+    baseUrl,
     transformClient: (client) =>
       client.pipe(
         HttpClient.mapRequest((request) =>
@@ -25,18 +27,20 @@ const makeBackendHttpClient = (accessToken?: string) =>
       )
   })
 
-export const backendClientAtom = Atom.make(
-  Effect.fn(function*(ctx: Atom.FnContext) {
+export const backendClientAtom = Atom.make((ctx: Atom.FnContext) =>
+  Effect.gen(function* () {
     const auth = ctx(authAtom)
+    const config = yield* AppConfig
+
     let token: string | undefined
     if (auth.status === 'authenticated') token = auth.token
 
     return {
-      client: yield* makeBackendHttpClient(token).pipe(
+      client: yield* makeBackendHttpClient(config.server.url, token).pipe(
         Effect.provide(FetchHttpClient.layer)
       )
     }
-  })
+  }).pipe(Effect.provide(AppConfigLive), Effect.provide(EnvLive))
 )
 
 // export type BackendHttpClient = Effect.Effect.Success<
