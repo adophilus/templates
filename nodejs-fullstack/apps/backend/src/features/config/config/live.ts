@@ -41,10 +41,10 @@ export const AppConfigLive = Layer.effect(
         migrationsFolder: env.DATABASE_MIGRATIONS_FOLDER
       },
       environment: {
-        PRODUCTION: env.NODE_ENV === 'production',
-        STAGING: env.NODE_ENV === 'staging',
-        DEVELOPMENT: env.NODE_ENV === 'development',
-        TEST: env.NODE_ENV === 'test'
+        isProduction: env.NODE_ENV === 'production',
+        isStaging: env.NODE_ENV === 'staging',
+        isDevelopment: env.NODE_ENV === 'development',
+        isTesting: env.NODE_ENV === 'test'
       },
       mail: {
         url: env.MAIL_URL,
