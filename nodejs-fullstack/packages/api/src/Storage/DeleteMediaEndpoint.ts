@@ -8,11 +8,16 @@ import { Schema } from 'effect'
 import Id from '../common/Id'
 import AuthenticationMiddleware from '../Auth/AuthenticationMiddleware'
 
-const Request = Schema.Struct({
-  fileId: Id
-}).annotations({
-  description: 'Delete file request path parameters'
-})
+export class DeleteMediaRequestPath extends Schema.Class<DeleteMediaRequestPath>(
+  'DeleteMediaRequestPath'
+)(
+  {
+    fileId: Id
+  },
+  {
+    description: 'Delete file request path parameters'
+  }
+) {}
 
 export class DeleteMediaSuccessResponse extends Schema.TaggedClass<DeleteMediaSuccessResponse>()(
   'DeleteMediaResponse',
@@ -23,7 +28,7 @@ const DeleteMediaEndpoint = HttpApiEndpoint.del(
   'deleteMedia',
   '/storage/:fileId'
 )
-  .setPath(Request)
+  .setPath(DeleteMediaRequestPath)
   .addSuccess(DeleteMediaSuccessResponse, { status: StatusCodes.OK })
   .addError(FileNotFoundError, {
     status: StatusCodes.NOT_FOUND

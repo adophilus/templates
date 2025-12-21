@@ -7,13 +7,18 @@ import UnexpectedError from '../common/UnexpectedError'
 import { Schema } from 'effect'
 import Id from '../common/Id'
 
-const Request = Schema.Struct({
-  fileId: Id
-}).annotations({
-  description: 'Get file request path parameters'
-})
+export class GetMediaRequestPath extends Schema.Class<GetMediaRequestPath>(
+  'GetMediaRequestPath'
+)(
+  {
+    fileId: Id
+  },
+  {
+    description: 'Get file request path parameters'
+  }
+) {}
 
-export const GetMediaSuccessResponse = Schema.Uint8ArrayFromSelf.pipe(
+export class GetMediaSuccessResponse extends Schema.Uint8ArrayFromSelf.pipe(
   HttpApiSchema.withEncoding({
     kind: 'Uint8Array',
     contentType: 'application/octet-stream'
@@ -24,10 +29,10 @@ export const GetMediaSuccessResponse = Schema.Uint8ArrayFromSelf.pipe(
     title: 'Get Media Success Response',
     description: 'Success response containing the media file content'
   })
-)
+) {}
 
 const GetMediaEndpoint = HttpApiEndpoint.get('getMedia', '/storage/:fileId')
-  .setPath(Request)
+  .setPath(GetMediaRequestPath)
   .addSuccess(GetMediaSuccessResponse, { status: StatusCodes.OK })
   .addError(FileNotFoundError, {
     status: StatusCodes.NOT_FOUND

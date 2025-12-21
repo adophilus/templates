@@ -28,10 +28,10 @@ export const DatabaseConfigSchema = Schema.Struct({
 
 // Environment Config Schema
 export const EnvironmentConfigSchema = Schema.Struct({
-  PRODUCTION: Schema.Boolean,
-  STAGING: Schema.Boolean,
-  DEVELOPMENT: Schema.Boolean,
-  TEST: Schema.Boolean
+  isProduction: Schema.Boolean,
+  isStaging: Schema.Boolean,
+  isDevelopment: Schema.Boolean,
+  isTesting: Schema.Boolean
 })
 
 // Mail Config Schema

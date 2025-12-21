@@ -1,11 +1,10 @@
 import { Api } from '@nodejs-fullstack-template/api'
 import { HttpApiClient, HttpClient, HttpClientRequest } from '@effect/platform'
-import { Effect, Layer, Logger, Option, Schedule } from 'effect'
+import { Effect, Option, Schedule } from 'effect'
 import { FetchHttpClient } from '@effect/platform'
 import { Atom } from '@effect-atom/atom-react'
 import { authAtom } from '@/components/auth/hooks'
 import { AppConfig, AppConfigLive, EnvLive } from '../config'
-import { makeAtomRuntime } from '../atom'
 
 const makeBackendHttpClient = (baseUrl: string, accessToken?: string) =>
   HttpApiClient.make(Api, {
