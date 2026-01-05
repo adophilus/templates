@@ -6,12 +6,12 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "build": "tsx ./scripts/vercel-build.ts",
+    "build": "tsx ./scripts/build.ts",
     "db": "./scripts/db.sh",
     "dev": "concurrently ~/.local/bin/MailHog 'tsx watch ./scripts/start.ts'",
     "typecheck": "tsc",
     "lint": "biome lint . && pnpm typecheck",
-    "start": "tsx ./scripts/start.ts",
+    "start": "node ./build/server.mjs",
     "test": "vitest"
   },
   "dependencies": {
