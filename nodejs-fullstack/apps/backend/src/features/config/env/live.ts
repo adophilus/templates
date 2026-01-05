@@ -1,12 +1,16 @@
 import { Config, Effect, Layer, Schema, Option } from 'effect'
-import { Env, EnvSchema } from './interface'
+import { Env } from './interface'
+import { EnvSchema } from './schema'
 
 export const EnvLive = Layer.effect(
   Env,
   Effect.gen(function* () {
     const rawConfig = {
       NODE_ENV: yield* Config.string('NODE_ENV'),
-      AUTH_TOKEN_SECRET: yield* Config.string('AUTH_TOKEN_SECRET'),
+      AUTH_ACCESS_TOKEN_TTL: yield* Config.number('AUTH_ACCESS_TOKEN_TTL'),
+      AUTH_TOKEN_RENEWAL_THRESHOLD: yield* Config.number(
+        'AUTH_TOKEN_RENEWAL_THRESHOLD'
+      ),
       DATABASE_URL: yield* Config.string('DATABASE_URL'),
       DATABASE_PREFIX: yield* Config.option(
         Config.string('DATABASE_PREFIX')
