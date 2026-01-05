@@ -31,6 +31,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
+          cache-dependency-path: ${{ env.working_directory }}/pnpm-lock.yaml
 
       - name: Load secrets
         uses: Infisical/secrets-action@v1.0.9
