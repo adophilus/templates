@@ -12,7 +12,8 @@ export const AppConfigLive = Layer.effect(
       auth: {
         token: {
           accessTtl: env.AUTH_ACCESS_TOKEN_TTL,
-          renewalThreshold: env.AUTH_TOKEN_RENEWAL_THRESHOLD
+          renewalThreshold: env.AUTH_TOKEN_RENEWAL_THRESHOLD,
+          validityDuration: env.AUTH_TOKEN_VALIDITY_DURATION
         }
       },
       db: {

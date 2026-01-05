@@ -16,7 +16,7 @@ import {
 } from './features/auth/repository'
 import { createKyselyMigrator } from './features/database/kysely/migrator'
 import { KyselyClient } from './features/database/kysely'
-import type { MigrationResultSet } from 'kysely'
+import { NO_MIGRATIONS, type MigrationResultSet } from 'kysely'
 import { NodemailerMailerLive } from './features/mailer/service'
 import { AuthenticationMiddlewareLive } from './features/auth/middleware/AuthenticationMiddleware'
 // import { AuthCronJob } from './features/auth/cron'
@@ -37,9 +37,14 @@ const checkMigrationResultSet = (rs: MigrationResultSet) =>
 export const DatabaseMigrationLayer = Layer.effectDiscard(
   Effect.gen(function* () {
     const client = yield* KyselyClient
-    const config = yield* AppConfig // Inject AppConfig
+    const config = yield* AppConfig
 
     const migrator = createKyselyMigrator(client, config.db.migrationsFolder)
+
+    // yield* Effect.tryPromise({
+    //   try: () => migrator.migrateTo(NO_MIGRATIONS),
+    //   catch: (err) => new DatabaseMigrationFailedError({ cause: err })
+    // }).pipe(Effect.flatMap(checkMigrationResultSet))
 
     yield* Effect.tryPromise({
       try: () => migrator.migrateToLatest(),

@@ -11,6 +11,9 @@ export const EnvLive = Layer.effect(
       AUTH_TOKEN_RENEWAL_THRESHOLD: yield* Config.number(
         'AUTH_TOKEN_RENEWAL_THRESHOLD'
       ),
+      AUTH_TOKEN_VALIDITY_DURATION: yield* Config.number(
+        'AUTH_TOKEN_VALIDITY_DURATION'
+      ),
       DATABASE_URL: yield* Config.string('DATABASE_URL'),
       DATABASE_PREFIX: yield* Config.option(
         Config.string('DATABASE_PREFIX')
