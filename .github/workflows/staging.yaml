@@ -44,13 +44,6 @@ jobs:
           project-slug: nodejs-fullstack-template
           export-type: env
 
-
-      - name: Debug
-        run: |
-          echo $FRONTEND_PORT | wc -c
-          echo $VITE_NODE_ENV | wc -c
-          echo $VITE_SERVER_URL | wc -c
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         working-directory: ${{ env.working_directory }}
