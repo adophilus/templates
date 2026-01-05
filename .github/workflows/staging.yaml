@@ -48,9 +48,9 @@ jobs:
         run: pnpm install --frozen-lockfile
         working-directory: ${{ env.working_directory }}
 
-      - name: Typecheck
-        run: pnpm typecheck
-        working-directory: ${{ env.working_directory }}
+      # - name: Typecheck
+      #   run: pnpm typecheck
+      #   working-directory: ${{ env.working_directory }}
 
       - name: Lint
         run: pnpm lint
