@@ -48,16 +48,16 @@ jobs:
         run: pnpm install --frozen-lockfile
         working-directory: ${{ env.working_directory }}
 
+      - name: Build
+        run: pnpm build
+        working-directory: ${{ env.working_directory }}
+
       - name: Typecheck
         run: pnpm typecheck
         working-directory: ${{ env.working_directory }}
 
       - name: Lint
         run: pnpm lint
-        working-directory: ${{ env.working_directory }}
-
-      - name: Build
-        run: pnpm build
         working-directory: ${{ env.working_directory }}
 
       - name: Test
