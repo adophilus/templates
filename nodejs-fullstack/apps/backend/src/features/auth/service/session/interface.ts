@@ -21,12 +21,12 @@ export class AuthSessionService extends Context.Tag('AuthSessionService')<
     ) => Effect.Effect<
       AuthSession.Selectable,
       AuthSessionServiceError | InvalidSessionError
-    > // Changed error type
+    >
 
     deleteAllExpired: () => Effect.Effect<void, AuthSessionServiceError>
 
     validate: (
-      session: AuthSession.Selectable // Changed from sessionId: string
-    ) => Effect.Effect<AuthSession.Selectable, InvalidSessionError> // Removed AuthSessionServiceError as it will not interact with repo directly
+      session: AuthSession.Selectable
+    ) => Effect.Effect<AuthSession.Selectable, InvalidSessionError>
   }
 >() {}

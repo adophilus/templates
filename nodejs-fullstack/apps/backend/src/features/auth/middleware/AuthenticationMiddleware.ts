@@ -4,13 +4,12 @@ import { AuthUserRepository } from '../repository'
 import { AuthSessionService } from '../service'
 import UnauthorizedError from '@nodejs-fullstack-template/api/common/UnauthorizedError'
 import UnexpectedError from '@nodejs-fullstack-template/api/common/UnexpectedError'
-// import { User } from '@nodejs-fullstack-template/api/common/User'
+
 
 export const AuthenticationMiddlewareLive = Layer.effect(
   AuthenticationMiddleware,
   Effect.gen(function* () {
     const authSessionService = yield* AuthSessionService
-    // const sessionRepository = yield* AuthSessionRepository // Removed sessionRepository injection
     const userRepository = yield* AuthUserRepository
 
     return AuthenticationMiddleware.of({

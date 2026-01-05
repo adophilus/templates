@@ -17,19 +17,17 @@ import {
 import { createKyselyMigrator } from './features/database/kysely/migrator'
 import { KyselyClient } from './features/database/kysely'
 import type { MigrationResultSet } from 'kysely'
-// import { config } from './features/config' // Removed direct import
 import { NodemailerMailerLive } from './features/mailer/service'
 import { AuthenticationMiddlewareLive } from './features/auth/middleware/AuthenticationMiddleware'
 import { AuthCronJob } from './features/auth/cron'
 import { AuthSessionServiceLive } from './features/auth/service/session/live'
-import { EnvLive } from './features/config'
-import { AppConfigLive, AppConfig } from './features/config' // Import AppConfigLive and AppConfig
+import { AppConfigLive, AppConfig, EnvLive } from './features/config'
 
 export class DatabaseMigrationFailedError extends Data.TaggedError(
   'DatabaseMigrationFailedError'
 )<{
   cause: unknown
-}> {}
+}> { }
 
 export const DatabaseClientLayer = SqliteKyselyClientLive
 
@@ -37,7 +35,7 @@ const checkMigrationResultSet = (rs: MigrationResultSet) =>
   rs.error ? Effect.fail(rs.error) : Effect.void
 
 export const DatabaseMigrationLayer = Layer.effectDiscard(
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const client = yield* KyselyClient
     const config = yield* AppConfig // Inject AppConfig
 
