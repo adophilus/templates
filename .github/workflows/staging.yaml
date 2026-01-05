@@ -33,6 +33,9 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: ${{ env.working_directory }}/pnpm-lock.yaml
 
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+
       - name: Load secrets
         uses: Infisical/secrets-action@v1.0.9
         with:
