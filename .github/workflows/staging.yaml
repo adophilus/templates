@@ -44,7 +44,10 @@ jobs:
           project-slug: nodejs-fullstack-template
           export-type: env
 
-      - run: echo $FRONTEND_PORT
+      - run: |
+          echo $FRONTEND_PORT
+          echo $VITE_NODE_ENV
+          echo $VITE_SERVER_URL
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
