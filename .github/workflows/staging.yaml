@@ -14,6 +14,8 @@ jobs:
     strategy:
       matrix:
         node-version: [22]
+    env:
+      working_directory: ./nodejs-fullstack
 
     steps:
       - name: Checkout current repo state
@@ -43,23 +45,30 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        working-directory: ${{ env.working_directory }}
 
       - name: Typecheck
         run: pnpm typecheck
+        working-directory: ${{ env.working_directory }}
 
       - name: Lint
         run: pnpm lint
+        working-directory: ${{ env.working_directory }}
 
       - name: Build
         run: pnpm build
+        working-directory: ${{ env.working_directory }}
 
       - name: Test
         run: pnpm test -- --coverage
+        working-directory: ${{ env.working_directory }}
 
       - name: Security audit
         run: pnpm audit
+        working-directory: ${{ env.working_directory }}
 
       - name: Deploy docs
         run: |
           pnpm --filter @nodejs-fullstack-template/docs build:vercel
           pnpm --filter @nodejs-fullstack-template/docs deploy:vercel -- --target staging
+        working-directory: ${{ env.working_directory }}
