@@ -45,7 +45,8 @@ jobs:
           export-type: env
 
       - name: Debug
-        run: printenv
+        run: |
+          printenv
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
