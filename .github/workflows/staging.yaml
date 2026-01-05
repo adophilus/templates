@@ -44,6 +44,9 @@ jobs:
           project-slug: nodejs-fullstack-template
           export-type: env
 
+      - name: Debug
+        run: printenv
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         working-directory: ${{ env.working_directory }}
