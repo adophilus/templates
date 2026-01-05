@@ -45,9 +45,9 @@ jobs:
           export-type: env
 
       - run: |
-          echo $FRONTEND_PORT
-          echo $VITE_NODE_ENV
-          echo $VITE_SERVER_URL
+          echo $FRONTEND_PORT | wc -c
+          echo $VITE_NODE_ENV | wc -c
+          echo $VITE_SERVER_URL | wc -c
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
