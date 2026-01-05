@@ -69,6 +69,7 @@
     "@types/pg": "^8.15.4",
     "@types/react": "^18.3.23",
     "@types/web-push": "^3.6.4",
+    "@vitest/coverage-v8": "4.0.15",
     "concurrently": "^9.2.1",
     "kysely-ctl": "^0.13.1",
     "vite-tsconfig-paths": "^5.1.4",

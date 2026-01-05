@@ -19,7 +19,7 @@ import { KyselyClient } from './features/database/kysely'
 import type { MigrationResultSet } from 'kysely'
 import { NodemailerMailerLive } from './features/mailer/service'
 import { AuthenticationMiddlewareLive } from './features/auth/middleware/AuthenticationMiddleware'
-import { AuthCronJob } from './features/auth/cron'
+// import { AuthCronJob } from './features/auth/cron'
 import { AuthSessionServiceLive } from './features/auth/service/session/live'
 import { AppConfigLive, AppConfig, EnvLive } from './features/config'
 
@@ -27,7 +27,7 @@ export class DatabaseMigrationFailedError extends Data.TaggedError(
   'DatabaseMigrationFailedError'
 )<{
   cause: unknown
-}> { }
+}> {}
 
 export const DatabaseClientLayer = SqliteKyselyClientLive
 
@@ -35,7 +35,7 @@ const checkMigrationResultSet = (rs: MigrationResultSet) =>
   rs.error ? Effect.fail(rs.error) : Effect.void
 
 export const DatabaseMigrationLayer = Layer.effectDiscard(
-  Effect.gen(function*() {
+  Effect.gen(function* () {
     const client = yield* KyselyClient
     const config = yield* AppConfig // Inject AppConfig
 
@@ -62,10 +62,10 @@ export const AuthMiddlewareLayer = AuthenticationMiddlewareLive.pipe(
   Layer.provide(KyselyAuthSessionRepositoryLive)
 )
 
-export const AuthCronJobLayer = AuthCronJob
+// export const AuthCronJobLayer = AuthCronJob
 
 export const AuthLayer = AuthApiLive.pipe(
-  Layer.provide(AuthCronJobLayer),
+  // Layer.provide(AuthCronJobLayer),
   Layer.provide(AuthenticationMiddlewareLive),
   Layer.provide(AuthSessionServiceLive),
   Layer.provide(KyselyAuthUserRepositoryLive),
@@ -90,7 +90,14 @@ export const HttpLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
   Layer.provide(HttpApiBuilder.middlewareCors()),
   Layer.provide(ApiLive),
   HttpServer.withLogAddress,
-  Layer.provide(NodeHttpServer.layer(createServer, { port: 5000 }))
+  Layer.provide(
+    Layer.unwrapEffect(
+      Effect.gen(function* () {
+        const config = yield* AppConfig
+        return NodeHttpServer.layer(createServer, { port: config.server.port })
+      })
+    )
+  )
 )
 
 export const DevToolsLive = DevTools.layer()

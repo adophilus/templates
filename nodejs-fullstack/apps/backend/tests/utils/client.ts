@@ -4,7 +4,6 @@ import { Option } from 'effect'
 
 export const makeApiClient = (accessToken?: string) =>
   HttpApiClient.make(Api, {
-    baseUrl: 'http://localhost:5000',
     transformClient: (client) =>
       client.pipe(
         HttpClient.mapRequest((request) =>
