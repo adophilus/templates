@@ -6,7 +6,7 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "build": "tsc && tsx ./scripts/build.ts",
+    "build": "tsx ./scripts/vercel-build.ts",
     "db": "./scripts/db.sh",
     "dev": "concurrently ~/.local/bin/MailHog 'tsx watch ./scripts/start.ts'",
     "typecheck": "tsc",

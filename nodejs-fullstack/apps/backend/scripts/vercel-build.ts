@@ -6,13 +6,14 @@ import { Effect, Option } from 'effect'
 type Target = 'production' | 'staging' | 'development'
 
 const buildSource = (target: Target) =>
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const buildDirectory = './build'
 
-    const entrypoint =
-      target === 'production' || target === 'staging'
-        ? './scripts/prod.ts'
-        : './scripts/dev.ts'
+    // const entrypoint =
+    //     ? './scripts/prod.ts'
+    //     : './scripts/dev.ts'
+
+    const entrypoint = './scripts/start.ts'
 
     console.log('⚙ Building server...')
     yield* PlatformCommand.make(
@@ -54,16 +55,17 @@ const cli = Command.make(
       Options.choice('target', ['production', 'staging', 'development'])
     )
   },
-  ({ target }) =>
-    Effect.gen(function* () {
-      const _target = target.pipe(
+  ({ target: _target }) =>
+    Effect.gen(function*() {
+      const target = _target.pipe(
         Option.match({
           onSome: (target: Target) => target,
           onNone: () => getTargetFromNodeEnv()
         })
       )
 
-      yield* buildSource(_target)
+      yield* buildSource(target)
+      yield* buildMigrations(target)
 
       console.log('✅ Build complete')
     })
