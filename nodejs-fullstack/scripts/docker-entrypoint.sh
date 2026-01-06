@@ -18,13 +18,6 @@ serve -p $FRONTEND_PORT &
 
 cd ../backend 
 echo "Starting backend..."
-# infisical run \
-#   --projectId $INFISICAL_PROJECT_ID \
-#   --env $NODE_ENV \
-#   --domain $INFISICAL_DOMAIN \
-#   --command "node ./server.mjs" &
-ls -lah
-pwd
 node ./server.mjs &
 
 wait
