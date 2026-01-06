@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  quality-checks:
+  ci:
     runs-on: ubuntu-latest
     strategy:
       matrix:
