@@ -6,8 +6,7 @@ export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=$IN
 
 eval "$(infisical export --projectId $INFISICAL_PROJECT_ID --env $NODE_ENV --domain $INFISICAL_DOMAIN --format=dotenv-export)"
 
-echo "DOCS_PORT=$DOCS_PORT"
-echo "FRONTEND_PORT=$FRONTEND_PORT"
+printenv
 
 cd build
 
