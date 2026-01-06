@@ -5,9 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "./scripts/build.sh",
-    "build:vercel": "VERCEL_PROJECT_ID=$VERCEL_DOCS_PROJECT_ID vercel build --token $VERCEL_TOKEN",
-    "deploy:vercel": "VERCEL_PROJECT_ID=$VERCEL_DOCS_PROJECT_ID vercel deploy --prebuilt --token $VERCEL_TOKEN",
+    "build": "vitepress build docs",
     "dev": "vitepress dev docs --port $DOCS_PORT",
     "lint": "biome lint . && tsc",
     "preview": "vitepress preview docs"
