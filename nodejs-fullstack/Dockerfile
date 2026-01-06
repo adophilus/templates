@@ -20,8 +20,8 @@ RUN --mount=type=secret,id=INFISICAL_CLIENT_ID,env=INFISICAL_CLIENT_ID \
 
 FROM oven/bun:alpine AS runner
 
-RUN apk add --no-cache bash
-RUN bun add -g @infisical/cli@0.41.1
+RUN apk add --no-cache bash nodejs npm
+RUN npm add -g @infisical/cli@0.41.1
 
 WORKDIR /app
 
