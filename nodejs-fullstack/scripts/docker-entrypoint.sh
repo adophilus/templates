@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo "INFISICAL_CLIENT_ID=$INFISICAL_CLIENT_ID<---"
 export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=$INFISICAL_CLIENT_ID --client-secret=$INFISICAL_CLIENT_SECRET --domain $INFISICAL_DOMAIN --silent --plain)
 
 set -e
