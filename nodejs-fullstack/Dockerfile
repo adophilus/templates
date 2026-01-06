@@ -10,6 +10,11 @@ WORKDIR /app
 COPY . .
 RUN pnpm install --frozen-lockfile
 
-RUN ./scripts/docker-build-script.sh
+
+RUN --mount=type=secret,id=INFISICAL_CLIENT_ID,env=INFISICAL_CLIENT_ID \
+  --mount=type=secret,id=INFISICAL_CLIENT_SECRET,env=INFISICAL_CLIENT_SECRET \
+  --mount=type=secret,id=INFISICAL_PROJECT_ID,env=INFISICAL_PROJECT_ID \
+  --mount=type=secret,id=INFISICAL_DOMAIN,env=INFISICAL_DOMAIN \
+  ./scripts/docker-build-script.sh
 
 ENTRYPOINT ["./scripts/docker-entrypoint.sh"]
