@@ -6,8 +6,6 @@ export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=$IN
 
 eval "$(infisical export --projectId $INFISICAL_PROJECT_ID --env $NODE_ENV --domain $INFISICAL_DOMAIN --format=dotenv-export)"
 
-printenv
-
 cd build
 
 cd docs
