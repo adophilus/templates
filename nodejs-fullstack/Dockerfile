@@ -1,4 +1,4 @@
-FROM oven/bun:alpine AS base
+FROM oven/bun:alpine AS builder
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -15,6 +15,17 @@ RUN --mount=type=secret,id=INFISICAL_CLIENT_ID,env=INFISICAL_CLIENT_ID \
   --mount=type=secret,id=INFISICAL_CLIENT_SECRET,env=INFISICAL_CLIENT_SECRET \
   --mount=type=secret,id=INFISICAL_PROJECT_ID,env=INFISICAL_PROJECT_ID \
   --mount=type=secret,id=INFISICAL_DOMAIN,env=INFISICAL_DOMAIN \
+  --mount=type=secret,id=NODE_ENV,env=NODE_ENV \
   ./scripts/docker-build-script.sh
+
+FROM oven/bun:alpine AS runner
+
+RUN apk add --no-cache bash
+RUN bun add -g @infisical/cli@0.41.1
+
+WORKDIR /app
+
+COPY --from=builder /app/build ./build
+COPY --from=builder /app/scripts ./scripts
 
 ENTRYPOINT ["./scripts/docker-entrypoint.sh"]

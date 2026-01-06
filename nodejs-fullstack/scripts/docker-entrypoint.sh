@@ -4,10 +4,17 @@ export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=$IN
 
 set -e
 
-if [ "$1" = "backend" ]; then
-  echo "Starting backend..."
-  exec ./apps/backend/scripts/docker-entrypoint.sh
-else
-  echo "Error: Invalid argument. Use 'backend' or 'docs'." >&2
-  exit 1
-fi
+cd build
+
+cd docs
+bun x serve --port $DOCS_PORT &
+
+cd ../frontend
+bun x serve --port $FRONTEND_PORT &
+
+cd ../backend 
+infisical run \
+  --projectId $INFISICAL_PROJECT_ID \
+  --env $NODE_ENV \
+  --domain $INFISICAL_DOMAIN \
+  --command "node ./server.mjs" &

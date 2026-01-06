@@ -7,4 +7,5 @@ docker build -t nodejs-fullstack-template \
   --secret id=INFISICAL_CLIENT_SECRET,env=INFISICAL_CLIENT_SECRET \
   --secret id=INFISICAL_PROJECT_ID,env=INFISICAL_PROJECT_ID \
   --secret id=INFISICAL_DOMAIN,env=INFISICAL_DOMAIN \
+  --secret id=NODE_ENV,env=NODE_ENV \
   .
