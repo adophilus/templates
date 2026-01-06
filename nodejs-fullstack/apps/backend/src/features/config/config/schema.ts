@@ -3,19 +3,8 @@ import { Schema } from 'effect'
 // Auth Config Schema
 export const AuthConfigSchema = Schema.Struct({
   token: Schema.Struct({
-    secret: Schema.String,
-    access: Schema.Struct({
-      expiry: Schema.Number
-    }),
-    refresh: Schema.Struct({
-      expiry: Schema.Number
-    }),
-    signup: Schema.Struct({
-      expiry: Schema.Number
-    }),
-    signin: Schema.Struct({
-      expiry: Schema.Number
-    })
+    accessTtl: Schema.Number,
+    renewalThreshold: Schema.Number
   })
 })
 

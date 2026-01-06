@@ -1,38 +1,19 @@
-import { Effect, Layer, Schema } from 'effect' // Removed Config import
+import { Effect, Layer, Schema } from 'effect'
 import { AppConfig } from './interface'
 import { AppConfigSchema } from './schema'
-import { Env } from '../env' // Import EnvService
+import { Env } from '../env'
 
 export const AppConfigLive = Layer.effect(
   AppConfig,
   Effect.gen(function* () {
-    const env = yield* Env // Inject EnvService
-
-    const expiry =
-      env.NODE_ENV === 'production'
-        ? 3600
-        : env.NODE_ENV === 'staging'
-          ? 3600
-          : env.NODE_ENV === 'development'
-            ? 3600
-            : 1
+    const env = yield* Env
 
     const config = {
       auth: {
         token: {
-          secret: env.AUTH_TOKEN_SECRET,
-          access: {
-            expiry: 60
-          },
-          refresh: {
-            expiry: 60 * 24 * 30
-          },
-          signup: {
-            expiry: expiry
-          },
-          signin: {
-            expiry: expiry
-          }
+          accessTtl: env.AUTH_ACCESS_TOKEN_TTL,
+          renewalThreshold: env.AUTH_TOKEN_RENEWAL_THRESHOLD,
+          validityDuration: env.AUTH_TOKEN_VALIDITY_DURATION
         }
       },
       db: {

@@ -6,12 +6,12 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "build": "tsc && tsx ./scripts/build.ts",
+    "build": "tsx ./scripts/build.ts",
     "db": "./scripts/db.sh",
     "dev": "concurrently ~/.local/bin/MailHog 'tsx watch ./scripts/start.ts'",
     "typecheck": "tsc",
     "lint": "biome lint . && pnpm typecheck",
-    "start": "tsx ./scripts/start.ts",
+    "start": "node ./build/server.mjs",
     "test": "vitest"
   },
   "dependencies": {
@@ -69,10 +69,9 @@
     "@types/pg": "^8.15.4",
     "@types/react": "^18.3.23",
     "@types/web-push": "^3.6.4",
+    "@vitest/coverage-v8": "4.0.15",
     "concurrently": "^9.2.1",
     "kysely-ctl": "^0.13.1",
-    "tsx": "^4.20.2",
-    "typescript": "^5.8.3",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^4.0.14",
     "web-push": "^3.6.7"

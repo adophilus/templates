@@ -1,7 +1,6 @@
 import { it, assert, describe, beforeAll } from '@effect/vitest'
 import { Effect } from 'effect'
-import { type ApiClient, makeApiClient } from '../utils'
-import { FetchHttpClient } from '@effect/platform'
+import { type ApiClient, makeApiClient, TestLive } from '../utils'
 import type { AuthSession, AuthUser } from '@/types'
 import type MediaDescription from '@nodejs-fullstack-template/api/common/MediaDescription'
 import { createMockUserWithSession } from '../utils/helpers'
@@ -42,7 +41,7 @@ describe('Storage API', () => {
       assert.strictEqual(res.data.length, 1)
 
       uploadedFile = res.data[0]
-    }).pipe(Effect.provide(FetchHttpClient.layer))
+    }).pipe(Effect.provide(TestLive))
   )
 
   it.effect('should get a file by ID', () =>
@@ -55,7 +54,7 @@ describe('Storage API', () => {
 
       assert.isDefined(res)
       assert.instanceOf(res, Uint8Array)
-    }).pipe(Effect.provide(FetchHttpClient.layer))
+    }).pipe(Effect.provide(TestLive))
   )
 
   it.effect('should delete a file by ID', () =>
@@ -67,6 +66,6 @@ describe('Storage API', () => {
       })
 
       assert.strictEqual(res._tag, 'DeleteMediaResponse')
-    }).pipe(Effect.provide(FetchHttpClient.layer))
+    }).pipe(Effect.provide(TestLive))
   )
 })

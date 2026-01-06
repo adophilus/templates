@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "effect-mcp": {
+      "command": "pnpx",
+      "args": ["@niklaserik/effect-mcp"]
+    },
+    "motion": {
+      "command": "pnpx",
+      "args": ["motion-ai"]
+    }
+  }
+}

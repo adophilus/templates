@@ -5,8 +5,15 @@ import type { KyselyDatabaseTables } from '../tables'
 import { getKyselyPlugins } from '../utils'
 import { Effect, Layer } from 'effect'
 import { KyselyClient } from '../interface'
+import { dirname } from 'node:path'
+import { existsSync, mkdirSync } from 'node:fs'
 
 export const getCreateRawSqliteKyselyClientOptions = (url: string) => {
+  const dbDir = dirname(url)
+  if (!existsSync(dbDir)) {
+    mkdirSync(dbDir, { recursive: true })
+  }
+
   const database = new Database(url)
 
   const dialect = new SqliteDialect({

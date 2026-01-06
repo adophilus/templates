@@ -4,9 +4,9 @@ import { Cause, Effect } from 'effect'
 import {
   type ApiClient,
   createMockUserSignUpDetails,
-  makeApiClient
+  makeApiClient,
+  TestLive
 } from '../utils'
-import { FetchHttpClient } from '@effect/platform'
 import EmailAlreadyInUseError from '@nodejs-fullstack-template/api/common/EmailAlreadyInUseError'
 import TokenNotExpiredError from '@nodejs-fullstack-template/api/common/TokenNotExpiredError'
 
@@ -29,7 +29,7 @@ describe('Auth API', () => {
       })
 
       otp = '12345'
-    }).pipe(Effect.provide(FetchHttpClient.layer))
+    }).pipe(Effect.provide(TestLive))
   )
 
   it('should not send sign up email email more than once', () =>
@@ -41,7 +41,7 @@ describe('Auth API', () => {
       }).pipe(Effect.exit)
 
       assertFailure(res, Cause.fail(new EmailAlreadyInUseError()))
-    }).pipe(Effect.provide(FetchHttpClient.layer)))
+    }).pipe(Effect.provide(TestLive)))
 
   it.effect('should verify the sign up email', () =>
     Effect.gen(function* () {
@@ -53,7 +53,7 @@ describe('Auth API', () => {
           otp
         }
       })
-    }).pipe(Effect.provide(FetchHttpClient.layer))
+    }).pipe(Effect.provide(TestLive))
   )
 
   it.effect('should send the sign in email', () =>
@@ -63,7 +63,7 @@ describe('Auth API', () => {
       yield* client.Auth.sendSignInEmail({
         payload: { email: userDetails.email }
       })
-    }).pipe(Effect.provide(FetchHttpClient.layer))
+    }).pipe(Effect.provide(TestLive))
   )
 
   it.effect(
@@ -77,7 +77,7 @@ describe('Auth API', () => {
         }).pipe(Effect.exit)
 
         assertFailure(res, Cause.fail(new TokenNotExpiredError()))
-      }).pipe(Effect.provide(FetchHttpClient.layer))
+      }).pipe(Effect.provide(TestLive))
   )
 
   it.effect('should verify the sign in email', () =>
@@ -93,7 +93,7 @@ describe('Auth API', () => {
 
       accessToken = res.data.access_token
       Client = makeApiClient(accessToken)
-    }).pipe(Effect.provide(FetchHttpClient.layer))
+    }).pipe(Effect.provide(TestLive))
   )
 
   it.effect('should get user profile', () =>
@@ -101,6 +101,6 @@ describe('Auth API', () => {
       const client = yield* Client
 
       yield* client.Auth.getProfile()
-    }).pipe(Effect.provide(FetchHttpClient.layer))
+    }).pipe(Effect.provide(TestLive))
   )
 })

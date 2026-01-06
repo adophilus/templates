@@ -20,7 +20,6 @@ const stylexPkg =
   require("@stylexjs/stylex/package.json") as typeof import("@stylexjs/stylex/package.json");
 
 const pluginPkg =
-  // @ts-expect-error - no need to include package.json in the output
   require("../package.json") as typeof import("../package.json");
 
 const stylePackageVersion = stylexPkg.version;
