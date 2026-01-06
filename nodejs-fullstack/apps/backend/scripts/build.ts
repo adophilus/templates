@@ -4,10 +4,10 @@ import { NodeContext, NodeRuntime } from '@effect/platform-node'
 import { Effect } from 'effect'
 import { promises as fs } from 'node:fs'
 
+const buildDirectory = './build'
+
 const buildSource = () =>
   Effect.gen(function*() {
-    const buildDirectory = './build'
-
     const entrypoint = './scripts/start.ts'
 
     console.log('⚙ Building server...')
@@ -27,6 +27,8 @@ const buildSource = () =>
       Effect.scoped
     )
 
+    fs.mkdir(`${buildDirectory}/build`, { recursive: true})
+
     const nativeFiles = ['better_sqlite3.node']
 
     for (const file of nativeFiles) {
@@ -34,7 +36,7 @@ const buildSource = () =>
 
       if (foundFile) {
         yield* Effect.tryPromise({
-          try: () => fs.copyFile(foundFile, `${buildDirectory}/${file}`),
+          try: () => fs.copyFile(foundFile, `${buildDirectory}/build/${file}`),
           catch: (err) => new Error(`Failed to copy ${file}: ${err}`)
         })
       }
@@ -104,6 +106,9 @@ const buildMigrations = () =>
 
 const cli = Command.make('cli', {}, () =>
   Effect.gen(function*() {
+
+    fs.mkdir(buildDirectory, { recursive: true })
+
     yield* buildSource()
     yield* buildMigrations()
 

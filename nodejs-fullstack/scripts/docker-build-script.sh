@@ -20,3 +20,4 @@ mkdir build
 cp -r ./apps/backend/build ./build/backend
 cp -r ./apps/docs/docs/.vitepress/dist ./build/docs
 cp -r ./apps/frontend/dist ./build/frontend
+echo '{"type": "module"}' > ./build/backend/package.json
