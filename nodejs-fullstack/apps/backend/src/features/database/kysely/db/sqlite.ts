@@ -6,12 +6,12 @@ import { getKyselyPlugins } from '../utils'
 import { Effect, Layer } from 'effect'
 import { KyselyClient } from '../interface'
 import { dirname } from 'node:path'
-import { existsSync, mkdir } from 'node:fs'
+import { existsSync, mkdirSync } from 'node:fs'
 
 export const getCreateRawSqliteKyselyClientOptions = (url: string) => {
   const dbDir = dirname(url)
   if (!existsSync(dbDir)) {
-    mkdir(dbDir, { recursive: true })
+    mkdirSync(dbDir, { recursive: true })
   }
 
   const database = new Database(url)

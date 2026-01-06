@@ -7,7 +7,7 @@ import { promises as fs } from 'node:fs'
 const buildDirectory = './build'
 
 const buildSource = () =>
-  Effect.gen(function*() {
+  Effect.gen(function* () {
     const entrypoint = './scripts/start.ts'
 
     console.log('⚙ Building server...')
@@ -27,7 +27,9 @@ const buildSource = () =>
       Effect.scoped
     )
 
-    fs.mkdir(`${buildDirectory}/build`, { recursive: true})
+    yield* Effect.promise(() =>
+      fs.mkdir(`${buildDirectory}/build`, { recursive: true })
+    )
 
     const nativeFiles = ['better_sqlite3.node']
 
@@ -49,7 +51,7 @@ const findFile = (
   dir: string,
   filename: string
 ): Effect.Effect<string | null, Error, never> =>
-  Effect.gen(function*() {
+  Effect.gen(function* () {
     const entries = yield* Effect.tryPromise({
       try: () => fs.readdir(dir, { withFileTypes: true }),
       catch: (err) => new Error(`Failed to read ${dir}: ${err}`)
@@ -70,7 +72,7 @@ const findFile = (
   })
 
 const buildMigrations = () =>
-  Effect.gen(function*() {
+  Effect.gen(function* () {
     const migrationsDirectory = './migrations'
     const buildMigrationsDirectory = './build/migrations'
 
@@ -105,9 +107,8 @@ const buildMigrations = () =>
   })
 
 const cli = Command.make('cli', {}, () =>
-  Effect.gen(function*() {
-
-    fs.mkdir(buildDirectory, { recursive: true })
+  Effect.gen(function* () {
+    yield* Effect.promise(() => fs.mkdir(buildDirectory, { recursive: true }))
 
     yield* buildSource()
     yield* buildMigrations()
