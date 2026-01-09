@@ -10,7 +10,7 @@ cd build
 
 cd docs
 echo "Serving static docs..."
-serve -p $DOCS_PORT &
+serve -p $DOCS_PORT -s &
 
 cd ../frontend
 echo "Serving static frontend..."
